@@ -171,7 +171,11 @@ export function HomeHello() {
 
         {/* Right column: editorial greeting + marked-up interdisciplinary bio */}
         <div className="max-w-[58ch]">
-          <EditorialHeading text={profile.greeting} seed={10} />
+          <EditorialHeading
+            text={profile.greeting}
+            seed={10}
+            className="text-[clamp(2.25rem,4.5vw,4.35rem)] leading-[1.02]"
+          />
 
           <RevealBlock delay={0.12}>
             <p className="mt-7 text-[clamp(1rem,1.25vw,1.15rem)] leading-[1.75] text-[var(--fg)]">

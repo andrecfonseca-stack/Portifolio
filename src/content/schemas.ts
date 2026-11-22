@@ -72,6 +72,7 @@ export const PillarTileSchema = z.object({
   note: z.string().min(8),
   bg: z.string(),
   fg: z.string(),
+  relatedCompetencies: z.array(z.string()).min(1),
 });
 
 export type PillarTile = z.infer<typeof PillarTileSchema>;

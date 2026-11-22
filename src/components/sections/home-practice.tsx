@@ -17,9 +17,16 @@ export function HomePractice() {
   const { reduced: prefersReduced } = useSafeMotion();
 
   const activeTile = activeIndex >= 0 ? profile.pillarTiles[activeIndex] : null;
-  const noteText = activeTile
-    ? `${activeTile.name} — ${activeTile.note}`
-    : profile.defaultTileNote;
+  const noteTitle = activeTile ? activeTile.name : profile.defaultTileNote;
+  const dynamicDescription = activeTile
+    ? activeTile.note
+    : profile.practiceIntro;
+
+  const leftColumnCompetencies = profile.competencies.slice(0, 5);
+  const rightColumnCompetencies = profile.competencies.slice(5, 10);
+
+  const isCompetencyHighlighted = (comp: string) =>
+    activeTile ? activeTile.relatedCompetencies.includes(comp) : false;
 
   return (
     <Sheet id="atuacao" label="atuação" tone="night" morph>
@@ -44,6 +51,7 @@ export function HomePractice() {
                     aria-label={`${tile.name}: ${tile.note}`}
                     onPointerEnter={() => setActiveIndex(idx)}
                     onFocus={() => setActiveIndex(idx)}
+                    onBlur={() => setActiveIndex(-1)}
                     onClick={() =>
                       setActiveIndex((cur) => (cur === idx ? -1 : idx))
                     }
@@ -64,10 +72,10 @@ export function HomePractice() {
               <PenMark kind="oval" seed={13} padX={6} padY={6} delay={0.22} />
             </div>
 
-            {/* Live handwritten marginalia note describing the focused/hovered pillar */}
+            {/* Live handwritten marginalia title of the focused/hovered pillar */}
             <div
               aria-live="polite"
-              className="mt-4 min-h-[3.5rem] max-w-[44ch] pl-2"
+              className="mt-4 min-h-[2.6rem] max-w-[44ch] pl-2"
             >
               <AnimatePresence mode="wait">
                 <m.p
@@ -75,10 +83,10 @@ export function HomePractice() {
                   initial={prefersReduced ? false : { opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={prefersReduced ? undefined : { opacity: 0, y: -4 }}
-                  transition={{ duration: 0.24, ease: MOTION_EASE.editorial }}
+                  transition={{ duration: 0.22, ease: MOTION_EASE.editorial }}
                   className="font-marginalia text-2xl text-[var(--pen)] sm:text-[1.75rem]"
                 >
-                  {noteText}
+                  {noteTitle}
                 </m.p>
               </AnimatePresence>
             </div>
@@ -87,32 +95,65 @@ export function HomePractice() {
           <BookStack books={profile.books} note={profile.booksNote} />
         </div>
 
-        {/* Bottom half: methodology prose + 2-column transversal competencies */}
+        {/* Bottom half: Dynamic axis description on left | 2-column 10-competency matrix on right */}
         <div className="grid items-start gap-10 border-t border-[var(--rule)] pt-12 lg:grid-cols-[1fr_1.35fr] lg:gap-20">
           <RevealBlock>
-            <p className="max-w-[48ch] text-base leading-[1.75] text-[var(--muted)]">
-              {profile.practiceIntro}
-            </p>
+            <div className="min-h-[116px]">
+              <AnimatePresence mode="wait">
+                <m.p
+                  key={activeTile ? activeTile.id : "default"}
+                  initial={prefersReduced ? false : { opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={prefersReduced ? undefined : { opacity: 0, y: -4 }}
+                  transition={{ duration: 0.2, ease: MOTION_EASE.editorial }}
+                  className="max-w-[50ch] text-base leading-[1.75] text-[var(--muted)] sm:text-[1.03rem]"
+                >
+                  {dynamicDescription}
+                </m.p>
+              </AnimatePresence>
+            </div>
             <p className="font-marginalia mt-6 text-2xl text-[var(--pen)]">
               rigor clínico + engenharia limpa + clareza pedagógica
             </p>
           </RevealBlock>
 
           <RevealBlock delay={0.12}>
-            <ul className="grid gap-x-10 gap-y-0 sm:grid-cols-2">
-              {profile.competencies.map((item) => (
-                <li
-                  key={item}
-                  className="group relative border-b border-[var(--rule)] py-3 pl-5 text-sm font-medium text-[var(--fg)] transition-colors hover:text-[var(--pen)] sm:text-[0.95rem]"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="absolute top-1/2 left-0 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[var(--clinical)] transition-transform duration-200 group-hover:scale-150 group-hover:bg-[var(--pen)]"
-                  />
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <div className="grid gap-x-10 gap-y-0 sm:grid-cols-2">
+              {[leftColumnCompetencies, rightColumnCompetencies].map(
+                (col, colIdx) => (
+                  <ul key={colIdx} className="divide-y divide-[var(--rule)]">
+                    {col.map((item) => {
+                      const highlighted = isCompetencyHighlighted(item);
+                      const dimmed = activeTile !== null && !highlighted;
+                      return (
+                        <li
+                          key={item}
+                          className={cn(
+                            "group relative border-b border-[var(--rule)] py-3 pl-5 text-sm transition-all duration-200 sm:text-[0.95rem]",
+                            highlighted
+                              ? "translate-x-1 font-semibold text-[var(--fg)]"
+                              : dimmed
+                                ? "text-[var(--muted)] opacity-45"
+                                : "font-medium text-[var(--fg)] hover:text-[var(--pen)]",
+                          )}
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={cn(
+                              "absolute top-1/2 left-0 h-1.5 w-1.5 -translate-y-1/2 rounded-full transition-transform duration-200",
+                              highlighted
+                                ? "scale-150 bg-[var(--pen)]"
+                                : "bg-[var(--clinical)] group-hover:scale-150 group-hover:bg-[var(--pen)]",
+                            )}
+                          />
+                          {item}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ),
+              )}
+            </div>
           </RevealBlock>
         </div>
       </div>

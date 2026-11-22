@@ -20,7 +20,7 @@ const rawProfile: Profile = {
     "sonhador",
   ],
   greeting: "Iaew!! Tudo certinho ?!",
-  bio: "Sou cientista de dados, pesquisador em Inteligência Artificial e Saúde, inventor, professor, profissional de Educação Física e estudante de Medicina no Recife. Atuo na interseção entre *ciência de dados, visão computacional e prática clínica*, integrando inovação e saúde. Meu trabalho parte de uma convicção simples: tecnologia médica só faz sentido quando [amplia o discernimento humano], seja no diagnóstico precoce, no desenvolvimento de novas ferramentas ou no ensino e formação de novos profissionais.",
+  bio: "Sou cientista de dados, pesquisador em IA aplicada à saúde e estudante de Medicina no Recife com formação prévia em Educação Física e base em engenharia. Atuo na interseção entre *ciência de dados, visão computacional e prática clínica*, construindo ferramentas e ensinando novas gerações a usar a tecnologia para ampliar o alcance do cuidado. Meu trabalho parte de uma convicção simples: inovação médica só faz sentido quando [amplia o discernimento humano] e torna o cuidado mais acessível, seja no diagnóstico precoce, na vigilância em saúde ou na formação de profissionais.",
   practiceIntro:
     "Trato medicina, aprendizado de máquina e educação como partes do mesmo sistema. Antes de escrever código ou treinar um modelo, desenho a pergunta clínica, as métricas de segurança e a clareza de leitura para quem decide sob pressão.",
   defaultTileNote: "passe o cursor ou foque um eixo para ver como ele opera na prática",

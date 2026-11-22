@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-display: var(--font-dm-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-plus-jakarta), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-hand: var(--font-caveat), "Segoe Print", "Bradley Hand", cursive;
+}
+
+:root {
+  --tone-paper: #f2ede4;
+  --tone-paper-elevated: #faf8f3;
+  --tone-night: #1b2326;
+  --tone-night-elevated: #232d31;
+
+  --ink-paper: #1f1e1c;
+  --muted-paper: #57534c;
+  --pen-paper: #a93f21;
+  --clinical-paper: #165950;
+  --rule-paper: #d7cfc2;
+  --control-border-paper: #857d71;
+
+  --ink-night: #efece6;
+  --muted-night: #aab4b8;
+  --pen-night: #f08a65;
+  --clinical-night: #6ecbb8;
+  --rule-night: #303d42;
+  --control-border-night: #6c7d83;
+
+  /* Default surface tokens (paper) */
+  --surface: var(--tone-paper);
+  --surface-elevated: var(--tone-paper-elevated);
+  --fg: var(--ink-paper);
+  --muted: var(--muted-paper);
+  --pen: var(--pen-paper);
+  --clinical: var(--clinical-paper);
+  --rule: var(--rule-paper);
+  --control-border: var(--control-border-paper);
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--tone-paper);
+  color: var(--ink-paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: var(--tone-paper);
+  color: var(--ink-paper);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/* Editorial Sheets: Paper & Night semantic remapping */
+[data-tone="paper"] {
+  --surface: var(--tone-paper);
+  --surface-elevated: var(--tone-paper-elevated);
+  --fg: var(--ink-paper);
+  --muted: var(--muted-paper);
+  --pen: var(--pen-paper);
+  --clinical: var(--clinical-paper);
+  --rule: var(--rule-paper);
+  --control-border: var(--control-border-paper);
+  color: var(--fg);
+  background-color: var(--surface);
+}
+
+[data-tone="night"] {
+  --surface: var(--tone-night);
+  --surface-elevated: var(--tone-night-elevated);
+  --fg: var(--ink-night);
+  --muted: var(--muted-night);
+  --pen: var(--pen-night);
+  --clinical: var(--clinical-night);
+  --rule: var(--rule-night);
+  --control-border: var(--control-border-night);
+  color: var(--fg);
+}
+
+/* Tactile paper / slate subtle dot grain (pure CSS, zero network cost) */
+.sheet-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.42;
+  background-image: radial-gradient(rgba(31, 30, 28, 0.085) 0.65px, transparent 0.75px);
+  background-size: 6px 6px;
+}
+
+[data-tone="night"] .sheet-grain {
+  opacity: 0.35;
+  background-image: radial-gradient(rgba(239, 236, 230, 0.07) 0.65px, transparent 0.75px);
+}
+
+/* Accessible focus ring calibrated to sheet pen color */
+:focus-visible {
+  outline: 2px dashed var(--pen);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* Typography utilities aligned to Etapa 2 fluid scale */
+.font-editorial {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+
+.font-marginalia {
+  font-family: var(--font-hand);
+  font-weight: 500;
+  line-height: 1.06;
+}
+
+.tabular-metrics {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle bob animation for cover scroll cue */
+@keyframes marginalia-bob {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+.animate-marginalia-bob {
+  animation: marginalia-bob 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marginalia-bob {
+    animation: none;
+  }
+}

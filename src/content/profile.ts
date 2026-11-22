@@ -1,0 +1,121 @@
+import { ProfileSchema, type Profile } from "./schemas";
+import { siteConfig } from "@/config/site";
+
+const rawProfile: Profile = {
+  name: siteConfig.name,
+  shortName: "Rafael Mendes",
+  rolePill: "Medicina · IA · Pesquisa · Educação",
+  coverWord: "Portfólio",
+  docLabel: siteConfig.docLabel,
+  year: siteConfig.year,
+  location: siteConfig.location,
+  portraitPath: "/images/retrato-editorial.jpg",
+  portraitAlt: "Retrato editorial de Dr. Rafael Mendes em estúdio com luz natural suave",
+  traits: [
+    "clínico",
+    "pesquisador",
+    "sistêmico",
+    "educador",
+    "rigoroso",
+    "construtor",
+  ],
+  greeting: "Olá.",
+  bio: "Sou médico, pesquisador e engenheiro de soluções digitais em São Paulo. Atuo na fronteira entre *raciocínio clínico, inteligência artificial* e desenho de sistemas de saúde. Meu trabalho parte de uma convicção simples: [tecnologia médica só faz sentido quando amplia o discernimento humano] — seja à beira do leito, em um protocolo de pesquisa reprodutível ou na formação de novos profissionais.",
+  practiceIntro:
+    "Trato medicina, aprendizado de máquina e educação como partes do mesmo sistema. Antes de escrever código ou treinar um modelo, desenho a pergunta clínica, as métricas de segurança e a clareza de leitura para quem decide sob pressão.",
+  defaultTileNote: "passe o cursor ou foque um eixo para ver como ele opera na prática",
+  pillarTiles: [
+    {
+      id: "medicina",
+      code: "Md",
+      name: "Medicina Clínica",
+      note: "hipóteses reais à beira do leito, sem perder o contexto do paciente",
+      bg: "#165950",
+      fg: "#F5F2EB",
+    },
+    {
+      id: "ia",
+      code: "IA",
+      name: "Inteligência Artificial",
+      note: "modelos calibrados, interpretáveis e auditados antes de ir a campo",
+      bg: "#A93F21",
+      fg: "#FAF8F3",
+    },
+    {
+      id: "pesquisa",
+      code: "Pq",
+      name: "Pesquisa Científica",
+      note: "coortes reprodutíveis, bioestatística rigorosa e dados abertos",
+      bg: "#263B4D",
+      fg: "#F2EDE4",
+    },
+    {
+      id: "educacao",
+      code: "Ed",
+      name: "Educação Médica",
+      note: "ensino ativo baseado em casos, simulações e pensamento crítico",
+      bg: "#6B4E2E",
+      fg: "#FAF8F3",
+    },
+    {
+      id: "engenharia",
+      code: "Sw",
+      name: "Engenharia de Software",
+      note: "interfaces rápidas, acessíveis e arquiteturas mantidas no mundo real",
+      bg: "#2B3238",
+      fg: "#EFECE6",
+    },
+  ],
+  booksNote: "leituras que moldam meu método",
+  books: [
+    { title: "Deep Medicine", author: "Eric Topol", color: "#A93F21" },
+    { title: "Statistical Learning", author: "Hastie, Tibshirani", color: "#263B4D" },
+    { title: "Thinking in Systems", author: "Donella Meadows", color: "#165950" },
+    { title: "Visual Display of Data", author: "Edward Tufte", color: "#E8E1D3" },
+    { title: "Make It Stick", author: "Brown, Roediger", color: "#343B40" },
+  ],
+  competencies: [
+    "Suporte à Decisão Clínica",
+    "IA Explicável e Calibração",
+    "Epidemiologia & Bioestatística",
+    "Processamento de Linguagem Clínica",
+    "Arquitetura Web & Sistemas",
+    "Design Instrucional em Saúde",
+    "Pipelines Reprodutíveis",
+    "Avaliação de Usabilidade Clínica",
+    "Interoperabilidade (HL7 FHIR)",
+    "Escrita Científica & Revisão",
+  ],
+  projectsNote: "quatro recortes entre ciência, sala de aula e produto",
+  thanksHeading: "Obrigado.",
+  email: siteConfig.email,
+  cvUrl: "https://orcid.org/0000-0000-0000-0000",
+  cvNote: "currículo acadêmico & ORCID",
+  links: [
+    {
+      label: "GitHub",
+      href: "https://github.com",
+      description: "Código aberto, pipelines de pesquisa e ferramentas",
+    },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com",
+      description: "Trajetória profissional e projetos aplicados",
+    },
+    {
+      label: "ORCID",
+      href: "https://orcid.org",
+      description: "Registro científico e publicações revisadas",
+    },
+    {
+      label: "Google Scholar",
+      href: "https://scholar.google.com",
+      description: "Citações, artigos e preprints",
+    },
+  ],
+  closingLetter:
+    "Obrigado por ler com atenção até esta folha — em tempos de pressa, leitura cuidadosa já diz muito.\n\nEstou sempre aberto a conversas substanciais sobre pesquisa aplicada em IA clínica, arquitetura de produtos em saúde, docência e colaborações interdisciplinares.\n\nSe houver um problema difícil que mereça rigor científico e desenho cuidadoso, escreva.",
+  signature: "Rafael Mendes",
+};
+
+export const profile: Profile = ProfileSchema.parse(rawProfile);

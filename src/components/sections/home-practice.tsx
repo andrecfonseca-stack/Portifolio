@@ -13,10 +13,16 @@ import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { cn } from "@/lib/cn";
 
 export function HomePractice() {
-  const [activeIndex, setActiveIndex] = React.useState<number>(-1);
+  const [eixoAtivo, setEixoAtivo] = React.useState<string | null>(null);
   const { reduced: prefersReduced } = useSafeMotion();
 
-  const activeTile = activeIndex >= 0 ? profile.pillarTiles[activeIndex] : null;
+  const activeTile = React.useMemo(
+    () =>
+      eixoAtivo
+        ? profile.pillarTiles.find((t) => t.id === eixoAtivo) ?? null
+        : null,
+    [eixoAtivo],
+  );
   const noteTitle = activeTile ? activeTile.name : profile.defaultTileNote;
   const dynamicDescription = activeTile
     ? activeTile.note
@@ -39,21 +45,21 @@ export function HomePractice() {
             {/* Interactive 5-pillar tiles circled by a hand-drawn oval */}
             <div
               className="relative mt-9 inline-flex max-w-full flex-wrap gap-3 px-4 py-4 sm:gap-4 sm:px-5"
-              onPointerLeave={() => setActiveIndex(-1)}
+              onPointerLeave={() => setEixoAtivo(null)}
             >
-              {profile.pillarTiles.map((tile, idx) => {
-                const isSelected = activeIndex === idx;
+              {profile.pillarTiles.map((tile) => {
+                const isSelected = eixoAtivo === tile.id;
                 return (
                   <button
                     key={tile.id}
                     type="button"
                     aria-pressed={isSelected}
                     aria-label={`${tile.name}: ${tile.note}`}
-                    onPointerEnter={() => setActiveIndex(idx)}
-                    onFocus={() => setActiveIndex(idx)}
-                    onBlur={() => setActiveIndex(-1)}
+                    onPointerEnter={() => setEixoAtivo(tile.id)}
+                    onFocus={() => setEixoAtivo(tile.id)}
+                    onBlur={() => setEixoAtivo(null)}
                     onClick={() =>
-                      setActiveIndex((cur) => (cur === idx ? -1 : idx))
+                      setEixoAtivo((cur) => (cur === tile.id ? null : tile.id))
                     }
                     style={{ backgroundColor: tile.bg, color: tile.fg }}
                     className={cn(
@@ -79,7 +85,7 @@ export function HomePractice() {
             >
               <AnimatePresence mode="wait">
                 <m.p
-                  key={activeIndex}
+                  key={eixoAtivo ?? "default"}
                   initial={prefersReduced ? false : { opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={prefersReduced ? undefined : { opacity: 0, y: -4 }}
@@ -92,7 +98,12 @@ export function HomePractice() {
             </div>
           </div>
 
-          <BookStack books={profile.books} note={profile.booksNote} />
+          <BookStack
+            books={profile.books}
+            note={profile.booksNote}
+            activeAxisId={eixoAtivo}
+            onSelectAxis={setEixoAtivo}
+          />
         </div>
 
         {/* Bottom half: Dynamic axis description on left | 2-column 10-competency matrix on right */}

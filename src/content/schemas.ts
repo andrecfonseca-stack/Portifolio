@@ -89,8 +89,11 @@ export const PillarTileSchema = z.object({
 export type PillarTile = z.infer<typeof PillarTileSchema>;
 
 export const BookReferenceSchema = z.object({
+  axisId: z.enum(["Md", "IA", "Pq", "Ed", "Sw"]),
   title: z.string().min(3),
+  originalRef: z.string().min(3),
   author: z.string().min(3),
+  synthesis: z.string().min(8),
   color: z.string(),
 });
 

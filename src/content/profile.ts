@@ -93,11 +93,51 @@ const rawProfile: Profile = {
   ],
   booksNote: "leituras que moldam meu método",
   books: [
-    { title: "Deep Medicine", author: "Eric Topol", color: "#c9473b" },
-    { title: "Statistical Learning", author: "Hastie, Tibshirani", color: "#2f3b52" },
-    { title: "Thinking in Systems", author: "Donella Meadows", color: "#d9a441" },
-    { title: "Visual Display of Data", author: "Edward Tufte", color: "#f2efe8" },
-    { title: "Make It Stick", author: "Brown, Roediger", color: "#1f1f21" },
+    {
+      axisId: "Md",
+      title: "MEDICINA PROFUNDA",
+      originalRef: "Deep Medicine • Eric Topol",
+      author: "Eric Topol",
+      synthesis:
+        "IA clínica para devolver tempo, escuta e discernimento humano à relação médico-paciente.",
+      color: "#A3483C",
+    },
+    {
+      axisId: "IA",
+      title: "APRENDIZADO ESTATÍSTICO",
+      originalRef: "Statistical Learning • James et al.",
+      author: "James, Witten, Hastie, Tibshirani",
+      synthesis:
+        "Rigor em validação, equilíbrio viés-variância e interpretabilidade antes de caixas-pretas.",
+      color: "#334155",
+    },
+    {
+      axisId: "Pq",
+      title: "PENSAMENTO SISTÊMICO",
+      originalRef: "Thinking in Systems • D. Meadows",
+      author: "Donella Meadows",
+      synthesis:
+        "Estoques, retroalimentações e pontos de alavancagem para modelar determinantes em saúde.",
+      color: "#B88B3A",
+    },
+    {
+      axisId: "Sw",
+      title: "DESIGN DE DADOS",
+      originalRef: "Visual Display of Data • E. Tufte",
+      author: "Edward Tufte",
+      synthesis:
+        "Máxima densidade informacional com mínimo ruído visual na construção de painéis clínicos.",
+      color: "#E4E0D6",
+    },
+    {
+      axisId: "Ed",
+      title: "FIXE O CONHECIMENTO",
+      originalRef: "Make It Stick • Brown et al.",
+      author: "Brown, Roediger, McDaniel",
+      synthesis:
+        "Ciência cognitiva da aprendizagem ativa e prática deliberada aplicada à formação em saúde.",
+      color: "#232326",
+    },
   ],
   competencies: [
     "Suporte à Decisão Clínica (SUS)",

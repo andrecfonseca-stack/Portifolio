@@ -56,17 +56,17 @@ export function HomeContact() {
       <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
         {/* Left column: circled avatar, heading, copyable email, links & scannable QR */}
         <div>
-          <div className="relative h-24 w-24 sm:h-28 sm:w-28">
+          <div className="relative h-36 w-36 sm:h-44 sm:w-44 md:h-52 md:w-52">
             <div className="relative h-full w-full overflow-hidden rounded-full bg-[var(--surface-elevated)]">
               <Image
                 src={profile.portraitPath}
                 alt={profile.portraitAlt}
                 fill
-                sizes="112px"
+                sizes="(min-width: 768px) 208px, (min-width: 640px) 176px, 144px"
                 className="object-cover object-[50%_18%] grayscale"
               />
             </div>
-            <PenMark kind="oval" seed={80} padX={9} padY={9} delay={0.12} />
+            <PenMark kind="oval" seed={80} padX={12} padY={12} delay={0.12} />
           </div>
 
           <div className="mt-7">

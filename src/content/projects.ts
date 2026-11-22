@@ -25,8 +25,8 @@ const rawProjects: Project[] = [
     accent: "#e2455f",
     tone: "night",
     images: [
-      `${U}1547153760-18fc86324498`,
-      `${U}1508700929628-666bc8bd84ea`,
+      "/images/projetos/conecta-saude.jpg",
+      "/images/projetos/conecta-saude.jpg",
       `${U}1518834107812-67b0b7c58434`,
     ],
     screens: ["feed", "cover", "detail"],

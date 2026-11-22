@@ -79,9 +79,16 @@ export function PhoneScreen({
   const abs: React.CSSProperties = { position: "absolute" };
 
   if (kind === "cover") {
+    const coverImg = photoUrl(project.images[0] || "", 520);
+    const titleSize =
+      project.title.length > 12
+        ? "11.2cqw"
+        : project.title.length > 9
+          ? "12.6cqw"
+          : "15cqw";
     return (
       <div className="mgn-screen">
-        <Pic src={im(0)} />
+        <Pic src={coverImg} alt={project.title} />
         <div
           style={{
             ...abs,
@@ -94,8 +101,8 @@ export function PhoneScreen({
         <div
           style={{
             ...abs,
-            left: "8cqw",
-            right: "8cqw",
+            left: "6cqw",
+            right: "6cqw",
             bottom: "9cqw",
             color: "#fff",
             textAlign: "center",
@@ -104,8 +111,8 @@ export function PhoneScreen({
           <div
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "15cqw",
-              lineHeight: 0.95,
+              fontSize: titleSize,
+              lineHeight: 0.98,
             }}
           >
             {project.title}

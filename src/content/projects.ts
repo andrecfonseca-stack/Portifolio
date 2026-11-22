@@ -134,11 +134,11 @@ const rawProjects: Project[] = [
     accent: "#b4612a",
     tone: "night",
     images: [
-      `${U}1544947950-fa07a98d237f`,
-      `${U}1495446815901-a7297e633e8d`,
-      `${U}1532012197267-da84d127e765`,
+      "/images/projetos/dengue-recife-mapa.jpg",
+      "/images/projetos/dengue-recife-serie.jpg",
+      "/images/projetos/dengue-recife-qualidade.jpg",
     ],
-    screens: ["detail", "feed", "cover"],
+    screens: ["shot", "shot", "shot"],
     stats: [],
     methods: [
       "Python",

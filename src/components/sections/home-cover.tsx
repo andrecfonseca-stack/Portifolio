@@ -146,7 +146,7 @@ export function HomeCover() {
                     stroke="var(--pen)"
                     strokeWidth={2}
                     strokeLinecap="round"
-                    initial={prefersReduced ? false : { pathLength: 0 }}
+                    initial={false}
                     animate={{ pathLength: 1 }}
                     transition={{
                       duration: prefersReduced ? 0 : 0.9,
@@ -161,7 +161,7 @@ export function HomeCover() {
                     strokeWidth={2}
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    initial={prefersReduced ? false : { pathLength: 0 }}
+                    initial={false}
                     animate={{ pathLength: 1 }}
                     transition={{
                       duration: prefersReduced ? 0 : 0.35,
@@ -218,7 +218,7 @@ export function HomeCover() {
                             stroke="var(--pen)"
                             strokeWidth={1.7}
                             strokeLinecap="round"
-                            initial={prefersReduced ? false : { pathLength: 0 }}
+                            initial={false}
                             animate={{ pathLength: 1 }}
                             transition={{
                               duration: prefersReduced ? 0 : 1.0,
@@ -228,7 +228,7 @@ export function HomeCover() {
                           />
                         </g>
                         <m.g
-                          initial={prefersReduced ? false : { scale: 0, opacity: 0 }}
+                          initial={false}
                           animate={{ scale: 1, opacity: 1 }}
                           transition={{
                             duration: prefersReduced ? 0 : 0.55,

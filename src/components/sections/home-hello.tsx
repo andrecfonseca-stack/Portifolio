@@ -109,7 +109,7 @@ export function HomeHello() {
                   >
                     <m.path
                       d={arrow.shaft}
-                      initial={prefersReduced ? false : { pathLength: 0 }}
+                      initial={false}
                       whileInView={{ pathLength: 1 }}
                       viewport={VIEWPORT_ONCE}
                       transition={{
@@ -120,7 +120,7 @@ export function HomeHello() {
                     />
                     <m.path
                       d={arrow.head}
-                      initial={prefersReduced ? false : { pathLength: 0 }}
+                      initial={false}
                       whileInView={{ pathLength: 1 }}
                       viewport={VIEWPORT_ONCE}
                       transition={{

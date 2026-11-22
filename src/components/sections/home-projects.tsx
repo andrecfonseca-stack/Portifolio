@@ -45,7 +45,7 @@ export function HomeProjects() {
               stroke="var(--pen)"
               strokeWidth={1.7}
               strokeLinecap="round"
-              initial={prefersReduced ? false : { pathLength: 0 }}
+              initial={false}
               whileInView={{ pathLength: 1 }}
               viewport={VIEWPORT_ONCE}
               transition={{ duration: prefersReduced ? 0 : MOTION_DURATION.ink, ease: MOTION_EASE.ink }}
@@ -57,7 +57,7 @@ export function HomeProjects() {
               strokeWidth={1.7}
               strokeLinecap="round"
               strokeLinejoin="round"
-              initial={prefersReduced ? false : { pathLength: 0 }}
+              initial={false}
               whileInView={{ pathLength: 1 }}
               viewport={VIEWPORT_ONCE}
               transition={{ duration: prefersReduced ? 0 : 0.35, delay: 0.45 }}
@@ -192,7 +192,7 @@ export function HomeProjects() {
                         stroke="var(--pen)"
                         strokeWidth={1.7}
                         strokeLinecap="round"
-                        initial={prefersReduced ? false : { pathLength: 0 }}
+                        initial={false}
                         whileInView={{ pathLength: 1 }}
                         viewport={VIEWPORT_ONCE}
                         transition={{ duration: prefersReduced ? 0 : 0.7 }}
@@ -204,7 +204,7 @@ export function HomeProjects() {
                         strokeWidth={1.7}
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        initial={prefersReduced ? false : { pathLength: 0 }}
+                        initial={false}
                         whileInView={{ pathLength: 1 }}
                         viewport={VIEWPORT_ONCE}
                         transition={{ duration: prefersReduced ? 0 : 0.3, delay: 0.35 }}

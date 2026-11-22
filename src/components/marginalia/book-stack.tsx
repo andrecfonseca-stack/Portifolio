@@ -59,7 +59,7 @@ export function BookStack({
             stroke="var(--pen)"
             strokeWidth={1.7}
             strokeLinecap="round"
-            initial={prefersReduced ? false : { pathLength: 0 }}
+            initial={false}
             whileInView={{ pathLength: 1 }}
             viewport={VIEWPORT_ONCE}
             transition={{
@@ -75,7 +75,7 @@ export function BookStack({
             strokeWidth={1.7}
             strokeLinecap="round"
             strokeLinejoin="round"
-            initial={prefersReduced ? false : { pathLength: 0 }}
+            initial={false}
             whileInView={{ pathLength: 1 }}
             viewport={VIEWPORT_ONCE}
             transition={{
@@ -99,7 +99,7 @@ export function BookStack({
           stroke="var(--pen)"
           strokeWidth={1.7}
           strokeLinecap="round"
-          initial={prefersReduced ? false : { pathLength: 0 }}
+          initial={false}
           whileInView={{ pathLength: 1 }}
           viewport={VIEWPORT_ONCE}
           transition={{
@@ -171,21 +171,21 @@ export function BookStack({
         >
           <m.path
             d="M10 22h30v10c0 8-6 13-15 13S10 40 10 32z"
-            initial={prefersReduced ? false : { pathLength: 0 }}
+            initial={false}
             whileInView={{ pathLength: 1 }}
             viewport={VIEWPORT_ONCE}
             transition={{ duration: prefersReduced ? 0 : 0.7, delay: 0.25 }}
           />
           <m.path
             d="M40 25c6 0 7 3 7 5s-2 6-7 6"
-            initial={prefersReduced ? false : { pathLength: 0 }}
+            initial={false}
             whileInView={{ pathLength: 1 }}
             viewport={VIEWPORT_ONCE}
             transition={{ duration: prefersReduced ? 0 : 0.4, delay: 0.45 }}
           />
           <m.path
             d="M19 16c-3-3 3-6 0-10M29 16c-3-3 3-6 0-10"
-            initial={prefersReduced ? false : { pathLength: 0 }}
+            initial={false}
             whileInView={{ pathLength: 1 }}
             viewport={VIEWPORT_ONCE}
             transition={{ duration: prefersReduced ? 0 : 0.5, delay: 0.55 }}

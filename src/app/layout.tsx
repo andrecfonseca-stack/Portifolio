@@ -5,6 +5,7 @@ import { buildPersonJsonLd } from "@/lib/structured-data";
 import { MotionProvider } from "@/components/motion/motion-provider";
 import { SkipToContent } from "@/components/layout/skip-to-content";
 import { TopChrome } from "@/components/layout/top-chrome";
+import { ScrollClimber } from "@/components/marginalia/scroll-climber";
 import "./globals.css";
 
 const dmSerif = DM_Serif_Display({
@@ -92,6 +93,7 @@ export default function RootLayout({
         <MotionProvider>
           <SkipToContent />
           <TopChrome />
+          <ScrollClimber />
           <main id="conteudo-principal" tabIndex={-1} className="outline-none">
             {children}
           </main>

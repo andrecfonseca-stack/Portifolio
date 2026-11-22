@@ -57,16 +57,19 @@ function loadScriptOnce(src: string): Promise<void> {
 }
 
 /**
- * Opening stage where the hand-drawn stickman walks up to the 3D Uiverse rocker switch
- * and physically presses the "ON" side, flipping the switch and triggering the sequential cover reveal.
+ * Stickman + 3D Uiverse Rocker Switch + Replay button.
+ * Placed directly below "Portfólio" (on the left side under "Portf"),
+ * and pops a mini lightbulb above the stickman's head when "André Cavalcanti" appears.
  */
 export function CoverSwitchStage({
   isOn,
   onToggle,
+  onReplay,
   playKey,
 }: {
   isOn: boolean;
   onToggle: (next: boolean) => void;
+  onReplay: () => void;
   playKey: number;
 }) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
@@ -107,7 +110,7 @@ export function CoverSwitchStage({
       const dpr = canvas.width / rect.width;
 
       const elapsed = (now - startTime) / 1000;
-      const T = reduced ? 2.2 : elapsed;
+      const T = reduced ? 2.4 : elapsed;
 
       if (!reduced && !flippedRef.current && T >= api.FLIP_AT_SEC) {
         flippedRef.current = true;
@@ -119,12 +122,12 @@ export function CoverSwitchStage({
       ctx.clearRect(0, 0, rect.width, rect.height);
 
       // Hand-drawn ground baseline beneath the stickman
-      ctx.strokeStyle = "rgba(31, 30, 28, 0.22)";
+      ctx.strokeStyle = "rgba(31, 30, 28, 0.24)";
       ctx.lineWidth = 1.4;
       ctx.lineCap = "round";
       ctx.beginPath();
-      ctx.moveTo(8, rect.height - 6);
-      ctx.lineTo(rect.width - 6, rect.height - 6);
+      ctx.moveTo(6, rect.height - 6);
+      ctx.lineTo(rect.width - 4, rect.height - 6);
       ctx.stroke();
 
       api.drawSwitchOpener(ctx, {
@@ -133,7 +136,7 @@ export function CoverSwitchStage({
         xStart: 28,
         xPress: rect.width - 36,
         y: rect.height - 6,
-        scale: 0.7,
+        scale: 0.68,
         ink: "#1F1E1C",
         far: "#746E65",
         pen: "#A93F21",
@@ -164,7 +167,6 @@ export function CoverSwitchStage({
         window.addEventListener("resize", resize, { passive: true });
       })
       .catch(() => {
-        // Fallback: ensure the cover still turns ON even if script fails
         onToggleRef.current(true);
       });
 
@@ -176,23 +178,34 @@ export function CoverSwitchStage({
   }, [mounted, reduced, playKey]);
 
   return (
-    <div className="relative z-[3] flex items-end justify-center gap-0">
-      {/* Stickman canvas positioned right beside the 3D rocker switch */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none -mr-3 h-[96px] w-[124px] shrink-0"
-      >
-        <canvas ref={canvasRef} className="h-full w-full" />
+    <div className="relative z-[3] flex flex-col items-center">
+      <div className="flex items-end justify-center gap-0">
+        {/* Extra top headroom (118px height) so the mini idea lightbulb above the head is never clipped */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none -mr-3 h-[118px] w-[124px] shrink-0"
+        >
+          <canvas ref={canvasRef} className="h-full w-full" />
+        </div>
+
+        <div className="mb-7 flex flex-col items-center">
+          <RockerSwitch
+            checked={isOn}
+            onChange={onToggle}
+            ariaLabel="Interruptor da apresentação inicial do portfólio"
+          />
+        </div>
       </div>
 
-      {/* Physical 3D Uiverse Rocker Switch aligned to the stickman's pressing hand */}
-      <div className="mb-8 flex flex-col items-center gap-1.5">
-        <RockerSwitch
-          checked={isOn}
-          onChange={onToggle}
-          ariaLabel="Interruptor da apresentação inicial do portfólio"
-        />
-      </div>
+      {mounted && !reduced && (
+        <button
+          type="button"
+          onClick={onReplay}
+          className="mt-1 text-[11px] font-medium tracking-[0.06em] uppercase text-[var(--muted)] transition-colors hover:text-[var(--pen)]"
+        >
+          {isOn ? "reassistir abertura" : "ligue o interruptor para acender"}
+        </button>
+      )}
     </div>
   );
 }

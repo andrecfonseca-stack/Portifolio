@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { m } from "motion/react";
 import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
+import { MOTION_EASE } from "@/components/motion/tokens";
 
 type MarginClimberApi = {
   PERCH_IDLE: Record<string, unknown>;
@@ -107,19 +109,52 @@ function getSectionKnotPositions(): number[] {
 }
 
 /**
- * Interactive hand-drawn stick figure climber anchored to the right editorial margin.
- * Uses the `stick-scene` runtime (/scenes/stick.js) and descends/ascends the rope
- * hand-over-hand in real time synced to page scroll.
+ * Central Curly-Loop Red Arrow + Stickman Climber.
+ * Appears after the Cover opening sequence finishes (~3.3s after the switch flips ON),
+ * starts right below the Cover hero block so it never overlaps "Portfólio",
+ * and descends down the CENTER axis (left-1/2) of the entire portfolio as the user scrolls.
  */
 export function ScrollClimber() {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const { mounted, reduced } = useSafeMotion();
+  const [readyToShow, setReadyToShow] = React.useState(false);
+
+  // Reveal the central arrow-rope after the cover opening markings finish (~4.15s),
+  // or immediately when the user scrolls down / prefers-reduced-motion is active.
+  React.useEffect(() => {
+    if (!mounted) return;
+    const initialDelay = reduced || window.scrollY > 20 ? 0 : 4150;
+    let timer = window.setTimeout(() => setReadyToShow(true), initialDelay);
+
+    const onCoverSwitch = (e: Event) => {
+      const custom = e as CustomEvent<{ isOn: boolean }>;
+      window.clearTimeout(timer);
+      if (!custom.detail?.isOn) {
+        setReadyToShow(false);
+      } else {
+        timer = window.setTimeout(() => setReadyToShow(true), 3250);
+      }
+    };
+
+    const onFirstScroll = () => {
+      if (window.scrollY > 15) {
+        setReadyToShow(true);
+      }
+    };
+
+    window.addEventListener("portfolio:cover-switch", onCoverSwitch);
+    window.addEventListener("scroll", onFirstScroll, { passive: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("portfolio:cover-switch", onCoverSwitch);
+      window.removeEventListener("scroll", onFirstScroll);
+    };
+  }, [mounted, reduced]);
 
   React.useEffect(() => {
     if (!mounted) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
-    // Skip work when hidden on mobile/tablet (< 1024px)
     const desktopMq = window.matchMedia("(min-width: 1024px)");
 
     let cancelled = false;
@@ -180,23 +215,27 @@ export function ScrollClimber() {
         const speedPx = Math.abs(deltaProg * rect.height) / dt;
         if (Math.abs(deltaProg) > 0.00015) {
           state.dir = deltaProg > 0 ? 1 : -1;
-          state.phase += (Math.abs(deltaProg * rect.height) / 34);
+          state.phase += Math.abs(deltaProg * rect.height) / 32;
         }
-        const wantActivity = api.clamp(speedPx / 65, 0, 1);
+        const wantActivity = api.clamp(speedPx / 60, 0, 1);
         state.activity += (wantActivity - state.activity) * Math.min(1, dt * 9);
       }
 
-      const ropeTop = 26;
-      const ropeBottom = Math.max(120, rect.height - 24);
-      const scale = rect.width >= 96 ? 0.56 : 0.5;
-      // Figure sits slightly left of the vertical rope running near the right edge
-      const figureX = rect.width - 34;
-      // Head is ~115*scale above figure y; keep head cleanly below the top anchor ring
-      const minY = ropeTop + 124 * scale;
-      const maxY = ropeBottom;
+      // While on the Cover (curProg near 0), anchor the curly loop at the bottom-center of the Cover
+      // (~72% down the viewport, below "Portfólio" and the switch), then smoothly extend to the top of the spine as the user scrolls!
+      const coverBlend = api.clamp(state.curProg / 0.14, 0, 1);
+      const ropeTopOnCover = Math.max(220, rect.height * 0.72);
+      const ropeTopInFlow = 42;
+      const ropeTop = api.lerp(ropeTopOnCover, ropeTopInFlow, coverBlend);
+      const ropeBottom = Math.max(ropeTop + 95, rect.height - 16);
+
+      const scale = 0.56;
+      // Center the vertical arrow-rope at rect.width / 2 (since ROPE_LOCAL_X = 22)
+      const figureX = rect.width / 2 - 22 * scale;
+      const minY = ropeTop + 78 * scale;
+      const maxY = ropeBottom - 8;
       const climberY = api.lerp(minY, maxY, state.curProg);
 
-      // Detect whether the climber's torso is over a paper or night sheet
       const torsoClientY = rect.top + climberY - 56 * scale;
       const tone = getToneAtViewportY(torsoClientY);
       const isNight = tone === "night";
@@ -206,16 +245,15 @@ export function ScrollClimber() {
             ink: "#EFECE6",
             far: "#8D9CA1",
             pen: "#F08A65",
-            ropeCol: "rgba(239, 236, 230, 0.28)",
+            ropeCol: "rgba(239, 236, 230, 0.22)",
           }
         : {
             ink: "#1F1E1C",
             far: "#746E65",
             pen: "#A93F21",
-            ropeCol: "rgba(31, 30, 28, 0.26)",
+            ropeCol: "rgba(31, 30, 28, 0.20)",
           };
 
-      // Blend smoothly into cheerful landed wave when reaching the bottom sheet
       const atBottom = api.clamp((state.curProg - 0.94) / 0.055, 0, 1);
       if (atBottom > 0.6 && !reduced) {
         state.bottomTimer = Math.min(2.2, state.bottomTimer + dt);
@@ -311,11 +349,17 @@ export function ScrollClimber() {
   }, [mounted, reduced]);
 
   return (
-    <div
+    <m.div
       aria-hidden="true"
-      className="pointer-events-none fixed top-14 right-1 bottom-4 z-40 hidden w-[88px] lg:block xl:right-2 xl:w-[100px]"
+      initial={false}
+      animate={{
+        opacity: !mounted || reduced || readyToShow ? 1 : 0,
+        y: !mounted || reduced || readyToShow ? 0 : -12,
+      }}
+      transition={{ duration: reduced ? 0 : 0.65, ease: MOTION_EASE.editorial }}
+      className="pointer-events-none fixed top-14 bottom-2 left-1/2 z-40 hidden w-[112px] -translate-x-1/2 lg:block"
     >
       <canvas ref={canvasRef} className="h-full w-full" />
-    </div>
+    </m.div>
   );
 }

@@ -12,19 +12,18 @@ import { clampNumber, sparklePath } from "@/lib/marginalia-paths";
 
 /**
  * Sequential Cover Choreography:
- *  Beat 0: Stickman walks to the 3D rocker switch and flips it OFF -> ON (~0.88s)
+ *  Beat 0: Stickman (positioned below "Portfólio" on the left) presses the 3D rocker switch OFF -> ON (~0.88s)
  *  Beat 1: "Portfólio" rises letter-by-letter (+0.05s)
- *  Beat 2: "André Cavalcanti" writes in (+0.78s)
+ *  Beat 2: "André Cavalcanti" writes in (+0.78s) while a mini lightbulb pops above the stickman's head ("tive uma ideia!")
  *  Beat 3: Subtitle pill ("Medicina · IA · Pesquisa · Educação · Tecnologia") appears (+1.38s)
  *  Beat 4: Red/terracotta pen markings draw in sequentially (curly arrow, orbit+star, oval) (+1.95s..2.75s)
- *  Beat 5: Red/terracotta downward arrow draws in inviting the visitor to scroll (+3.30s)
+ *  Beat 5: Central curly-loop red arrow (Attachment 3) descends down the center of the portfolio as the climbing rope!
  */
 export function HomeCover() {
   const sectionRef = React.useRef<HTMLDivElement | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const { mounted, reduced: prefersReduced } = useSafeMotion();
 
-  // Starts OFF on client mount so the stickman flips it ON; always visible on SSR/reduced-motion
   const [switchOn, setSwitchOn] = React.useState(false);
   const [playKey, setPlayKey] = React.useState(0);
 
@@ -32,15 +31,17 @@ export function HomeCover() {
 
   const handleSwitchToggle = React.useCallback((next: boolean) => {
     setSwitchOn(next);
-    if (!next) {
-      // Allow the user to manually flip OFF and then click ON (or watch it stay off until flipped back)
-      return;
-    }
+    window.dispatchEvent(
+      new CustomEvent("portfolio:cover-switch", { detail: { isOn: next } }),
+    );
   }, []);
 
   const handleReplay = () => {
     setSwitchOn(false);
     setPlayKey((k) => k + 1);
+    window.dispatchEvent(
+      new CustomEvent("portfolio:cover-switch", { detail: { isOn: false } }),
+    );
   };
 
   const chars = React.useMemo(() => Array.from(profile.coverWord), []);
@@ -60,7 +61,6 @@ export function HomeCover() {
   const heroY = useTransform(scrollYProgress, [0, 1], [0, -54]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.2]);
 
-  // Subtle fading ink trail on fine pointers (desktop) — active once cover is ON
   React.useEffect(() => {
     const canvas = canvasRef.current;
     const host = sectionRef.current;
@@ -147,38 +147,24 @@ export function HomeCover() {
           className="pointer-events-none absolute -inset-x-10 -inset-y-16 z-[2] h-[calc(100%+8rem)] w-[calc(100%+5rem)]"
         />
 
-        {/* Top opening stage: Stickman + 3D Rocker Switch */}
-        <div className="relative z-[3] flex flex-col items-center">
-          <CoverSwitchStage
-            isOn={mounted ? switchOn : true}
-            onToggle={handleSwitchToggle}
-            playKey={playKey}
-          />
-          {mounted && !prefersReduced && (
-            <button
-              type="button"
-              onClick={handleReplay}
-              className="mt-0.5 text-[11px] font-medium tracking-[0.06em] uppercase text-[var(--muted)] transition-colors hover:text-[var(--pen)]"
-            >
-              {switchOn ? "reassistir abertura" : "ligue o interruptor para acender"}
-            </button>
-          )}
-        </div>
+        {/* Top subtle thesis eyebrow */}
+        <p className="relative z-[1] self-start text-xs font-medium tracking-[0.08em] uppercase text-[var(--muted)] sm:self-center">
+          Caderno Editorial · Ciência, Clínica &amp; Sistemas
+        </p>
 
-        {/* Central monumental cover word + signature + subtitle + delayed red pen markings */}
+        {/* Central monumental cover word + signature + below-left stickman switch & below-right subtitle */}
         <m.div
           style={
             mounted && !prefersReduced
               ? { scale: heroScale, y: heroY, opacity: heroOpacity }
               : undefined
           }
-          className="relative z-[1] my-auto flex flex-col items-center py-8"
+          className="relative z-[2] my-auto flex flex-col items-center py-6"
         >
           <div className="relative inline-flex flex-col items-center">
             {/* Beat 2: Handwritten Name "André Cavalcanti" + Beat 4a: Red Curly Arrow */}
             <div className="relative z-[2] mb-2 self-end pr-1 sm:absolute sm:-top-12 sm:right-0 sm:mb-0 md:-top-16">
               <div className="relative inline-flex items-center">
-                {/* Beat 4a: Curly red arrow draws ONLY after title, name & subtitle are visible */}
                 <svg
                   viewBox="0 0 150 110"
                   aria-hidden="true"
@@ -221,7 +207,6 @@ export function HomeCover() {
                   />
                 </svg>
 
-                {/* Beat 2: "André Cavalcanti" writes in right after "Portfólio" */}
                 <m.span
                   initial={false}
                   animate={
@@ -319,91 +304,67 @@ export function HomeCover() {
               ))}
             </h1>
 
-            {/* Beat 3: Subtitle with all disciplines -> Beat 4c: Red pen oval draws around it */}
-            <m.div
-              initial={false}
-              animate={
-                showCover ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }
-              }
-              transition={{
-                duration: d(0.58),
-                delay: showCover ? d(1.38) : 0,
-                ease: MOTION_EASE.editorial,
-              }}
-              className="mt-5 self-center sm:mt-4 sm:self-end sm:mr-2"
-            >
-              <span className="relative inline-block rounded-full border border-[var(--control-border)] px-5 py-2 text-center text-xs font-medium tracking-[0.03em] text-[var(--fg)] sm:text-sm md:text-base">
-                {profile.rolePill}
-                <PenMark
-                  kind="oval"
-                  seed={9}
-                  padX={12}
-                  padY={7}
-                  hoverOnly
-                  active={showCover}
-                  delay={showCover ? d(2.75) : 0}
+            {/* Below "Portfólio": Stickman + 3D Rocker Switch on the left (Attachment 2 spot), Subtitle Pill on the right */}
+            <div className="mt-2 flex w-full flex-col-reverse items-center justify-between gap-6 sm:mt-3 sm:flex-row sm:items-start sm:px-2">
+              <div className="sm:-mt-2 sm:ml-2">
+                <CoverSwitchStage
+                  isOn={mounted ? switchOn : true}
+                  onToggle={handleSwitchToggle}
+                  onReplay={handleReplay}
+                  playKey={playKey}
                 />
-              </span>
-            </m.div>
+              </div>
+
+              {/* Beat 3: Subtitle with all disciplines -> Beat 4c: Red pen oval draws around it */}
+              <m.div
+                initial={false}
+                animate={
+                  showCover ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }
+                }
+                transition={{
+                  duration: d(0.58),
+                  delay: showCover ? d(1.38) : 0,
+                  ease: MOTION_EASE.editorial,
+                }}
+                className="sm:mt-5 sm:mr-2"
+              >
+                <span className="relative inline-block rounded-full border border-[var(--control-border)] px-5 py-2 text-center text-xs font-medium tracking-[0.03em] text-[var(--fg)] sm:text-sm md:text-base">
+                  {profile.rolePill}
+                  <PenMark
+                    kind="oval"
+                    seed={9}
+                    padX={12}
+                    padY={7}
+                    hoverOnly
+                    active={showCover}
+                    delay={showCover ? d(2.75) : 0}
+                  />
+                </span>
+              </m.div>
+            </div>
           </div>
         </m.div>
 
-        {/* Bottom cover metadata bar + Beat 5: Red downward arrow */}
+        {/* Bottom cover metadata bar (center is reserved for the descending curly-loop red arrow-rope!) */}
         <div className="relative z-[1] flex w-full flex-wrap items-end justify-between gap-4 border-t border-[var(--rule)] pt-4 text-xs tracking-[0.06em] text-[var(--muted)]">
           <span>
             {profile.location} — {profile.year}
           </span>
 
-          {/* Beat 5: Red downward arrow draws in LAST, inviting the user to scroll */}
           <m.a
             href="#apresentacao"
             initial={false}
             animate={
-              showCover ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }
+              showCover ? { opacity: 1, y: 0 } : { opacity: 0, y: -6 }
             }
             transition={{
               duration: d(0.55),
-              delay: showCover ? d(3.3) : 0,
+              delay: showCover ? d(3.25) : 0,
               ease: MOTION_EASE.editorial,
             }}
-            className="font-marginalia group inline-flex items-center gap-2 text-2xl tracking-normal text-[var(--pen)] transition-opacity hover:opacity-80"
+            className="font-marginalia text-2xl tracking-normal text-[var(--pen)] transition-opacity hover:opacity-80"
           >
-            <span>explorar folhas</span>
-            <svg
-              viewBox="0 0 24 44"
-              aria-hidden="true"
-              className="animate-marginalia-bob h-10 w-6 overflow-visible"
-            >
-              <m.path
-                d="M12 2c-4 7 4 12 0 19s4 10 0 18"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                initial={false}
-                animate={{ pathLength: showCover ? 1 : 0 }}
-                transition={{
-                  duration: d(0.65),
-                  delay: showCover ? d(3.35) : 0,
-                  ease: MOTION_EASE.ink,
-                }}
-              />
-              <m.path
-                d="M5 32l7 8 7-8"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                initial={false}
-                animate={{ pathLength: showCover ? 1 : 0 }}
-                transition={{
-                  duration: d(0.32),
-                  delay: showCover ? d(3.85) : 0,
-                  ease: MOTION_EASE.ink,
-                }}
-              />
-            </svg>
+            descer escalando
           </m.a>
 
           <span className="hidden sm:inline">{profile.docLabel}</span>

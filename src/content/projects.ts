@@ -16,10 +16,10 @@ const rawProjects: Project[] = [
     featured: true,
     status: "Programa Centelha • Pernambuco",
     summary:
-      "Plataforma de suporte à decisão para Unidades Básicas de Saúde (UBS) validada no Programa Centelha. Integra *modelos preditivos de Machine Learning* para classificação de risco, [georreferenciamento territorial] e interface conversacional para apoiar a triagem e a alocação de recursos no SUS.",
+      "Plataforma de suporte à decisão para Unidades Básicas de Saúde (UBS) que competiu no Programa Centelha PE. Integra *modelos preditivos de Machine Learning* para classificação de risco, [georreferenciamento territorial] e interface conversacional para apoiar a triagem e a alocação de recursos no SUS.",
     challenge:
       "Superar gargalos na priorização de atendimentos e na alocação territorial de recursos na Atenção Primária à Saúde.",
-    marginNote: "validado no Programa Centelha PE!",
+    marginNote: "competiu no Programa Centelha PE!",
     artifactKind: "clinical-triage",
     tag: "atenção primária & sus",
     accent: "#e2455f",
@@ -45,14 +45,14 @@ const rawProjects: Project[] = [
       acao:
         "Desenvolvi uma solução integrando modelos preditivos de Machine Learning para classificação de risco, georreferenciamento territorial e uma interface conversacional (chatbot) para auxiliar a triagem e o planejamento das equipes de saúde.",
       resultado:
-        "Entrega de plataforma funcional validada no Programa Centelha, demonstrando como a convergência entre inteligência artificial e análise espacial pode otimizar fluxos de triagem e a distribuição de recursos no SUS.",
+        "Entrega de plataforma funcional que competiu no Programa Centelha PE, demonstrando como a convergência entre inteligência artificial e análise espacial pode otimizar fluxos de triagem e a distribuição de recursos no SUS.",
     },
     context:
       "Unidades Básicas de Saúde (UBS) enfrentam alta demanda assistencial e gargalos na priorização de atendimentos e na alocação territorial de recursos públicos.",
     approach:
       "Solução integrando modelos preditivos de Machine Learning para classificação de risco, georreferenciamento territorial e interface conversacional (chatbot).",
     impact:
-      "Plataforma funcional validada no Programa Centelha em Pernambuco para otimizar fluxos de triagem e distribuição de recursos no SUS.",
+      "Plataforma funcional que competiu no Programa Centelha em Pernambuco para otimizar fluxos de triagem e distribuição de recursos no SUS.",
     limitations:
       "Implantação em escala municipal requer integração contínua com bases do e-SUS APS.",
   },

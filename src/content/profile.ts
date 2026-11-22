@@ -31,7 +31,7 @@ const rawProfile: Profile = {
       name: "Medicina & Prática Clínica",
       note: "Formação médica (UFPE) aplicada à linha de frente e à cardiologia. Traduzo necessidades reais do ambulatório, da emergência e da atenção primária (SUS) em perguntas clínicas estruturadas antes de qualquer linha de código.",
       bg: "#172554",
-      fg: "#60A5FA",
+      fg: "#FFFFFF",
       relatedCompetencies: [
         "Suporte à Decisão Clínica (SUS)",
         "Epidemiologia & Econometria de Painel",
@@ -44,7 +44,7 @@ const rawProfile: Profile = {
       name: "Inteligência Artificial & Visão Computacional",
       note: "Desenvolvimento de modelos preditivos tabulares (XGBoost) e pipelines de segmentação de imagens médicas (MONAI/PyTorch) no CIn-UFPE, priorizando explicabilidade (SHAP/ALE) e quantificação de incerteza (Conformal Prediction).",
       bg: "#450A0A",
-      fg: "#F87171",
+      fg: "#FFFFFF",
       relatedCompetencies: [
         "IA Explicável (SHAP/ALE) & Calibração",
         "Visão Computacional Médica (MONAI)",
@@ -57,7 +57,7 @@ const rawProfile: Profile = {
       name: "Pesquisa & Epidemiologia Computacional",
       note: "Investigação de disparidades territoriais e determinantes sociais em saúde. Combino estudos ecológicos, econometria de painel e validação cruzada espacial (Leave-One-Region-Out) para testar a transportabilidade de modelos no Brasil.",
       bg: "#27272A",
-      fg: "#F4F4F5",
+      fg: "#FFFFFF",
       relatedCompetencies: [
         "Epidemiologia & Econometria de Painel",
         "IA Explicável (SHAP/ALE) & Calibração",
@@ -70,7 +70,7 @@ const rawProfile: Profile = {
       name: "Educação & Letramento em IA",
       note: "Fundador de iniciativa voluntária de letramento em IA e embaixador educacional. Desenho oficinas práticas e metodologias ativas para capacitar estudantes de medicina, enfermagem e escolas públicas no uso crítico e ético de IA.",
       bg: "#EA580C",
-      fg: "#FFF7ED",
+      fg: "#FFFFFF",
       relatedCompetencies: [
         "Letramento em IA & Design Instrucional",
         "Suporte à Decisão Clínica (SUS)",
@@ -82,7 +82,7 @@ const rawProfile: Profile = {
       name: "Engenharia de Software & Saúde Digital",
       note: "Construção de ferramentas analíticas e protótipos funcionais ponta a ponta — de painéis de vigilância epidemiológica (Dengue Recife) e plataformas de triagem (Conecta+Saúde) a soluções offline e de acessibilidade.",
       bg: "#2563EB",
-      fg: "#EFF6FF",
+      fg: "#FFFFFF",
       relatedCompetencies: [
         "Vigilância Territorial & Geoprocessamento",
         "Pipelines Reprodutíveis (Python / ML)",
@@ -115,8 +115,13 @@ const rawProfile: Profile = {
   thanksHeading: "Obrigado.",
   email: siteConfig.email,
   cvUrl: "http://lattes.cnpq.br/5405289276038054",
-  cvNote: "currículo Lattes & produção científica",
+  cvNote: "currículo acadêmico & Lattes",
   links: [
+    {
+      label: "GitHub",
+      href: "https://github.com",
+      description: "Código aberto, pipelines de pesquisa e ferramentas",
+    },
     {
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/andr%C3%A9-f-c-fonseca-0378583aa/",
@@ -128,14 +133,9 @@ const rawProfile: Profile = {
       description: "Bastidores, rotina acadêmica e divulgação científica (@andrecavalcanti.md)",
     },
     {
-      label: "Currículo Lattes",
+      label: "Lattes",
       href: "http://lattes.cnpq.br/5405289276038054",
       description: "Currículo acadêmico oficial no CNPq e produção científica",
-    },
-    {
-      label: "GitHub",
-      href: "https://github.com",
-      description: "Código aberto, pipelines de pesquisa e ferramentas",
     },
   ],
   closingLetter:

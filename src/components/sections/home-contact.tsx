@@ -7,7 +7,6 @@ import { profile } from "@/content/profile";
 import { siteConfig } from "@/config/site";
 import { Sheet } from "@/components/layout/sheet";
 import { EditorialHeading } from "@/components/marginalia/editorial-heading";
-import { ScannableQRCode } from "@/components/marginalia/qr-code";
 import { PenMark } from "@/components/motion/pen-mark";
 import { HandWrite } from "@/components/motion/hand-write";
 import { RevealBlock } from "@/components/motion/reveal";
@@ -153,33 +152,6 @@ export function HomeContact() {
               </a>
             ))}
           </nav>
-
-          {/* Scannable CV / ORCID QR Code */}
-          <div className="mt-10 flex items-center gap-5">
-            <a
-              href={profile.cvUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`Abrir ${profile.cvNote}`}
-              className="block w-24 shrink-0 -rotate-2 rounded-lg bg-[#FAF8F3] p-2 shadow-lg transition-transform duration-300 hover:rotate-0 hover:scale-105"
-            >
-              <ScannableQRCode
-                text={profile.cvUrl}
-                label={`Código QR para ${profile.cvNote}`}
-              />
-            </a>
-            <div>
-              <HandWrite
-                delay={0.2}
-                className="font-marginalia text-2xl text-[var(--pen)]"
-              >
-                {profile.cvNote}
-              </HandWrite>
-              <p className="mt-1 max-w-[28ch] text-xs leading-relaxed text-[var(--fg)]/80">
-                Escaneie ou clique no QR Code para acessar registro científico e publicações.
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Right column: editorial closing letter & handwritten signature */}

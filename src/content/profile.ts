@@ -112,7 +112,7 @@ const rawProfile: Profile = {
     "Letramento em IA & Design Instrucional",
   ],
   projectsNote: "cinco recortes entre clínica, pesquisa, sala de aula e produto",
-  thanksHeading: "Obrigado.",
+  thanksHeading: "Dito isso, seguimos.",
   email: siteConfig.email,
   cvUrl: "http://lattes.cnpq.br/5405289276038054",
   cvNote: "currículo acadêmico & Lattes",

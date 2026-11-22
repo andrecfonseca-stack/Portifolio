@@ -70,7 +70,11 @@ export function HomeContact() {
           </div>
 
           <div className="mt-7">
-            <EditorialHeading text={profile.thanksHeading} seed={16} />
+            <EditorialHeading
+              text={profile.thanksHeading}
+              seed={16}
+              className="text-[clamp(2.2rem,4.4vw,4.5rem)] leading-[1.02]"
+            />
           </div>
 
           {/* Direct contact: one-click copy + mailto */}

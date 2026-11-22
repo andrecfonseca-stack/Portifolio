@@ -29,12 +29,22 @@ declare global {
 }
 
 function loadScriptOnce(src: string): Promise<void> {
+  if (typeof window !== "undefined") {
+    if (src.endsWith("/stick.js") && window.RIG) return Promise.resolve();
+    if (src.endsWith("/switch-opener.js") && window.SWITCH_OPENER) {
+      return Promise.resolve();
+    }
+  }
   return new Promise((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(
       `script[src="${src}"]`,
     );
     if (existing) {
-      if (existing.dataset.loaded === "true") {
+      if (
+        existing.dataset.loaded === "true" ||
+        (src.endsWith("/stick.js") && window.RIG) ||
+        (src.endsWith("/switch-opener.js") && window.SWITCH_OPENER)
+      ) {
         resolve();
         return;
       }

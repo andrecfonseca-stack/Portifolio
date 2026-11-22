@@ -56,12 +56,22 @@ declare global {
 }
 
 function loadScriptOnce(src: string): Promise<void> {
+  if (typeof window !== "undefined") {
+    if (src.endsWith("/stick.js") && window.RIG) return Promise.resolve();
+    if (src.endsWith("/margin-climber.js") && window.MARGIN_CLIMBER) {
+      return Promise.resolve();
+    }
+  }
   return new Promise((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(
       `script[src="${src}"]`,
     );
     if (existing) {
-      if (existing.dataset.loaded === "true") {
+      if (
+        existing.dataset.loaded === "true" ||
+        (src.endsWith("/stick.js") && window.RIG) ||
+        (src.endsWith("/margin-climber.js") && window.MARGIN_CLIMBER)
+      ) {
         resolve();
         return;
       }
@@ -315,11 +325,15 @@ export function ScrollClimber() {
       }
     };
 
-    const onScrollOrResize = () => {
-      resize();
+    const onScroll = () => {
       if (reduced) {
         renderFrame(performance.now());
       }
+    };
+
+    const onResize = () => {
+      resize();
+      renderFrame(performance.now());
     };
 
     loadScriptOnce("/scenes/stick.js")
@@ -333,8 +347,8 @@ export function ScrollClimber() {
         if (!reduced) {
           rafId = window.requestAnimationFrame(tick);
         }
-        window.addEventListener("scroll", onScrollOrResize, { passive: true });
-        window.addEventListener("resize", onScrollOrResize, { passive: true });
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onResize, { passive: true });
       })
       .catch(() => {
         // Decorative companion degrades silently if scripts fail
@@ -343,8 +357,8 @@ export function ScrollClimber() {
     return () => {
       cancelled = true;
       window.cancelAnimationFrame(rafId);
-      window.removeEventListener("scroll", onScrollOrResize);
-      window.removeEventListener("resize", onScrollOrResize);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
     };
   }, [mounted, reduced]);
 

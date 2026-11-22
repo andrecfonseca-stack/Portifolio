@@ -1,8 +1,6 @@
 import { z } from "zod";
 import { ProjectSchema, type Project } from "./schemas";
 
-const U = "https://images.unsplash.com/photo-";
-
 const rawProjects: Project[] = [
   {
     slug: "conecta-saude",
@@ -240,14 +238,14 @@ const rawProjects: Project[] = [
     marginNote: "múltiplas turmas de médicos formados na prática",
     artifactKind: "evidence-doc",
     tag: "educação médica & ia",
-    accent: "#6f5cf0",
+    accent: "#0d7477",
     tone: "night",
     images: [
-      `${U}1541961017774-22349e4a1262`,
-      `${U}1579783902614-a3fb3927b6a5`,
-      `${U}1513364776144-60967b0f800f`,
+      "/images/projetos/iatria-oficina.jpg",
+      "/images/projetos/iatria-logo.png",
+      "/images/projetos/iatria-fundadores.jpg",
     ],
-    screens: ["feed", "detail", "stats"],
+    screens: ["feed", "detail", "cover"],
     stats: [],
     methods: [
       "Educação Médica",

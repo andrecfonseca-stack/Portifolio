@@ -22,6 +22,7 @@ function Pic({ src, alt = "" }: { src: string; alt?: string }) {
       />
     );
   }
+  const isLogo = src.includes("logo");
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -31,6 +32,15 @@ function Pic({ src, alt = "" }: { src: string; alt?: string }) {
       loading="lazy"
       decoding="async"
       draggable={false}
+      style={
+        isLogo
+          ? {
+              objectFit: "contain",
+              padding: "16% 8% 10%",
+              backgroundColor: "#ffffff",
+            }
+          : undefined
+      }
     />
   );
 }
@@ -99,7 +109,8 @@ export function PhoneScreen({
   }
 
   if (kind === "cover") {
-    const coverImg = photoUrl(project.images[0] || "", 520);
+    const coverIdx = shift === 2 && n > 2 ? 2 : 0;
+    const coverImg = photoUrl(project.images[coverIdx] || "", 520);
     const titleSize =
       project.title.length > 12
         ? "11.2cqw"
@@ -187,12 +198,23 @@ export function PhoneScreen({
   }
 
   if (kind === "detail") {
+    const detailSrc = im(0);
+    const isLogoHero = detailSrc.includes("logo");
     return (
       <div className="mgn-screen">
-        <div style={{ ...abs, left: 0, right: 0, top: 0, height: "58%" }}>
-          <Pic src={im(0)} />
+        <div
+          style={{
+            ...abs,
+            left: 0,
+            right: 0,
+            top: 0,
+            height: "58%",
+            backgroundColor: isLogoHero ? "#ffffff" : undefined,
+          }}
+        >
+          <Pic src={detailSrc} alt={project.title} />
         </div>
-        <Status light />
+        <Status light={!isLogoHero} />
         <div
           style={{
             ...abs,

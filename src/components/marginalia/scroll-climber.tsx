@@ -129,12 +129,14 @@ export function ScrollClimber() {
   const { mounted, reduced } = useSafeMotion();
   const [readyToShow, setReadyToShow] = React.useState(false);
 
-  // Reveal the central arrow-rope after the cover opening markings finish (~4.15s),
+  // Reveal the central arrow-rope ONLY after the user presses the switch ON and the cover markings finish (~3.25s),
   // or immediately when the user scrolls down / prefers-reduced-motion is active.
   React.useEffect(() => {
     if (!mounted) return;
-    const initialDelay = reduced || window.scrollY > 20 ? 0 : 4150;
-    let timer = window.setTimeout(() => setReadyToShow(true), initialDelay);
+    let timer = 0;
+    if (reduced || window.scrollY > 20) {
+      timer = window.setTimeout(() => setReadyToShow(true), 0);
+    }
 
     const onCoverSwitch = (e: Event) => {
       const custom = e as CustomEvent<{ isOn: boolean }>;

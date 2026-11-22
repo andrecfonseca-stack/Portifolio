@@ -10,7 +10,7 @@ type SwitchOpenerApi = {
     opts: {
       T: number;
       t: number;
-      xStart: number;
+      isOn: boolean;
       xPress: number;
       y: number;
       scale: number;
@@ -19,7 +19,6 @@ type SwitchOpenerApi = {
       pen: string;
     },
   ) => void;
-  FLIP_AT_SEC: number;
 };
 
 declare global {
@@ -67,29 +66,28 @@ function loadScriptOnce(src: string): Promise<void> {
 }
 
 /**
- * Stickman + 3D Uiverse Rocker Switch + Replay button.
- * Placed directly below "Portfólio" (on the left side under "Portf"),
- * and pops a mini lightbulb above the stickman's head when "André Cavalcanti" appears.
+ * Stickman + 3D Uiverse Rocker Switch.
+ * The lightbulb ONLY appears after the user clicks/presses the switch button to turn it ON!
+ * When the switch is OFF, the stickman waits calmly with NO lightbulb.
  */
 export function CoverSwitchStage({
   isOn,
   onToggle,
-  onReplay,
-  playKey,
 }: {
   isOn: boolean;
   onToggle: (next: boolean) => void;
-  onReplay: () => void;
-  playKey: number;
 }) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const { mounted, reduced } = useSafeMotion();
-  const flippedRef = React.useRef(false);
-  const onToggleRef = React.useRef(onToggle);
+  const isOnRef = React.useRef(isOn);
+  const pressedAtRef = React.useRef<number>(0);
 
   React.useEffect(() => {
-    onToggleRef.current = onToggle;
-  }, [onToggle]);
+    isOnRef.current = isOn;
+    if (isOn) {
+      pressedAtRef.current = performance.now();
+    }
+  }, [isOn]);
 
   React.useEffect(() => {
     if (!mounted) return;
@@ -98,7 +96,6 @@ export function CoverSwitchStage({
 
     let cancelled = false;
     let rafId = 0;
-    flippedRef.current = false;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -108,7 +105,7 @@ export function CoverSwitchStage({
       canvas.height = Math.round(rect.height * dpr);
     };
 
-    const startTime = performance.now();
+    const mountTime = performance.now();
 
     const drawFrame = (now: number) => {
       const api = window.SWITCH_OPENER;
@@ -119,13 +116,13 @@ export function CoverSwitchStage({
       if (!rect.width || !rect.height) return;
       const dpr = canvas.width / rect.width;
 
-      const elapsed = (now - startTime) / 1000;
-      const T = reduced ? 2.4 : elapsed;
-
-      if (!reduced && !flippedRef.current && T >= api.FLIP_AT_SEC) {
-        flippedRef.current = true;
-        onToggleRef.current(true);
-      }
+      const t = (now - mountTime) / 1000;
+      const activeOn = isOnRef.current;
+      const T = activeOn
+        ? reduced
+          ? 2.2
+          : Math.max(0, (now - pressedAtRef.current) / 1000)
+        : 0;
 
       ctx.save();
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -142,8 +139,8 @@ export function CoverSwitchStage({
 
       api.drawSwitchOpener(ctx, {
         T,
-        t: elapsed,
-        xStart: 28,
+        t,
+        isOn: activeOn,
         xPress: rect.width - 36,
         y: rect.height - 6,
         scale: 0.68,
@@ -169,15 +166,13 @@ export function CoverSwitchStage({
         if (cancelled) return;
         resize();
         drawFrame(performance.now());
-        if (reduced) {
-          onToggleRef.current(true);
-        } else {
+        if (!reduced) {
           rafId = window.requestAnimationFrame(tick);
         }
         window.addEventListener("resize", resize, { passive: true });
       })
       .catch(() => {
-        onToggleRef.current(true);
+        // Fallback if canvas scripts fail
       });
 
     return () => {
@@ -185,12 +180,11 @@ export function CoverSwitchStage({
       window.cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
     };
-  }, [mounted, reduced, playKey]);
+  }, [mounted, reduced]);
 
   return (
     <div className="relative z-[3] flex flex-col items-center">
       <div className="flex items-end justify-center gap-0">
-        {/* Extra top headroom (118px height) so the mini idea lightbulb above the head is never clipped */}
         <div
           aria-hidden="true"
           className="pointer-events-none -mr-3 h-[118px] w-[124px] shrink-0"
@@ -207,15 +201,9 @@ export function CoverSwitchStage({
         </div>
       </div>
 
-      {mounted && !reduced && (
-        <button
-          type="button"
-          onClick={onReplay}
-          className="mt-1 text-[11px] font-medium tracking-[0.06em] uppercase text-[var(--muted)] transition-colors hover:text-[var(--pen)]"
-        >
-          {isOn ? "reassistir abertura" : "ligue o interruptor para acender"}
-        </button>
-      )}
+      <span className="mt-0.5 text-[11px] font-medium tracking-[0.06em] uppercase text-[var(--muted)]">
+        {isOn ? "interruptor ligado" : "aperte o botão para iniciar"}
+      </span>
     </div>
   );
 }

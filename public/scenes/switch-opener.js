@@ -1,15 +1,16 @@
 /* Switch Opener stickman — uses window.RIG from /scenes/stick.js.
- * 1. Walks up to the 3D rocker switch and presses the "ON" side (T = 0.88s).
- * 2. When the author's name "André Cavalcanti" starts appearing (T = 1.62s),
- *    pops a hand-drawn mini lightbulb above the stickman's head ("tive uma ideia!").
+ * - While the switch is OFF (`isOn === false`): the stickman stands calmly next to the switch
+ *   with ZERO lightbulb above his head.
+ * - ONLY AFTER pressing the switch button (`isOn === true`): the stickman presses the button,
+ *   sparks in terracotta, and pops the glowing mini lightbulb above his head ("tive uma ideia!").
  */
 (function () {
   const R = window.RIG;
   if (!R) return;
 
-  const { P, mix, breathe, legs, walkSeg, fig, sparks, ln, circle, inkFill, E, seg, clamp, pulse } = R;
+  const { P, mix, breathe, fig, sparks, ln, circle, inkFill, E, seg, clamp, pulse } = R;
 
-  // Standing calm ready pose (facing right toward the switch)
+  // Standing calm ready pose (facing right toward the switch, no lightbulb)
   const STAND = P({
     head: [1, -116],
     chest: [0, -90],
@@ -24,7 +25,7 @@
     eb: 1,
   });
 
-  // Hand lifted, ready to press the ON rocker paddle
+  // Hand lifted, pressing the ON rocker paddle
   const READY_PRESS = P({
     head: [7, -114],
     chest: [4, -89],
@@ -39,7 +40,6 @@
     eb: 1,
   });
 
-  // Pressing cleanly forward & down onto the ON paddle
   const PRESS_DOWN = P({
     head: [10, -112],
     chest: [7, -88],
@@ -69,7 +69,6 @@
     eb: 1,
   });
 
-  // Relaxed admiring stance after the sequence completes
   const PROUD = P({
     head: [4, -117],
     chest: [0, -90],
@@ -84,16 +83,12 @@
     eb: 1,
   });
 
-  /**
-   * Draws a hand-drawn mini lightbulb ("tive uma ideia!") above the stickman's head at (cx, cy).
-   */
   function drawMiniLightbulb(g, cx, cy, s, popK, pulseT, ink, pen) {
     if (popK <= 0.01) return;
     g.save();
     g.translate(cx, cy);
     g.scale(s * popK, s * popK);
 
-    // Subtle warm glow behind the bulb glass
     const glowR = 12 + Math.sin(pulseT * 5) * 1.2;
     g.save();
     g.globalAlpha = 0.34 * clamp(popK, 0, 1);
@@ -102,7 +97,6 @@
     g.fill();
     g.restore();
 
-    // Bulb glass contour (rounded top tapering into screw base)
     g.beginPath();
     g.arc(0, -4.5, 6.4, Math.PI * 0.78, Math.PI * 0.22, false);
     g.quadraticCurveTo(3.6, 2.2, 2.8, 4.2);
@@ -111,7 +105,6 @@
     g.closePath();
     inkFill(g, '#FEF3C7', 1.5, ink);
 
-    // Inner glowing filament loop in terracotta pen
     g.strokeStyle = pen;
     g.lineWidth = 1.3;
     g.lineCap = 'round';
@@ -122,11 +115,9 @@
     g.lineTo(1.8, 3.2);
     g.stroke();
 
-    // Screw base threads
     ln(g, -2.6, 6.0, 2.6, 6.0, 1.4, ink);
     ln(g, -1.9, 8.0, 1.9, 8.0, 1.4, ink);
 
-    // 5 hand-drawn radiating idea rays around the bulb
     const rayAngles = [-Math.PI * 0.88, -Math.PI * 0.68, -Math.PI * 0.5, -Math.PI * 0.32, -Math.PI * 0.12];
     const rayPulse = 0.85 + Math.sin(pulseT * 6) * 0.15;
     for (let i = 0; i < rayAngles.length; i++) {
@@ -148,38 +139,37 @@
   }
 
   /**
-   * Renders the stickman pressing the switch and popping the idea lightbulb:
-   *  - 0.00..0.48s: steps forward toward the switch
-   *  - 0.36..0.88s: raises hand and presses switch ON (flips at T = 0.88s)
-   *  - 1.62..2.85s: when "André Cavalcanti" appears (+0.78s after 0.88s = 1.66s),
-   *                 mini lightbulb pops above head with E.back and stickman perks into EUREKA!
+   * Renders the stickman next to the 3D switch:
+   *  - When `isOn === false`: calm breathing STAND pose, NO lightbulb!
+   *  - When `isOn === true`: `T` counts seconds since the button was pressed:
+   *      0.00..0.38s: presses the ON button with terracotta sparks
+   *      0.75s+     : as "André Cavalcanti" appears, the mini lightbulb pops above his head!
    */
   function drawSwitchOpener(g, opts) {
-    const { T, t, xStart, xPress, y, scale, ink, far, pen } = opts;
-
-    const ws = walkSeg(T, 0.0, 0.48, xStart, xPress, scale);
-    const liftK = E.soft(seg(T, 0.36, 0.68)) * (1 - E.soft(seg(T, 1.05, 1.45)));
-    const pressK = E.out3(seg(T, 0.68, 0.88)) * (1 - E.soft(seg(T, 1.0, 1.35)));
-    const eurekaK = E.soft(seg(T, 1.58, 1.88)) * (1 - E.soft(seg(T, 2.75, 3.25)));
-    const settleK = E.soft(seg(T, 1.25, 1.75));
+    const { T, t, isOn, xPress, y, scale, ink, far, pen } = opts;
 
     let pose = STAND;
-    pose = mix(pose, READY_PRESS, liftK);
-    pose = mix(pose, PRESS_DOWN, pressK);
-    pose = mix(pose, PROUD, settleK);
-    pose = mix(pose, EUREKA, eurekaK);
 
-    const nod = pulse(t, 5.8, 2.4, 1.1) * settleK * (1 - eurekaK);
-    if (nod > 0.01) {
-      pose = P({ head: [pose.head[0] + nod * 2.5, pose.head[1] + nod * 1.6] }, pose);
+    if (isOn) {
+      const liftK = E.soft(seg(T, 0.0, 0.16)) * (1 - E.soft(seg(T, 0.42, 0.72)));
+      const pressK = E.out3(seg(T, 0.12, 0.32)) * (1 - E.soft(seg(T, 0.40, 0.68)));
+      const eurekaK = E.soft(seg(T, 0.72, 1.02)) * (1 - E.soft(seg(T, 2.0, 2.5)));
+      const settleK = E.soft(seg(T, 0.55, 1.0));
+
+      pose = mix(pose, READY_PRESS, liftK);
+      pose = mix(pose, PRESS_DOWN, pressK);
+      pose = mix(pose, PROUD, settleK);
+      pose = mix(pose, EUREKA, eurekaK);
+    } else {
+      const glance = pulse(t, 4.8, 1.4, 1.1);
+      if (glance > 0.01) {
+        pose = P({ head: [pose.head[0] + glance * 3, pose.head[1] + glance * 1.5] }, pose);
+      }
     }
 
     pose = breathe(pose, t, 0.85);
-    if (ws.amp > 0.001) {
-      pose = legs(pose, ws.ph, ws.amp, { arms: false, stride: ws.stride });
-    }
 
-    const J = fig(g, pose, ws.x, y, {
+    const J = fig(g, pose, xPress, y, {
       s: scale,
       sx: 1,
       ink,
@@ -188,34 +178,35 @@
       floor: y,
     });
 
-    // Crisp terracotta spark right when the hand clicks the ON paddle (T = 0.86..1.32)
-    const spK = seg(T, 0.86, 1.32);
-    if (spK > 0.01 && spK < 0.99) {
-      sparks(
-        g,
-        J.w.handF[0] + 6 * scale,
-        J.w.handF[1] - 4 * scale,
-        clamp(spK, 0, 1),
-        14 * scale,
-        5,
-        pen,
-      );
-    }
+    // Strictly draw sparks & lightbulb ONLY when the switch button is ON (isOn === true)!
+    if (isOn) {
+      const spK = seg(T, 0.18, 0.62);
+      if (spK > 0.01 && spK < 0.99) {
+        sparks(
+          g,
+          J.w.handF[0] + 6 * scale,
+          J.w.handF[1] - 4 * scale,
+          clamp(spK, 0, 1),
+          14 * scale,
+          5,
+          pen,
+        );
+      }
 
-    // Mini lightbulb pops above the stickman's head as "André Cavalcanti" writes in (T >= 1.62s)
-    const bulbIn = E.back(seg(T, 1.62, 1.98));
-    // Stays glowing above head once popped
-    if (T >= 1.62) {
-      drawMiniLightbulb(
-        g,
-        J.w.head[0],
-        J.w.head[1] - 21 * scale,
-        scale * 0.95,
-        bulbIn,
-        t,
-        ink,
-        pen,
-      );
+      // Lightbulb pops ONLY after the button is pressed and "André Cavalcanti" starts appearing (T >= 0.75s)
+      if (T >= 0.75) {
+        const bulbIn = E.back(seg(T, 0.75, 1.12));
+        drawMiniLightbulb(
+          g,
+          J.w.head[0],
+          J.w.head[1] - 21 * scale,
+          scale * 0.95,
+          bulbIn,
+          t,
+          ink,
+          pen,
+        );
+      }
     }
 
     return J;
@@ -223,15 +214,15 @@
 
   const SC = (window.SCENES = window.SCENES || {});
   SC['switch-opener'] = {
-    dur: 3.4,
+    dur: 2.8,
     width: 220,
-    label: 'Stickman aperta o interruptor e uma mini lâmpada de ideia acende sobre sua cabeça quando o nome aparece.',
+    label: 'Stickman aguarda ao lado do interruptor OFF; ao apertar o botão ON, acende uma mini lâmpada de ideia sobre a cabeça.',
     draw(g, S) {
       const T = S.on ? S.u * this.dur : 0;
       drawSwitchOpener(g, {
         T,
         t: S.t,
-        xStart: -48,
+        isOn: S.on,
         xPress: -8,
         y: 0,
         scale: 0.78,
@@ -244,6 +235,5 @@
 
   window.SWITCH_OPENER = {
     drawSwitchOpener,
-    FLIP_AT_SEC: 0.88,
   };
 })();

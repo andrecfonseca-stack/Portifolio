@@ -277,3 +277,190 @@ body {
   transform: rotateX(10deg) rotateY(0deg);
   color: #487bdb;
 }
+
+/* ---- Original Marginalia Phone Mockups & 3-Phone Trio ---- */
+.mgn-phone {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 19.5;
+  container-type: inline-size;
+  user-select: none;
+}
+
+.mgn-phone-body {
+  position: absolute;
+  inset: 0;
+  border-radius: 15cqw;
+  background: #121214;
+  padding: 3.4cqw;
+  box-shadow:
+    0 0 0 0.7cqw #3a3a3f inset,
+    0 40px 70px -30px rgba(0, 0, 0, 0.55),
+    0 14px 24px -14px rgba(0, 0, 0, 0.4);
+}
+
+.mgn-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12cqw;
+  overflow: hidden;
+  background: #f7f6f3;
+  color: #18181a;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.2;
+  isolation: isolate;
+  text-align: left;
+}
+
+.mgn-island {
+  position: absolute;
+  left: 50%;
+  top: 2.6cqw;
+  width: 28cqw;
+  height: 8cqw;
+  border-radius: 99px;
+  background: #0b0b0c;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.mgn-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 13cqw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1cqw 9cqw 0;
+  font-size: 4.2cqw;
+  font-weight: 600;
+  z-index: 4;
+}
+
+.mgn-status i {
+  display: flex;
+  gap: 1.4cqw;
+  align-items: center;
+  font-style: normal;
+}
+
+.mgn-status i b {
+  display: block;
+  width: 6cqw;
+  height: 3.2cqw;
+  border-radius: 1cqw;
+  border: 0.5cqw solid currentColor;
+}
+
+.mgn-status i s {
+  display: block;
+  width: 4cqw;
+  height: 3cqw;
+  background: currentColor;
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  text-decoration: none;
+}
+
+.mgn-scr-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  display: block;
+}
+
+.mgn-tabbar {
+  position: absolute;
+  left: 5cqw;
+  right: 5cqw;
+  bottom: 4cqw;
+  height: 13cqw;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2cqw 6cqw rgba(0, 0, 0, 0.12);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 3;
+}
+
+.mgn-tabbar span {
+  width: 4.4cqw;
+  height: 4.4cqw;
+  border-radius: 50%;
+  background: #c9c8c3;
+}
+
+.mgn-bars {
+  display: grid;
+  gap: 1.8cqw;
+}
+
+.mgn-bars span {
+  display: block;
+  height: 2.4cqw;
+  border-radius: 2cqw;
+  background: #dcdad4;
+}
+
+.mgn-chip {
+  display: inline-block;
+  padding: 1.8cqw 4cqw;
+  border-radius: 99px;
+  font-size: 3.6cqw;
+  background: #ebe9e3;
+  white-space: nowrap;
+}
+
+.mgn-trio {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  aspect-ratio: 1 / 1.08;
+  margin: 0 auto;
+  perspective: 1400px;
+}
+
+.mgn-trio-p {
+  position: absolute;
+}
+
+.mgn-trio-p[data-slot="0"] {
+  left: 3%;
+  top: 13%;
+  width: 35%;
+  z-index: 1;
+}
+
+.mgn-trio-p[data-slot="1"] {
+  left: 31%;
+  top: 2%;
+  width: 38%;
+  z-index: 3;
+}
+
+.mgn-trio-p[data-slot="2"] {
+  right: 3%;
+  top: 16%;
+  width: 35%;
+  z-index: 2;
+}
+
+.mgn-tilt {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.mgn-trio-p[data-slot="0"] .mgn-tilt {
+  transform: rotate(-7deg);
+}
+
+.mgn-trio-p[data-slot="2"] .mgn-tilt {
+  transform: rotate(6deg);
+}

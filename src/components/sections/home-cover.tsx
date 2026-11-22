@@ -11,23 +11,25 @@ import { CoverSwitchStage } from "@/components/marginalia/cover-switch-stage";
 import { clampNumber, sparklePath } from "@/lib/marginalia-paths";
 
 /**
- * Sequential Cover Choreography:
- *  Beat 0: Stickman (positioned below "Portfólio" on the left) presses the 3D rocker switch OFF -> ON (~0.88s)
- *  Beat 1: "Portfólio" rises letter-by-letter (+0.05s)
- *  Beat 2: "André Cavalcanti" writes in (+0.78s) while a mini lightbulb pops above the stickman's head ("tive uma ideia!")
- *  Beat 3: Subtitle pill ("Medicina · IA · Pesquisa · Educação · Tecnologia") appears (+1.38s)
- *  Beat 4: Red/terracotta pen markings draw in sequentially (curly arrow, orbit+star, oval) (+1.95s..2.75s)
- *  Beat 5: Central curly-loop red arrow (Attachment 3) descends down the center of the portfolio as the climbing rope!
+ * Interactive Cover Choreography:
+ *  - Initial State (Switch OFF): Stickman waits beside the OFF 3D rocker switch (NO lightbulb yet!).
+ *  - When the user clicks/presses the 3D switch button (OFF -> ON):
+ *      1. Stickman presses the button with terracotta sparks (0.0s..0.35s)
+ *      2. "Portfólio" rises letter-by-letter (0.05s..0.75s)
+ *      3. "André Cavalcanti" writes in (0.75s..1.40s) AND the mini lightbulb pops above the stickman's head ("tive uma ideia!")
+ *      4. Subtitle pill ("Medicina · IA · Pesquisa · Educação · Tecnologia") appears (1.38s..1.90s)
+ *      5. Red/terracotta pen markings draw in sequentially (curly arrow, orbit+star, oval) (1.95s..2.85s)
+ *      6. Central curly-loop red arrow (Attachment 3) descends down the center of the portfolio as the climbing rope!
  */
 export function HomeCover() {
   const sectionRef = React.useRef<HTMLDivElement | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const { mounted, reduced: prefersReduced } = useSafeMotion();
 
+  // Switch starts OFF; the lightbulb and cover sequence trigger ONLY after pressing the switch button!
   const [switchOn, setSwitchOn] = React.useState(false);
-  const [playKey, setPlayKey] = React.useState(0);
 
-  const showCover = !mounted || prefersReduced || switchOn;
+  const showCover = prefersReduced || switchOn;
 
   const handleSwitchToggle = React.useCallback((next: boolean) => {
     setSwitchOn(next);
@@ -35,14 +37,6 @@ export function HomeCover() {
       new CustomEvent("portfolio:cover-switch", { detail: { isOn: next } }),
     );
   }, []);
-
-  const handleReplay = () => {
-    setSwitchOn(false);
-    setPlayKey((k) => k + 1);
-    window.dispatchEvent(
-      new CustomEvent("portfolio:cover-switch", { detail: { isOn: false } }),
-    );
-  };
 
   const chars = React.useMemo(() => Array.from(profile.coverWord), []);
   const orbitIndex = React.useMemo(() => {
@@ -216,7 +210,7 @@ export function HomeCover() {
                   }
                   transition={{
                     duration: d(0.68),
-                    delay: showCover ? d(0.78) : 0,
+                    delay: showCover ? d(0.75) : 0,
                     ease: MOTION_EASE.ink,
                   }}
                   className="font-marginalia inline-block -rotate-[5deg] text-3xl text-[var(--pen)] sm:text-4xl md:text-5xl"
@@ -244,7 +238,7 @@ export function HomeCover() {
                       }
                       transition={{
                         duration: d(0.72),
-                        delay: showCover ? d(0.06 + idx * 0.05) : 0,
+                        delay: showCover ? d(0.05 + idx * 0.05) : 0,
                         ease: MOTION_EASE.editorial,
                       }}
                     >
@@ -304,14 +298,12 @@ export function HomeCover() {
               ))}
             </h1>
 
-            {/* Below "Portfólio": Stickman + 3D Rocker Switch on the left (Attachment 2 spot), Subtitle Pill on the right */}
+            {/* Below "Portfólio": Stickman + 3D Rocker Switch on the left, Subtitle Pill on the right */}
             <div className="mt-2 flex w-full flex-col-reverse items-center justify-between gap-6 sm:mt-3 sm:flex-row sm:items-start sm:px-2">
               <div className="sm:-mt-2 sm:ml-2">
                 <CoverSwitchStage
-                  isOn={mounted ? switchOn : true}
+                  isOn={showCover}
                   onToggle={handleSwitchToggle}
-                  onReplay={handleReplay}
-                  playKey={playKey}
                 />
               </div>
 
@@ -345,7 +337,7 @@ export function HomeCover() {
           </div>
         </m.div>
 
-        {/* Bottom cover metadata bar (center is reserved for the descending curly-loop red arrow-rope!) */}
+        {/* Bottom cover metadata bar */}
         <div className="relative z-[1] flex w-full flex-wrap items-end justify-between gap-4 border-t border-[var(--rule)] pt-4 text-xs tracking-[0.06em] text-[var(--muted)]">
           <span>
             {profile.location} — {profile.year}

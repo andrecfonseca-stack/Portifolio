@@ -19,6 +19,15 @@ export const ArtifactKindSchema = z.enum([
 
 export type ArtifactKind = z.infer<typeof ArtifactKindSchema>;
 
+export const PhoneScreenKindSchema = z.enum([
+  "cover",
+  "feed",
+  "detail",
+  "stats",
+]);
+
+export type PhoneScreenKind = z.infer<typeof PhoneScreenKindSchema>;
+
 export const ProjectStatSchema = z.object({
   value: z.number(),
   decimals: z.number().int().min(0).max(2).optional(),
@@ -41,9 +50,13 @@ export const ProjectSchema = z.object({
   challenge: z.string().min(10),
   marginNote: z.string().min(4),
   artifactKind: ArtifactKindSchema,
-  stats: z.array(ProjectStatSchema).min(1).max(3),
+  tag: z.string().min(2),
+  accent: z.string().min(4),
+  tone: z.enum(["paper", "night"]),
+  images: z.array(z.string()).min(3),
+  screens: z.array(PhoneScreenKindSchema).length(3),
+  stats: z.array(ProjectStatSchema).max(3),
   methods: z.array(z.string()).min(2),
-  // Deep case study fields prepared for Etapa 5 (/projetos/[slug])
   context: z.string().min(20),
   approach: z.string().min(20),
   impact: z.string().min(20),

@@ -1,28 +1,36 @@
 import { z } from "zod";
 import { ProjectSchema, type Project } from "./schemas";
 
+const U = "https://images.unsplash.com/photo-";
+
 const rawProjects: Project[] = [
   {
     slug: "triagem-ia-clinica",
     indexLabel: "01",
-    title: "Triagem+ IA",
-    tagline: "Priorização assistida e explicável para pronto-atendimento.",
-    kind: "Medicina · IA · Engenharia",
+    title: "Triagem+",
+    tagline: "Priorização clínica explicável, passo a passo.",
+    kind: "Medicina · IA · App clínico",
     year: "2026",
     role: "Liderança Clínica & Arquitetura",
     domains: ["Medicina", "Inteligência Artificial", "Engenharia"],
     featured: true,
     status: "Piloto clínico",
     summary:
-      "Sistema de apoio à triagem que combina sinais vitais, queixa estruturada e *calibração probabilística transparente*. Em vez de uma caixa-preta, a interface evidencia os [três fatores clínicos] que elevaram o risco e permite auditoria imediata pela equipe.",
+      "Sistema de apoio à triagem desenhado do zero para emergência. Em vez de uma caixa-preta, mapeamos [como a equipe avalia risco] à beira do leito e construímos o fluxo em torno de *decisões auditáveis em segundos*.",
     challenge:
-      "Reduzir atrasos em casos tempo-dependentes sem induzir fadiga de alertas na equipe de enfermagem.",
-    marginNote: "validado em 3 turnos reais de pronto-socorro",
+      "Reduzir atrasos em casos tempo-dependentes sem induzir fadiga de alertas na equipe.",
+    marginNote: "validado em 3 turnos reais de pronto-socorro!",
     artifactKind: "clinical-triage",
-    stats: [
-      { value: 28, suffix: "%", label: "menos tempo até avaliação em risco alto" },
-      { value: 0.91, decimals: 2, label: "AUROC calibrada em validação externa" },
+    tag: "piloto clínico",
+    accent: "#e2455f",
+    tone: "night",
+    images: [
+      `${U}1547153760-18fc86324498`,
+      `${U}1508700929628-666bc8bd84ea`,
+      `${U}1518834107812-67b0b7c58434`,
     ],
+    screens: ["feed", "cover", "detail"],
+    stats: [],
     methods: [
       "Calibração isotônica",
       "SHAP clínico interpretável",
@@ -30,106 +38,131 @@ const rawProjects: Project[] = [
       "Estudo observacional prospectivo",
     ],
     context:
-      "Serviços de emergência convivem com superlotação e variabilidade interobservador na classificação de risco de quadros silenciosos, como sepse precoce e descompensação cardiopulmonar.",
+      "Serviços de emergência convivem com superlotação e variabilidade interobservador na classificação de risco de quadros silenciosos.",
     approach:
-      "Desenhamos um modelo híbrido com escores fisiológicos e notas curtas de acolhimento, priorizando calibração de probabilidades e uma visualização clínica em menos de 4 segundos de leitura.",
+      "Desenhamos um modelo híbrido com escores fisiológicos e notas curtas de acolhimento, priorizando calibração de probabilidades e leitura em menos de 4 segundos.",
     impact:
-      "No piloto observacional em modo sombra, o sistema antecipou sinalizações críticas mantendo taxa controlada de falsos alertas e alta aceitação qualitativa da equipe.",
+      "No piloto observacional em modo sombra, o sistema antecipou sinalizações críticas mantendo taxa controlada de falsos alertas.",
     limitations:
-      "Ainda em validação multicêntrica; não substitui julgamento clínico e exige recalibração periódica por perfil epidemiológico local.",
+      "Ainda em validação multicêntrica; não substitui julgamento clínico e exige recalibração periódica.",
   },
   {
     slug: "coortelab-multimodal",
     indexLabel: "02",
-    title: "CoorteLab",
-    tagline: "Pipeline reprodutível para pesquisa clínica multimodal.",
-    kind: "Pesquisa · IA · Engenharia",
+    title: "Verde",
+    tagline: "Hábitos clínicos e acompanhamento longitudinal gentil.",
+    kind: "Pesquisa · Saúde digital",
     year: "2025",
-    role: "Pesquisador Principal & Engenheiro de Dados",
-    domains: ["Pesquisa", "Inteligência Artificial", "Engenharia"],
+    role: "Pesquisador Principal & Design de Produto",
+    domains: ["Pesquisa", "Medicina", "Inteligência Artificial"],
     featured: true,
     status: "Pesquisa ativa",
     summary:
-      "Infraestrutura aberta para integrar dados tabulares longitudinais, exames laboratoriais e *relatos clínicos anonimizados* com versionamento estrito. O objetivo foi transformar scripts isolados de laboratório em [experimentos auditáveis] do dado bruto ao manuscrito.",
+      "Aplicativo de acompanhamento longitudinal nascido de uma imersão em pesquisa clínica. Entrevistas mostraram que pacientes [sentem culpa ao falhar um dia], então o Verde nunca pune ausências — ele celebra *pequenas constâncias* e recalibra o plano.",
     challenge:
-      "Garantir reprodutibilidade integral e proteção de privacidade sem travar a velocidade exploratória dos pesquisadores.",
-    marginNote: "100% dos gráficos do artigo gerados direto do pipeline",
+      "Manter adesão terapêutica contínua sem uma única notificação punitiva.",
+    marginNote: "o melhor insight veio da entrevista #9",
     artifactKind: "ml-cohort",
+    tag: "pesquisa clínica",
+    accent: "#3f8f6b",
+    tone: "paper",
+    images: [
+      `${U}1544367567-0f2fcb009e0b`,
+      `${U}1505576399279-565b52d4ac71`,
+      `${U}1506126613408-eca07ce68773`,
+    ],
+    screens: ["stats", "cover", "feed"],
     stats: [
-      { value: 14200, label: "episódios longitudinais harmonizados" },
-      { value: 4, suffix: "×", label: "mais rápido replicar análises de sensibilidade" },
+      { value: 431, label: "pacientes avaliados" },
+      { value: 49.5, decimals: 1, suffix: "%", label: "abandonam apps comuns na 1ª semana" },
+      { value: 14, label: "entrevistas em profundidade" },
     ],
     methods: [
       "Versionamento determinístico",
       "Validação temporal",
-      "Análise de subgrupos e equidade",
+      "Análise de subgrupos",
       "Documentação computacional",
     ],
     context:
-      "Projetos acadêmicos em saúde frequentemente perdem rastreabilidade entre limpeza de prontuários, seleção de coorte e tabelas finais submetidas a periódicos.",
+      "Protocolos longitudinais frequentemente perdem adesão na primeira semana por excesso de atrito no registro diário.",
     approach:
-      "Construímos um fluxo modular com contratos tipados de variáveis clínicas, checagens automáticas de vazamento temporal e relatórios de calibração por faixa etária e sexo.",
+      "Construímos um fluxo modular com micro-registros adaptativos e relatórios visuais claros de progresso semanal.",
     impact:
-      "Permitiu que novos estudantes de iniciação científica e mestrado reproduzissem resultados completos em minutos, elevando o padrão metodológico do grupo.",
+      "Elevou a retenção de dados longitudinais na coorte piloto e reduziu relatos de ansiedade associada ao automonitoramento.",
     limitations:
-      "Projetado inicialmente para dados retrospectivos estruturados; suporte a imagens DICOM de grande porte está no roadmap.",
+      "Projetado inicialmente para acompanhamento ambulatorial; integração direta com wearables está no roadmap.",
   },
   {
     slug: "atlas-vivo-fisiopatologia",
     indexLabel: "03",
     title: "Atlas Vivo",
-    tagline: "Educação médica interativa baseada em modelos fisiológicos.",
-    kind: "Educação · Medicina · Engenharia",
+    tagline: "Sua biblioteca clínica, finalmente em ordem.",
+    kind: "Educação · Arquitetura da informação",
     year: "2025",
-    role: "Autor Pedagógico & Desenvolvedor Front-end",
+    role: "Autor Pedagógico & Arquiteto Front-end",
     domains: ["Educação", "Medicina", "Engenharia"],
     featured: true,
     status: "Em produção",
     summary:
-      "Ambiente web de aprendizagem ativa onde estudantes manipulam parâmetros hemodinâmicos e respiratórios e observam *consequências clínicas em tempo real*. Substituímos slides estáticos por micro-casos guiados com [feedback imediato] sobre o raciocínio.",
+      "Redesenho completo do ambiente de estudo médico que abro todos os dias. Estudantes adoravam os casos clínicos, mas [se perdiam na navegação]. Reconstruí a arquitetura da informação em torno *da estante de casos, não do feed*, dando espaço para leitura profunda.",
     challenge:
-      "Traduzir equações fisiológicas complexas em intuição clínica palpável para alunos do ciclo básico e internato.",
-    marginNote: "adotado em 6 turmas de graduação e residência",
+      "Tornar as ferramentas diagnósticas e referências encontráveis em dois toques ou menos.",
+    marginNote: "card sorting com 12 residentes e alunos",
     artifactKind: "edu-atlas",
-    stats: [
-      { value: 840, suffix: "+", label: "estudantes ativos nos módulos abertos" },
-      { value: 94, suffix: "%", label: "conclusão nos cenários de gasometria" },
+    tag: "educação médica",
+    accent: "#b4612a",
+    tone: "night",
+    images: [
+      `${U}1544947950-fa07a98d237f`,
+      `${U}1495446815901-a7297e633e8d`,
+      `${U}1532012197267-da84d127e765`,
     ],
+    screens: ["detail", "feed", "cover"],
+    stats: [],
     methods: [
       "Aprendizagem baseada em problemas",
-      "Simulação fisiológica determinística",
+      "Arquitetura da informação",
       "Acessibilidade WCAG 2.2 AA",
       "Instrumentação pedagógica",
     ],
     context:
-      "Conceitos como relação ventilação-perfusão, curva de Frank-Starling e distúrbios ácido-base costumam ser memorizados sem compreensão causal profunda.",
+      "Conceitos fisiopatológicos e revisões bibliográficas costumam ficar dispersos em dezenas de PDFs e anotações desconexas.",
     approach:
-      "Cada módulo une uma explicação editorial concisa, controles interativos acessíveis por teclado e perguntas diagnósticas que exploram erros conceituais frequentes.",
+      "Cada módulo une uma explicação editorial concisa, organização por sistemas orgânicos e síntese rápida de evidências.",
     impact:
-      "Aumentou o engajamento pré-aula em metodologia ativa e reduziu dúvidas recorrentes na interpretação de casos clínicos integrados.",
+      "Aumentou o engajamento pré-aula em metodologia ativa e reduziu o tempo de localização de diretrizes.",
     limitations:
-      "Modelos simplificados para fins didáticos; cada tela explicita os limites fisiológicos em que a aproximação é válida.",
+      "Modelos simplificados para fins didáticos; cada ficha explicita os limites fisiológicos aplicáveis.",
   },
   {
     slug: "pulsodoc-evidencias",
     indexLabel: "04",
     title: "PulsoDoc",
-    tagline: "Síntese estruturada de evidências clínicas com rastreabilidade.",
-    kind: "IA · Medicina · Pesquisa",
+    tagline: "Evidências verificadas, feitas para durar.",
+    kind: "IA · Síntese biomédica",
     year: "2024",
-    role: "Idealização, Design Editorial & Prototipagem",
+    role: "Idealização, Design Editorial & Engenharia",
     domains: ["Inteligência Artificial", "Medicina", "Pesquisa"],
     featured: true,
     status: "Aberto",
     summary:
-      "Ferramenta de leitura assistida que organiza diretrizes e ensaios clínicos em *quadros comparativos verificáveis*. Cada afirmação gerada mantém vínculo direto ao parágrafo original e [nível de evidência], combatendo alucinações em consultas rápidas.",
+      "Aplicação que apoia médicos e pesquisadores na leitura *crítica e rastreável* de ensaios clínicos. Profissionais queriam velocidade, mas não confiavam em resumos opacos — exibir [graus de evidência e notas metodológicas] fez toda a diferença.",
     challenge:
-      "Aproveitar modelos de linguagem em literatura biomédica sem abrir mão da verificação linha a linha das fontes.",
+      "Construir confiança imediata na síntese assistida por IA antes de qualquer conduta.",
     marginNote: "zero resumo sem citação verificável na margem",
     artifactKind: "evidence-doc",
+    tag: "síntese & IA",
+    accent: "#6d7138",
+    tone: "paper",
+    images: [
+      `${U}1490481651871-ab68de25d43d`,
+      `${U}1515886657613-9f3515b0c78f`,
+      `${U}1445205170230-053b83016050`,
+    ],
+    screens: ["cover", "detail", "feed"],
     stats: [
-      { value: 62, suffix: "%", label: "redução no tempo de síntese bibliográfica" },
-      { value: 100, suffix: "%", label: "das afirmações ancoradas em fonte primária" },
+      { value: 6, label: "rodadas de testes de usabilidade" },
+      { value: 32, suffix: "%", label: "mais rapidez na revisão crítica" },
     ],
     methods: [
       "Recuperação com citações granulares",
@@ -138,13 +171,55 @@ const rawProjects: Project[] = [
       "Avaliação por pares clínicos",
     ],
     context:
-      "Médicos e pesquisadores enfrentam volume crescente de publicações e frequentemente recorrem a resumos genéricos sem rastreabilidade metodológica.",
+      "Médicos enfrentam volume crescente de publicações e frequentemente recorrem a sínteses genéricas sem rastreabilidade.",
     approach:
-      "Projetamos um fluxo inspirado em revisões sistemáticas: extração estruturada de população, intervenção, desfecho e limitações, exibida lado a lado com o texto-fonte.",
+      "Projetamos um fluxo inspirado em revisões sistemáticas: extração estruturada exibida lado a lado com a fonte primária.",
     impact:
-      "Serviu de base para clubes de revista e protocolos internos de atualização terapêutica, fortalecendo leitura crítica assistida por IA.",
+      "Serviu de base para clubes de revista e protocolos internos de atualização terapêutica.",
     limitations:
-      "Depende da qualidade da indexação das fontes incluídas e exige curadoria humana para recomendações de conduta.",
+      "Depende da qualidade da indexação das fontes incluídas e exige curadoria humana.",
+  },
+  {
+    slug: "sinapse-referencias",
+    indexLabel: "05",
+    title: "Muse",
+    tagline: "Cada referência científica em um lugar calmo.",
+    kind: "Projeto autoral · iOS & Web",
+    year: "2024",
+    role: "Concepção & Desenvolvimento Full-stack",
+    domains: ["Pesquisa", "Educação", "Engenharia"],
+    featured: true,
+    status: "Aberto",
+    summary:
+      "Pesquisadores salvam referências em toda parte e não as encontram quando escrevem. O Muse torna simples *salvar, classificar e compartilhar* achados visuais e artigos, permitindo [redescobri-los por tema e hipótese] sem perder o fio da pesquisa.",
+    challenge:
+      "Transformar uma pasta caótica de capturas e preprints em um caderno visual apresentável.",
+    marginNote: "protótipo construído em um fim de semana",
+    artifactKind: "evidence-doc",
+    tag: "projeto autoral",
+    accent: "#6f5cf0",
+    tone: "night",
+    images: [
+      `${U}1541961017774-22349e4a1262`,
+      `${U}1579783902614-a3fb3927b6a5`,
+      `${U}1513364776144-60967b0f800f`,
+    ],
+    screens: ["feed", "detail", "stats"],
+    stats: [],
+    methods: [
+      "Indexação semântica e visual",
+      "Organização por coleções",
+      "Interface minimalista",
+      "Exportação para aulas e artigos",
+    ],
+    context:
+      "Durante a preparação de aulas e manuscritos, figuras, diagramas e recortes de literatura costumam se perder.",
+    approach:
+      "Criamos um fichário visual rápido com busca por cor, tag metodológica e vínculo direto à fonte original.",
+    impact:
+      "Acelerou a montagem de aulas visuais e painéis de discussão interdisciplinar.",
+    limitations:
+      "Focado em curadoria individual e pequenos grupos de pesquisa.",
   },
 ];
 

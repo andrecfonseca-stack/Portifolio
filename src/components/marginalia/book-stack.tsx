@@ -22,11 +22,13 @@ export function BookStack({
   books,
   note,
   activeAxisId = null,
+  onHoverAxis,
   onSelectAxis,
 }: {
   books: BookReference[];
   note: string;
   activeAxisId?: string | null;
+  onHoverAxis?: (axisId: string | null) => void;
   onSelectAxis?: (axisId: string | null) => void;
 }) {
   const { reduced: prefersReduced } = useSafeMotion();
@@ -60,7 +62,7 @@ export function BookStack({
     <div
       className="relative mx-auto w-full max-w-[265px] sm:max-w-[320px] lg:max-w-[356px]"
       onPointerLeave={(e) => {
-        if (e.pointerType === "mouse") onSelectAxis?.(null);
+        if (e.pointerType === "mouse") onHoverAxis?.(null);
       }}
     >
       {/* Dynamic header above coffee cup: default note or active book reference + 1-line synthesis */}
@@ -179,19 +181,13 @@ export function BookStack({
                 aria-pressed={isActive}
                 aria-label={`${book.title} (${book.originalRef}) — eixo ${book.axisId}: ${book.synthesis}`}
                 onPointerEnter={(e) => {
-                  if (e.pointerType === "mouse") onSelectAxis?.(book.axisId);
+                  if (e.pointerType === "mouse") onHoverAxis?.(book.axisId);
                 }}
-                onClick={() =>
-                  onSelectAxis?.(
-                    activeAxisId === book.axisId ? null : book.axisId,
-                  )
-                }
+                onClick={() => onSelectAxis?.(book.axisId)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    onSelectAxis?.(
-                      activeAxisId === book.axisId ? null : book.axisId,
-                    );
+                    onSelectAxis?.(book.axisId);
                   }
                 }}
                 className={cn(
@@ -277,10 +273,6 @@ export function BookStack({
                 >
                   {book.axisId}
                 </text>
-
-                <title>
-                  {book.title} ({book.originalRef}) — {book.synthesis}
-                </title>
               </g>
             </g>
           );

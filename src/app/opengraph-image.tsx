@@ -2,6 +2,8 @@ import { ImageResponse } from "next/og";
 import { siteConfig } from "@/config/site";
 import { profile } from "@/content/profile";
 
+export const dynamic = "force-static";
+
 export const size = {
   width: 1200,
   height: 630,

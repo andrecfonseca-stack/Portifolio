@@ -32,3 +32,6 @@ next-env.d.ts
 
 # local agent skills cache
 /.agents/
+
+# self-contained offline build artifact
+/portfolio-offline.html

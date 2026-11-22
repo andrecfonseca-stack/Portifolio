@@ -13,8 +13,19 @@ import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { cn } from "@/lib/cn";
 
 export function HomePractice() {
-  const [eixoAtivo, setEixoAtivo] = React.useState<string | null>(null);
+  const [pinnedAxis, setPinnedAxis] = React.useState<string | null>(null);
+  const [hoveredAxis, setHoveredAxis] = React.useState<string | null>(null);
+  const eixoAtivo = hoveredAxis ?? pinnedAxis;
   const { reduced: prefersReduced } = useSafeMotion();
+
+  const togglePinAxis = React.useCallback((id: string | null) => {
+    if (id === null) {
+      setPinnedAxis(null);
+      setHoveredAxis(null);
+      return;
+    }
+    setPinnedAxis((cur) => (cur === id ? null : id));
+  }, []);
 
   const activeTile = React.useMemo(
     () =>
@@ -46,7 +57,7 @@ export function HomePractice() {
             <div
               className="relative mt-8 inline-flex max-w-full flex-nowrap items-center gap-2 px-3 py-3 sm:mt-9 sm:gap-4 sm:px-5 sm:py-4"
               onPointerLeave={(e) => {
-                if (e.pointerType === "mouse") setEixoAtivo(null);
+                if (e.pointerType === "mouse") setHoveredAxis(null);
               }}
             >
               {profile.pillarTiles.map((tile) => {
@@ -58,11 +69,9 @@ export function HomePractice() {
                     aria-pressed={isSelected}
                     aria-label={`${tile.name}: ${tile.note}`}
                     onPointerEnter={(e) => {
-                      if (e.pointerType === "mouse") setEixoAtivo(tile.id);
+                      if (e.pointerType === "mouse") setHoveredAxis(tile.id);
                     }}
-                    onClick={() =>
-                      setEixoAtivo((cur) => (cur === tile.id ? null : tile.id))
-                    }
+                    onClick={() => togglePinAxis(tile.id)}
                     style={{ backgroundColor: tile.bg, color: tile.fg }}
                     className={cn(
                       "relative grid h-11 w-11 shrink-0 place-items-center rounded-[24%] text-base font-bold tracking-tight shadow-[0_12px_24px_-14px_rgba(0,0,0,0.7)] transition-transform duration-300 sm:h-14 sm:w-14 sm:text-lg lg:h-16 lg:w-16 lg:text-xl",
@@ -104,7 +113,8 @@ export function HomePractice() {
             books={profile.books}
             note={profile.booksNote}
             activeAxisId={eixoAtivo}
-            onSelectAxis={setEixoAtivo}
+            onHoverAxis={setHoveredAxis}
+            onSelectAxis={togglePinAxis}
           />
         </div>
 

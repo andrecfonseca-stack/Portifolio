@@ -8,6 +8,6 @@ export const siteConfig = {
   locale: "pt_BR",
   year: "2026",
   location: "Recife, Brasil",
-  email: "contato@andrecavalcanti.dev",
+  email: "andre.cfonseca@ufpe.br",
   docLabel: "Índice Interdisciplinar",
 } as const;

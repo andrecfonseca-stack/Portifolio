@@ -144,7 +144,7 @@ const rawProfile: Profile = {
     },
   ],
   closingLetter:
-    "Obrigado por ler com atenção até esta folha — em tempos de pressa, leitura cuidadosa já diz muito.\n\nEstou sempre aberto a conversas substanciais sobre pesquisa aplicada em IA clínica, arquitetura de produtos em saúde, docência e colaborações interdisciplinares.\n\nSe houver um problema difícil que mereça rigor científico e desenho cuidadoso, escreva.",
+    "Obrigado por percorrer este índice até aqui. Em tempos de excesso de ruído e pressa, a atenção dedicada a cada detalhe já diz muito.\n\nEstou sempre disponível para boas conversas sobre pesquisa em IA e epidemiologia, produtos digitais para o cuidado em saúde, ensino e projetos na fronteira entre áreas.\n\nSe você tem um problema difícil que peça método, rigor científico e desenho cuidadoso, me escreva.",
   signature: "André Cavalcanti",
 };
 

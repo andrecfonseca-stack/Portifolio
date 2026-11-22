@@ -26,7 +26,7 @@ export function ScannableQRCode({
       aria-label={label}
       className="block h-auto w-full"
     >
-      <path d={d} fill="#1B2326" />
+      <path d={d} fill="#141416" />
     </svg>
   );
 }

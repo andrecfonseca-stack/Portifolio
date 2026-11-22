@@ -144,9 +144,9 @@ export function CoverSwitchStage({
         xPress: rect.width - 36,
         y: rect.height - 6,
         scale: 0.68,
-        ink: "#1F1E1C",
-        far: "#746E65",
-        pen: "#A93F21",
+        ink: "#242426",
+        far: "#737373",
+        pen: "#7d84ef",
       });
 
       ctx.restore();

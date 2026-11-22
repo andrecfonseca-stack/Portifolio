@@ -99,8 +99,8 @@ export function TopChrome() {
         className={cn(
           "fixed top-0 right-0 left-0 z-50 transition-colors duration-300 backdrop-blur-md",
           isNight
-            ? "bg-[color:rgba(27,35,38,0.86)] text-[var(--ink-night)] border-b border-[var(--rule-night)]"
-            : "bg-[color:rgba(242,237,228,0.86)] text-[var(--ink-paper)] border-b border-[var(--rule-paper)]",
+            ? "bg-[color:rgba(43,43,46,0.86)] text-[var(--ink-night)] border-b border-[var(--rule-night)]"
+            : "bg-[color:rgba(236,235,231,0.86)] text-[var(--ink-paper)] border-b border-[var(--rule-paper)]",
         )}
       >
         <div className="mx-auto grid max-w-[1440px] grid-cols-[auto_1fr_auto] items-center gap-3 px-5 py-3 text-xs tracking-[0.06em] sm:grid-cols-[1fr_auto_1fr] sm:px-10 lg:px-16">

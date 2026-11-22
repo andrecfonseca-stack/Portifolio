@@ -7,24 +7,24 @@
 }
 
 :root {
-  --tone-paper: #f2ede4;
-  --tone-paper-elevated: #faf8f3;
-  --tone-night: #1b2326;
-  --tone-night-elevated: #232d31;
+  --tone-paper: #ecebe7;
+  --tone-paper-elevated: #f5f4f0;
+  --tone-night: #2b2b2e;
+  --tone-night-elevated: #343438;
 
-  --ink-paper: #1f1e1c;
-  --muted-paper: #57534c;
-  --pen-paper: #a93f21;
-  --clinical-paper: #165950;
-  --rule-paper: #d7cfc2;
-  --control-border-paper: #857d71;
+  --ink-paper: #242426;
+  --muted-paper: color-mix(in oklab, #242426 60%, #ecebe7);
+  --pen-paper: #7d84ef;
+  --clinical-paper: #7d84ef;
+  --rule-paper: color-mix(in oklab, #242426 16%, #ecebe7);
+  --control-border-paper: color-mix(in oklab, #242426 32%, #ecebe7);
 
-  --ink-night: #efece6;
-  --muted-night: #aab4b8;
-  --pen-night: #f08a65;
-  --clinical-night: #6ecbb8;
-  --rule-night: #303d42;
-  --control-border-night: #6c7d83;
+  --ink-night: #ecebe7;
+  --muted-night: color-mix(in oklab, #ecebe7 62%, #2b2b2e);
+  --pen-night: #7d84ef;
+  --clinical-night: #7d84ef;
+  --rule-night: color-mix(in oklab, #ecebe7 16%, #2b2b2e);
+  --control-border-night: color-mix(in oklab, #ecebe7 32%, #2b2b2e);
 
   /* Default surface tokens (paper) */
   --surface: var(--tone-paper);

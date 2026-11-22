@@ -254,16 +254,16 @@ export function ScrollClimber() {
 
       const palette = isNight
         ? {
-            ink: "#EFECE6",
-            far: "#8D9CA1",
-            pen: "#F08A65",
-            ropeCol: "rgba(239, 236, 230, 0.22)",
+            ink: "#ecebe7",
+            far: "#9a9a9a",
+            pen: "#7d84ef",
+            ropeCol: "rgba(236, 235, 231, 0.22)",
           }
         : {
-            ink: "#1F1E1C",
-            far: "#746E65",
-            pen: "#A93F21",
-            ropeCol: "rgba(31, 30, 28, 0.20)",
+            ink: "#242426",
+            far: "#737373",
+            pen: "#7d84ef",
+            ropeCol: "rgba(36, 36, 38, 0.20)",
           };
 
       const atBottom = api.clamp((state.curProg - 0.94) / 0.055, 0, 1);

@@ -19,8 +19,8 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#F2EDE4",
-          color: "#1F1E1C",
+          backgroundColor: "#ecebe7",
+          color: "#242426",
           padding: "64px 72px",
           fontFamily: "Georgia, serif",
         }}
@@ -32,7 +32,7 @@ export default function OpenGraphImage() {
             fontSize: 22,
             letterSpacing: "0.08em",
             textTransform: "uppercase",
-            color: "#57534C",
+            color: "#6d6d6b",
             fontFamily: "sans-serif",
           }}
         >
@@ -47,7 +47,7 @@ export default function OpenGraphImage() {
           <div
             style={{
               fontSize: 34,
-              color: "#A93F21",
+              color: "#7d84ef",
               fontFamily: "sans-serif",
               fontWeight: 600,
             }}
@@ -60,15 +60,15 @@ export default function OpenGraphImage() {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            borderTop: "2px solid #D7CFC2",
+            borderTop: "2px solid #cac9c6",
             paddingTop: 22,
             fontSize: 22,
-            color: "#57534C",
+            color: "#6d6d6b",
             fontFamily: "sans-serif",
           }}
         >
           <span>{profile.location}</span>
-          <span style={{ color: "#165950", fontWeight: 600 }}>
+          <span style={{ color: "#7d84ef", fontWeight: 600 }}>
             Ciência · Clínica · Engenharia
           </span>
         </div>

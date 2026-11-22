@@ -72,7 +72,7 @@ export function HomeCover() {
     ro.observe(host);
 
     const penColor =
-      getComputedStyle(host).getPropertyValue("--pen-paper").trim() || "#A93F21";
+      getComputedStyle(host).getPropertyValue("--pen-paper").trim() || "#7d84ef";
     const LIFE = 850;
     const pts: Array<{ x: number; y: number; t: number; gap: boolean }> = [];
     let raf = 0;

@@ -5,23 +5,23 @@ const U = "https://images.unsplash.com/photo-";
 
 const rawProjects: Project[] = [
   {
-    slug: "triagem-ia-clinica",
+    slug: "conecta-saude",
     indexLabel: "01",
-    title: "Triagem+",
-    tagline: "Priorização clínica explicável, passo a passo.",
-    kind: "Medicina · IA · App clínico",
+    title: "Conecta+Saúde",
+    tagline: "Triagem e georreferenciamento na UBS",
+    kind: "Atenção Primária & SUS · IA",
     year: "2026",
-    role: "Liderança Clínica & Arquitetura",
+    role: "Arquitetura de IA & Georreferenciamento",
     domains: ["Medicina", "Inteligência Artificial", "Engenharia"],
     featured: true,
-    status: "Piloto clínico",
+    status: "Programa Centelha • Pernambuco",
     summary:
-      "Sistema de apoio à triagem desenhado do zero para emergência. Em vez de uma caixa-preta, mapeamos [como a equipe avalia risco] à beira do leito e construímos o fluxo em torno de *decisões auditáveis em segundos*.",
+      "Plataforma de suporte à decisão para Unidades Básicas de Saúde (UBS) validada no Programa Centelha. Integra *modelos preditivos de Machine Learning* para classificação de risco, [georreferenciamento territorial] e interface conversacional para apoiar a triagem e a alocação de recursos no SUS.",
     challenge:
-      "Reduzir atrasos em casos tempo-dependentes sem induzir fadiga de alertas na equipe.",
-    marginNote: "validado em 3 turnos reais de pronto-socorro!",
+      "Superar gargalos na priorização de atendimentos e na alocação territorial de recursos na Atenção Primária à Saúde.",
+    marginNote: "validado no Programa Centelha PE!",
     artifactKind: "clinical-triage",
-    tag: "piloto clínico",
+    tag: "atenção primária & sus",
     accent: "#e2455f",
     tone: "night",
     images: [
@@ -32,38 +32,48 @@ const rawProjects: Project[] = [
     screens: ["feed", "cover", "detail"],
     stats: [],
     methods: [
-      "Calibração isotônica",
-      "SHAP clínico interpretável",
-      "Next.js + FHIR",
-      "Estudo observacional prospectivo",
+      "Python",
+      "Machine Learning",
+      "Georreferenciamento",
+      "NLP / Chatbot",
     ],
+    star: {
+      situacao:
+        "Unidades Básicas de Saúde (UBS) enfrentam alta demanda assistencial e gargalos na priorização de atendimentos e na alocação territorial de recursos públicos, muitas vezes sem ferramentas integradas de inteligência geográfica e triagem.",
+      tarefa:
+        "Arquitetar uma plataforma de suporte à decisão para a Atenção Primária à Saúde no âmbito do Programa Centelha de Inovação em Pernambuco.",
+      acao:
+        "Desenvolvi uma solução integrando modelos preditivos de Machine Learning para classificação de risco, georreferenciamento territorial e uma interface conversacional (chatbot) para auxiliar a triagem e o planejamento das equipes de saúde.",
+      resultado:
+        "Entrega de plataforma funcional validada no Programa Centelha, demonstrando como a convergência entre inteligência artificial e análise espacial pode otimizar fluxos de triagem e a distribuição de recursos no SUS.",
+    },
     context:
-      "Serviços de emergência convivem com superlotação e variabilidade interobservador na classificação de risco de quadros silenciosos.",
+      "Unidades Básicas de Saúde (UBS) enfrentam alta demanda assistencial e gargalos na priorização de atendimentos e na alocação territorial de recursos públicos.",
     approach:
-      "Desenhamos um modelo híbrido com escores fisiológicos e notas curtas de acolhimento, priorizando calibração de probabilidades e leitura em menos de 4 segundos.",
+      "Solução integrando modelos preditivos de Machine Learning para classificação de risco, georreferenciamento territorial e interface conversacional (chatbot).",
     impact:
-      "No piloto observacional em modo sombra, o sistema antecipou sinalizações críticas mantendo taxa controlada de falsos alertas.",
+      "Plataforma funcional validada no Programa Centelha em Pernambuco para otimizar fluxos de triagem e distribuição de recursos no SUS.",
     limitations:
-      "Ainda em validação multicêntrica; não substitui julgamento clínico e exige recalibração periódica.",
+      "Implantação em escala municipal requer integração contínua com bases do e-SUS APS.",
   },
   {
-    slug: "coortelab-multimodal",
+    slug: "atlas-iam",
     indexLabel: "02",
-    title: "Verde",
-    tagline: "Hábitos clínicos e acompanhamento longitudinal gentil.",
-    kind: "Pesquisa · Saúde digital",
-    year: "2025",
-    role: "Pesquisador Principal & Design de Produto",
+    title: "Atlas IAM Brasil",
+    tagline: "ML interpretável e econometria nas 27 capitais",
+    kind: "Pesquisa · Epidemiologia & ML",
+    year: "2026",
+    role: "Pesquisador Principal & Modelagem",
     domains: ["Pesquisa", "Medicina", "Inteligência Artificial"],
     featured: true,
-    status: "Pesquisa ativa",
+    status: "WCC 2026 • Submetido ABC Cardiol",
     summary:
-      "Aplicativo de acompanhamento longitudinal nascido de uma imersão em pesquisa clínica. Entrevistas mostraram que pacientes [sentem culpa ao falhar um dia], então o Verde nunca pune ausências — ele celebra *pequenas constâncias* e recalibra o plano.",
+      "Investigação dos determinantes ecológicos das internações por Infarto Agudo do Miocárdio nas 27 capitais brasileiras (2013–2021). Triangulamos *XGBoost, SHAP/ALE e econometria de painel* (DATASUS, Vigitel e IBGE), comprovando que [indicadores socioeducacionais] superam fatores clínicos tradicionais na explicação das disparidades.",
     challenge:
-      "Manter adesão terapêutica contínua sem uma única notificação punitiva.",
-    marginNote: "o melhor insight veio da entrevista #9",
+      "Avaliar o peso dos determinantes sociais versus fatores clínicos e testar a transportabilidade regional e temporal de modelos de ML no Brasil.",
+    marginNote: "2 resumos aceitos no World Congress of Cardiology 2026",
     artifactKind: "ml-cohort",
-    tag: "pesquisa clínica",
+    tag: "pesquisa & painel",
     accent: "#3f8f6b",
     tone: "paper",
     images: [
@@ -73,43 +83,54 @@ const rawProjects: Project[] = [
     ],
     screens: ["stats", "cover", "feed"],
     stats: [
-      { value: 431, label: "pacientes avaliados" },
-      { value: 49.5, decimals: 1, suffix: "%", label: "abandonam apps comuns na 1ª semana" },
-      { value: 14, label: "entrevistas em profundidade" },
+      { value: 27, label: "capitais brasileiras (2013–2021)" },
+      { value: 243, label: "observações capital-ano harmonizadas" },
+      { value: 0.869, decimals: 3, label: "ROC-AUC na explicação de disparidades" },
     ],
     methods: [
-      "Versionamento determinístico",
-      "Validação temporal",
-      "Análise de subgrupos",
-      "Documentação computacional",
+      "XGBoost",
+      "SHAP / ALE",
+      "Econometria de Painel",
+      "Statsmodels",
+      "DATASUS",
     ],
+    star: {
+      situacao:
+        "As taxas de hospitalização por Infarto Agudo do Miocárdio (IAM) variam drasticamente entre as capitais brasileiras, com lacunas sobre o peso dos determinantes sociais versus fatores clínicos tradicionais e sobre a confiabilidade regional de modelos nacionais.",
+      tarefa:
+        "Investigar os determinantes ecológicos das internações por IAM nas 27 capitais brasileiras (2013–2021) e avaliar a transportabilidade geográfica e temporal de algoritmos de aprendizado de máquina.",
+      acao:
+        "Integrei bases do DATASUS/SIH, Vigitel e IBGE (243 observações capital-ano) para treinar modelos em XGBoost e Random Forest com validação temporal (rolling-origin e expanding-window) e espacial (Leave-One-Region-Out), triangulando SHAP/ALE com regressão Binomial Negativa, GEE, MICE, FDR e E-values.",
+      resultado:
+        "Comprovação de que indicadores socioeducacionais superam fatores clínicos na explicação das disparidades (ROC-AUC 0,869) e que modelos nacionais falham em recortes regionais e no pós-pandemia (2021). Gerou dois resumos publicados no World Congress of Cardiology 2026 e artigo submetido aos Arquivos Brasileiros de Cardiologia.",
+    },
     context:
-      "Protocolos longitudinais frequentemente perdem adesão na primeira semana por excesso de atrito no registro diário.",
+      "As taxas de hospitalização por IAM variam drasticamente entre as capitais brasileiras, com lacunas sobre o peso dos determinantes sociais versus fatores clínicos.",
     approach:
-      "Construímos um fluxo modular com micro-registros adaptativos e relatórios visuais claros de progresso semanal.",
+      "Integração DATASUS/SIH, Vigitel e IBGE com validação temporal e espacial (Leave-One-Region-Out) e triangulação com econometria de painel.",
     impact:
-      "Elevou a retenção de dados longitudinais na coorte piloto e reduziu relatos de ansiedade associada ao automonitoramento.",
+      "Dois resumos publicados no World Congress of Cardiology 2026 e artigo submetido aos Arquivos Brasileiros de Cardiologia.",
     limitations:
-      "Projetado inicialmente para acompanhamento ambulatorial; integração direta com wearables está no roadmap.",
+      "Delineamento ecológico agregado por capital; inferências operam em nível populacional e territorial.",
   },
   {
-    slug: "atlas-vivo-fisiopatologia",
+    slug: "dengue-recife",
     indexLabel: "03",
-    title: "Atlas Vivo",
-    tagline: "Sua biblioteca clínica, finalmente em ordem.",
-    kind: "Educação · Arquitetura da informação",
-    year: "2025",
-    role: "Autor Pedagógico & Arquiteto Front-end",
-    domains: ["Educação", "Medicina", "Engenharia"],
+    title: "Dengue Recife",
+    tagline: "Incidência por distrito e semana epidemiológica",
+    kind: "Vigilância Territorial · Saúde Digital",
+    year: "2026",
+    role: "Engenharia de Dados & Saúde Digital (CCM/UFPE)",
+    domains: ["Pesquisa", "Medicina", "Engenharia"],
     featured: true,
-    status: "Em produção",
+    status: "Em desenvolvimento • CCM/UFPE",
     summary:
-      "Redesenho completo do ambiente de estudo médico que abro todos os dias. Estudantes adoravam os casos clínicos, mas [se perdiam na navegação]. Reconstruí a arquitetura da informação em torno *da estante de casos, não do feed*, dando espaço para leitura profunda.",
+      "Painel analítico retrospectivo desenvolvido em Saúde Digital (CCM/UFPE) integrando Dados Abertos do Recife e IBGE por semana epidemiológica e distrito sanitário. Compara *linhas de base sazonais e Machine Learning* em horizonte de quatro semanas com [faixas de incerteza e governança LGPD] direto na interface.",
     challenge:
-      "Tornar as ferramentas diagnósticas e referências encontráveis em dois toques ou menos.",
-    marginNote: "card sorting com 12 residentes e alunos",
+      "Consolidar notificações e dados territoriais por distrito sanitário lidando com atrasos de registro e proteção estrita contra reidentificação.",
+    marginNote: "auditoria de completude territorial na tela principal",
     artifactKind: "edu-atlas",
-    tag: "educação médica",
+    tag: "vigilância territorial",
     accent: "#b4612a",
     tone: "night",
     images: [
@@ -120,38 +141,49 @@ const rawProjects: Project[] = [
     screens: ["detail", "feed", "cover"],
     stats: [],
     methods: [
-      "Aprendizagem baseada em problemas",
-      "Arquitetura da informação",
-      "Acessibilidade WCAG 2.2 AA",
-      "Instrumentação pedagógica",
+      "Python",
+      "Séries Temporais",
+      "Dados Abertos Recife",
+      "LGPD",
+      "Saúde Digital",
     ],
+    star: {
+      situacao:
+        "Equipes de vigilância epidemiológica municipal precisam consolidar notificações, calendário epidemiológico e dados territoriais para acompanhar a evolução da dengue por distrito sanitário no Recife, lidando com atrasos de registro e risco de interpretações individuais.",
+      tarefa:
+        "Projetar e desenvolver um painel analítico retrospectivo na disciplina de Saúde Digital (CCM/UFPE) para organizar dados agregados e explorar estimativas de incidência acumulada em horizonte de quatro semanas por distrito sanitário.",
+      acao:
+        "Estruturei o pipeline de harmonização de dados públicos do Portal de Dados Abertos do Recife e do IBGE por semana epidemiológica e distrito, calculando incidências por 100 mil habitantes e definindo protocolos de comparação entre linhas de base sazonais e Machine Learning sob rigorosa governança (LGPD).",
+      resultado:
+        "Protótipo analítico estruturado com foco em transparência — exibindo faixas de incerteza, completude territorial e auditoria de qualidade da base diretamente na interface principal, sem exposição de identificadores individuais.",
+    },
     context:
-      "Conceitos fisiopatológicos e revisões bibliográficas costumam ficar dispersos em dezenas de PDFs e anotações desconexas.",
+      "Equipes de vigilância epidemiológica municipal precisam consolidar notificações e dados territoriais por distrito sanitário no Recife.",
     approach:
-      "Cada módulo une uma explicação editorial concisa, organização por sistemas orgânicos e síntese rápida de evidências.",
+      "Harmonização do Portal de Dados Abertos do Recife e IBGE por semana epidemiológica com taxas por 100 mil habitantes e governança LGPD.",
     impact:
-      "Aumentou o engajamento pré-aula em metodologia ativa e reduziu o tempo de localização de diretrizes.",
+      "Protótipo analítico transparente exibindo faixas de incerteza e completude territorial sem exposição individual.",
     limitations:
-      "Modelos simplificados para fins didáticos; cada ficha explicita os limites fisiológicos aplicáveis.",
+      "Sujeito ao atraso de digitação das semanas epidemiológicas mais recentes (nowcasting em evolução).",
   },
   {
-    slug: "pulsodoc-evidencias",
+    slug: "heart-seg",
     indexLabel: "04",
-    title: "PulsoDoc",
-    tagline: "Evidências verificadas, feitas para durar.",
-    kind: "IA · Síntese biomédica",
-    year: "2024",
-    role: "Idealização, Design Editorial & Engenharia",
+    title: "Heart-Seg",
+    tagline: "Segmentação cardíaca com MONAI e Conformal",
+    kind: "Visão Computacional · CIn-UFPE",
+    year: "2025",
+    role: "Pesquisador em Visão Computacional Médica",
     domains: ["Inteligência Artificial", "Medicina", "Pesquisa"],
     featured: true,
-    status: "Aberto",
+    status: "Pesquisa • CIn-UFPE",
     summary:
-      "Aplicação que apoia médicos e pesquisadores na leitura *crítica e rastreável* de ensaios clínicos. Profissionais queriam velocidade, mas não confiavam em resumos opacos — exibir [graus de evidência e notas metodológicas] fez toda a diferença.",
+      "Pipelines automatizados em PyTorch e MONAI para segmentação de tomografias cardíacas e quantificação do tecido adiposo epicárdico no CIn-UFPE. Integramos *Conformal Prediction* para calibrar e mensurar formalmente [o grau de incerteza das máscaras] antes do uso clínico.",
     challenge:
-      "Construir confiança imediata na síntese assistida por IA antes de qualquer conduta.",
-    marginNote: "zero resumo sem citação verificável na margem",
+      "Substituir a quantificação manual demorada e variável por segmentação automatizada com garantias estatísticas formais de confiança.",
+    marginNote: "extração 3D reprodutível com incerteza calibrada",
     artifactKind: "evidence-doc",
-    tag: "síntese & IA",
+    tag: "visão computacional",
     accent: "#6d7138",
     tone: "paper",
     images: [
@@ -161,42 +193,53 @@ const rawProjects: Project[] = [
     ],
     screens: ["cover", "detail", "feed"],
     stats: [
-      { value: 6, label: "rodadas de testes de usabilidade" },
-      { value: 32, suffix: "%", label: "mais rapidez na revisão crítica" },
+      { value: 3, suffix: "D", label: "segmentação volumétrica com MONAI & 3D Slicer" },
+      { value: 95, suffix: "%", label: "cobertura estatística alvo via Conformal Prediction" },
     ],
     methods: [
-      "Recuperação com citações granulares",
-      "Classificação GRADE",
-      "Interface editorial de leitura",
-      "Avaliação por pares clínicos",
+      "PyTorch",
+      "MONAI",
+      "Conformal Prediction",
+      "3D Slicer",
+      "Computer Vision",
     ],
+    star: {
+      situacao:
+        "A quantificação manual do tecido adiposo epicárdico em exames de tomografia computadorizada é demorada, sujeita à variabilidade entre avaliadores e carece de estimativas formais de confiança para apoio seguro à decisão clínica.",
+      tarefa:
+        "Desenvolver e estruturar pipelines automatizados de segmentação de imagens cardíacas com quantificação de incerteza estatística no Laboratório de Pós-Graduação em IA do CIn-UFPE.",
+      acao:
+        "Construí fluxos de treinamento e inferência em PyTorch e MONAI para segmentação automatizada em tomografias cardíacas, integrando técnicas de Conformal Prediction para calibrar e mensurar o grau de incerteza das predições.",
+      resultado:
+        "Pipeline reprodutível capaz de automatizar a extração anatômica e entregar garantias estatísticas de confiabilidade das máscaras geradas, elevando a segurança do uso de visão computacional em cardiologia.",
+    },
     context:
-      "Médicos enfrentam volume crescente de publicações e frequentemente recorrem a sínteses genéricas sem rastreabilidade.",
+      "A quantificação manual do tecido adiposo epicárdico em tomografia computadorizada é demorada e sujeita à variabilidade interobservador.",
     approach:
-      "Projetamos um fluxo inspirado em revisões sistemáticas: extração estruturada exibida lado a lado com a fonte primária.",
+      "Treinamento e inferência em PyTorch e MONAI combinados a Conformal Prediction no CIn-UFPE.",
     impact:
-      "Serviu de base para clubes de revista e protocolos internos de atualização terapêutica.",
+      "Automação reprodutível da extração anatômica com garantias estatísticas formais de confiabilidade.",
     limitations:
-      "Depende da qualidade da indexação das fontes incluídas e exige curadoria humana.",
+      "Requer validação prospectiva multicêntrica em diferentes protocolos de aquisição tomográfica.",
   },
   {
-    slug: "sinapse-referencias",
+    slug: "iatria",
     indexLabel: "05",
-    title: "Muse",
-    tagline: "Cada referência científica em um lugar calmo.",
-    kind: "Projeto autoral · iOS & Web",
-    year: "2024",
-    role: "Concepção & Desenvolvimento Full-stack",
-    domains: ["Pesquisa", "Educação", "Engenharia"],
+    title: "IATRIA",
+    tagline: "Letramento crítico em IA aplicada à medicina",
+    kind: "Educação Médica & IA · Formação",
+    year: "2025",
+    role: "Co-fundador & Instrutor",
+    domains: ["Educação", "Medicina", "Inteligência Artificial"],
     featured: true,
-    status: "Aberto",
+    status: "Co-fundador & Instrutor",
     summary:
-      "Pesquisadores salvam referências em toda parte e não as encontram quando escrevem. O Muse torna simples *salvar, classificar e compartilhar* achados visuais e artigos, permitindo [redescobri-los por tema e hipótese] sem perder o fio da pesquisa.",
+      "Curso prático co-fundado para capacitar médicos no uso *crítico, ético e seguro* da Inteligência Artificial na clínica e na pesquisa. A trilha parte de problemas reais do consultório e do hospital para ensinar [governança clínica e avaliação de vieses] com autonomia.",
     challenge:
-      "Transformar uma pasta caótica de capturas e preprints em um caderno visual apresentável.",
-    marginNote: "protótipo construído em um fim de semana",
+      "Formar médicos capazes de utilizar ferramentas de IA com rigor metodológico e segurança clínica, combatendo o uso acrítico.",
+    marginNote: "múltiplas turmas de médicos formados na prática",
     artifactKind: "evidence-doc",
-    tag: "projeto autoral",
+    tag: "educação médica & ia",
     accent: "#6f5cf0",
     tone: "night",
     images: [
@@ -207,19 +250,29 @@ const rawProjects: Project[] = [
     screens: ["feed", "detail", "stats"],
     stats: [],
     methods: [
-      "Indexação semântica e visual",
-      "Organização por coleções",
-      "Interface minimalista",
-      "Exportação para aulas e artigos",
+      "Educação Médica",
+      "Governança Clínica",
+      "Prompt Engineering",
+      "PBL",
     ],
+    star: {
+      situacao:
+        "Médicos na prática clínica e acadêmica enfrentam uma rápida inserção de ferramentas de Inteligência Artificial, mas sem capacitação estruturada sobre governança clínica, limitações de modelos, vieses algorítmicos e engenharia de prompts segura.",
+      tarefa:
+        "Co-fundar e ministrar, em sociedade, um curso prático voltado especificamente para médicos, focado no letramento crítico e na aplicação segura da Inteligência Artificial na medicina.",
+      acao:
+        "Estruturei e conduzi uma trilha formativa prática e baseada em problemas reais do consultório, do hospital e da pesquisa clínica, ensinando médicos a avaliar criticamente ferramentas de IA, desenhar fluxos de trabalho seguros e integrar evidências científicas com novas tecnologias.",
+      resultado:
+        "Formação de múltiplas turmas de médicos capacitados para utilizar a Inteligência Artificial com rigor ético, técnico e autonomia clínica, reduzindo riscos de uso acrítico e aumentando a eficiência na prática médica.",
+    },
     context:
-      "Durante a preparação de aulas e manuscritos, figuras, diagramas e recortes de literatura costumam se perder.",
+      "Médicos enfrentam rápida inserção de ferramentas de IA sem capacitação estruturada sobre governança clínica, vieses e limitações.",
     approach:
-      "Criamos um fichário visual rápido com busca por cor, tag metodológica e vínculo direto à fonte original.",
+      "Trilha formativa baseada em problemas reais do consultório, hospital e pesquisa clínica.",
     impact:
-      "Acelerou a montagem de aulas visuais e painéis de discussão interdisciplinar.",
+      "Formação de múltiplas turmas de médicos capacitados com autonomia técnica e rigor ético.",
     limitations:
-      "Focado em curadoria individual e pequenos grupos de pesquisa.",
+      "Currículo atualizado continuamente conforme evolução regulatória e de modelos fundacionais.",
   },
 ];
 

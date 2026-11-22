@@ -111,7 +111,7 @@ const rawProfile: Profile = {
     "Governança de Dados & LGPD em Saúde",
     "Letramento em IA & Design Instrucional",
   ],
-  projectsNote: "quatro recortes entre ciência, sala de aula e produto",
+  projectsNote: "cinco recortes entre clínica, pesquisa, sala de aula e produto",
   thanksHeading: "Obrigado.",
   email: siteConfig.email,
   cvUrl: "https://orcid.org/0000-0000-0000-0000",

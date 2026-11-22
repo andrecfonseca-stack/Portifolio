@@ -30,10 +30,19 @@ export type PhoneScreenKind = z.infer<typeof PhoneScreenKindSchema>;
 
 export const ProjectStatSchema = z.object({
   value: z.number(),
-  decimals: z.number().int().min(0).max(2).optional(),
+  decimals: z.number().int().min(0).max(3).optional(),
   suffix: z.string().optional(),
   label: z.string().min(2),
 });
+
+export const ProjectStarSchema = z.object({
+  situacao: z.string().min(10),
+  tarefa: z.string().min(10),
+  acao: z.string().min(10),
+  resultado: z.string().min(10),
+});
+
+export type ProjectStar = z.infer<typeof ProjectStarSchema>;
 
 export const ProjectSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
@@ -45,7 +54,7 @@ export const ProjectSchema = z.object({
   role: z.string().min(3),
   domains: z.array(DomainSchema).min(1),
   featured: z.boolean(),
-  status: z.enum(["Em produção", "Pesquisa ativa", "Piloto clínico", "Aberto"]),
+  status: z.string().min(3),
   summary: z.string().min(20),
   challenge: z.string().min(10),
   marginNote: z.string().min(4),
@@ -57,6 +66,7 @@ export const ProjectSchema = z.object({
   screens: z.array(PhoneScreenKindSchema).length(3),
   stats: z.array(ProjectStatSchema).max(3),
   methods: z.array(z.string()).min(2),
+  star: ProjectStarSchema,
   context: z.string().min(20),
   approach: z.string().min(20),
   impact: z.string().min(20),

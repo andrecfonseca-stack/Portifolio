@@ -132,7 +132,7 @@ export function PhoneScreen({
               fontWeight: 600,
             }}
           >
-            Get started
+            Explorar caso
           </div>
           <div
             style={{

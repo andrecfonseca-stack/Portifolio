@@ -146,7 +146,7 @@ export function CoverSwitchStage({
         scale: 0.68,
         ink: "#242426",
         far: "#737373",
-        pen: "#7d84ef",
+        pen: "#A93F21",
       });
 
       ctx.restore();

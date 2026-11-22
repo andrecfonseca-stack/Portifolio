@@ -161,6 +161,38 @@ export function sparklePath(cx: number, cy: number, r: number): string {
   );
 }
 
+/** Hand-drawn heart shape that the orbiting star morphs into when hovering the author signature. */
+export function heartPath(cx: number, cy: number, r: number): string {
+  const s = r / 10;
+  const p = (x: number, y: number) => `${r1(cx + x * s)} ${r1(cy + y * s)}`;
+  return (
+    `M${p(0, -3.5)}` +
+    `C${p(2, -9)} ${p(10, -8)} ${p(10, -2)}` +
+    `C${p(10, 3)} ${p(4, 6.5)} ${p(0, 10)}` +
+    `C${p(-4, 6.5)} ${p(-10, 3)} ${p(-10, -2)}` +
+    `C${p(-10, -8)} ${p(-2, -9)} ${p(0, -3.5)}Z`
+  );
+}
+
+/** 3D tilted elliptical orbit position at phase t (0..1); front = in front of the letter "o". */
+export function orbitPoint(
+  t: number,
+  rx: number,
+  ry: number,
+  tilt: number,
+): { x: number; y: number; front: boolean } {
+  const a = t * Math.PI * 2;
+  const x0 = Math.cos(a) * rx;
+  const y0 = Math.sin(a) * ry;
+  const c = Math.cos(tilt);
+  const s = Math.sin(tilt);
+  return {
+    x: x0 * c - y0 * s,
+    y: x0 * s + y0 * c,
+    front: Math.sin(a) > 0,
+  };
+}
+
 /** Parses inline "*sublinhado*" and "[circulado]" marginalia markup. */
 export function parseMarginaliaMarks(input: string): MarginaliaMarkRun[] {
   const out: MarginaliaMarkRun[] = [];

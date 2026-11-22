@@ -8,26 +8,23 @@ import { PenMark } from "@/components/motion/pen-mark";
 import { MOTION_EASE } from "@/components/motion/tokens";
 import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { CoverSwitchStage } from "@/components/marginalia/cover-switch-stage";
-import { clampNumber, sparklePath } from "@/lib/marginalia-paths";
+import {
+  clampNumber,
+  heartPath,
+  orbitPoint,
+  sparklePath,
+} from "@/lib/marginalia-paths";
 
-/**
- * Interactive Cover Choreography:
- *  - Initial State (Switch OFF): Stickman waits beside the OFF 3D rocker switch (NO lightbulb yet!).
- *  - When the user clicks/presses the 3D switch button (OFF -> ON):
- *      1. Stickman presses the button with terracotta sparks (0.0s..0.35s)
- *      2. "Portfólio" rises letter-by-letter (0.05s..0.75s)
- *      3. "André Cavalcanti" writes in (0.75s..1.40s) AND the mini lightbulb pops above the stickman's head ("tive uma ideia!")
- *      4. Subtitle pill ("Medicina · IA · Pesquisa · Educação · Tecnologia") appears (1.38s..1.90s)
- *      5. Red/terracotta pen markings draw in sequentially (curly arrow, orbit+star, oval) (1.95s..2.85s)
- *      6. Central curly-loop red arrow (Attachment 3) descends down the center of the portfolio as the climbing rope!
- */
+const ORBIT_TILT = (-18 * Math.PI) / 180;
+
 export function HomeCover() {
   const sectionRef = React.useRef<HTMLDivElement | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const starGroupRef = React.useRef<SVGGElement | null>(null);
   const { mounted, reduced: prefersReduced } = useSafeMotion();
 
-  // Switch starts OFF; the lightbulb and cover sequence trigger ONLY after pressing the switch button!
   const [switchOn, setSwitchOn] = React.useState(false);
+  const [hoverName, setHoverName] = React.useState(false);
 
   const showCover = prefersReduced || switchOn;
 
@@ -44,7 +41,37 @@ export function HomeCover() {
     return idx >= 0 ? idx : chars.length - 1;
   }, [chars.length]);
 
-  const sparkle = React.useMemo(() => sparklePath(0, 0, 12), []);
+  const sparkle = React.useMemo(() => sparklePath(0, 0, 13), []);
+  const heart = React.useMemo(() => heartPath(0, 0, 13), []);
+  const initialStarPos = React.useMemo(
+    () => orbitPoint(0.15, 92, 30, ORBIT_TILT),
+    [],
+  );
+
+  // Continuous 3D orbit around the last "o" (dims when passing behind the letter, brightens in front)
+  React.useEffect(() => {
+    if (!mounted || prefersReduced || !showCover) return;
+    let raf = 0;
+    const start = performance.now();
+    const PERIOD_MS = 7000;
+
+    const spin = (now: number) => {
+      const star = starGroupRef.current;
+      if (star) {
+        const phase = (0.15 + (now - start) / PERIOD_MS) % 1;
+        const pos = orbitPoint(phase, 92, 30, ORBIT_TILT);
+        star.setAttribute(
+          "transform",
+          `translate(${pos.x.toFixed(2)} ${pos.y.toFixed(2)})`,
+        );
+        star.style.opacity = pos.front ? "1" : "0.28";
+      }
+      raf = window.requestAnimationFrame(spin);
+    };
+
+    raf = window.requestAnimationFrame(spin);
+    return () => window.cancelAnimationFrame(raf);
+  }, [mounted, prefersReduced, showCover]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -72,7 +99,7 @@ export function HomeCover() {
     ro.observe(host);
 
     const penColor =
-      getComputedStyle(host).getPropertyValue("--pen-paper").trim() || "#7d84ef";
+      getComputedStyle(host).getPropertyValue("--pen-paper").trim() || "#A93F21";
     const LIFE = 850;
     const pts: Array<{ x: number; y: number; t: number; gap: boolean }> = [];
     let raf = 0;
@@ -156,74 +183,34 @@ export function HomeCover() {
           className="relative z-[2] my-auto flex flex-col items-center py-6"
         >
           <div className="relative inline-flex flex-col items-center">
-            {/* Beat 2: Handwritten Name "André Cavalcanti" + Beat 4a: Red Curly Arrow */}
-            <div className="relative z-[2] mb-2 self-end pr-1 sm:absolute sm:-top-12 sm:right-0 sm:mb-0 md:-top-16">
-              <div className="relative inline-flex items-center">
-                <svg
-                  viewBox="0 0 150 110"
-                  aria-hidden="true"
-                  className="pointer-events-none mr-1 hidden h-auto w-20 overflow-visible sm:block md:w-28"
-                >
-                  <m.path
-                    d="M146 14C128 34 104 30 101 17C98 4 120 2 117 24C114 48 70 74 24 96"
-                    fill="none"
-                    stroke="var(--pen)"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    initial={false}
-                    animate={{
-                      pathLength: showCover ? 1 : 0,
-                      opacity: showCover ? 1 : 0,
-                    }}
-                    transition={{
-                      duration: d(0.75),
-                      delay: showCover ? d(1.95) : 0,
-                      ease: MOTION_EASE.ink,
-                    }}
-                  />
-                  <m.path
-                    d="M30 80L22 97L41 99"
-                    fill="none"
-                    stroke="var(--pen)"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    initial={false}
-                    animate={{
-                      pathLength: showCover ? 1 : 0,
-                      opacity: showCover ? 1 : 0,
-                    }}
-                    transition={{
-                      duration: d(0.32),
-                      delay: showCover ? d(2.55) : 0,
-                      ease: MOTION_EASE.ink,
-                    }}
-                  />
-                </svg>
-
-                <m.span
-                  initial={false}
-                  animate={
-                    showCover
-                      ? { clipPath: "inset(-30% -10% -30% -4%)", opacity: 1 }
-                      : { clipPath: "inset(-30% 100% -30% -4%)", opacity: 0 }
-                  }
-                  transition={{
-                    duration: d(0.68),
-                    delay: showCover ? d(0.75) : 0,
-                    ease: MOTION_EASE.ink,
-                  }}
-                  className="font-marginalia inline-block -rotate-[5deg] text-3xl text-[var(--pen)] sm:text-4xl md:text-5xl"
-                >
-                  {profile.shortName}
-                </m.span>
-              </div>
+            {/* Beat 2: Handwritten Name "André Cavalcanti" (curly arrow removed as requested) */}
+            <div
+              onPointerEnter={() => setHoverName(true)}
+              onPointerLeave={() => setHoverName(false)}
+              className="relative z-[2] mb-2 self-end pr-1 sm:absolute sm:-top-12 sm:right-0 sm:mb-0 md:-top-16"
+            >
+              <m.span
+                initial={false}
+                animate={
+                  showCover
+                    ? { clipPath: "inset(-30% -10% -30% -4%)", opacity: 1 }
+                    : { clipPath: "inset(-30% 100% -30% -4%)", opacity: 0 }
+                }
+                transition={{
+                  duration: d(0.68),
+                  delay: showCover ? d(0.75) : 0,
+                  ease: MOTION_EASE.ink,
+                }}
+                className="font-marginalia inline-block -rotate-[6deg] cursor-default text-3xl text-[var(--pen)] sm:text-4xl md:text-5xl"
+              >
+                {profile.shortName}
+              </m.span>
             </div>
 
             {/* Beat 1: Monumental word "Portfólio" rises letter-by-letter */}
             <h1
               aria-label={`${profile.coverWord} — ${profile.name}, ${profile.rolePill}`}
-              className="font-editorial m-0 flex whitespace-nowrap text-[clamp(3.6rem,15.5vw,13rem)] leading-[0.9] text-[var(--fg)] select-none"
+              className="font-editorial relative z-[1] m-0 flex whitespace-nowrap text-[clamp(3.6rem,15.5vw,13rem)] leading-[0.9] text-[var(--fg)] select-none"
             >
               {chars.map((char, idx) => (
                 <span key={idx} className="relative inline-block" aria-hidden="true">
@@ -246,19 +233,20 @@ export function HomeCover() {
                     </m.span>
                   </span>
 
-                  {/* Beat 4b: Red orbital ellipse + 4-point star around the last "o" */}
+                  {/* Beat 4a: 3D Split Elliptical Orbit + Continuously Revolving Star around the last "o" */}
                   {idx === orbitIndex && (
                     <span
                       aria-hidden="true"
                       className="pointer-events-none absolute top-[52%] left-1/2 h-0 w-0"
                     >
+                      {/* Back half of the orbit ring (passes BEHIND the letter "o") */}
                       <svg
                         viewBox="-100 -100 200 200"
-                        className="absolute -top-[0.65em] -left-[0.65em] h-[1.3em] w-[1.3em] overflow-visible"
+                        className="absolute -top-[0.66em] -left-[0.66em] -z-10 h-[1.32em] w-[1.32em] overflow-visible"
                       >
                         <g transform="rotate(-18)">
                           <m.path
-                            d="M-90 0 A 90 29 0 1 1 90 0 A 90 29 0 1 1 -90 0"
+                            d="M-92 0A92 30 0 0 1 92 0"
                             fill="none"
                             stroke="var(--pen)"
                             strokeWidth={1.7}
@@ -269,28 +257,61 @@ export function HomeCover() {
                               opacity: showCover ? 1 : 0,
                             }}
                             transition={{
-                              duration: d(0.85),
+                              duration: d(0.55),
+                              delay: showCover ? d(2.0) : 0,
+                              ease: MOTION_EASE.ink,
+                            }}
+                          />
+                        </g>
+                      </svg>
+
+                      {/* Front half of the orbit ring + Revolving Star (passes IN FRONT of the letter "o") */}
+                      <svg
+                        viewBox="-100 -100 200 200"
+                        className="absolute -top-[0.66em] -left-[0.66em] z-[2] h-[1.32em] w-[1.32em] overflow-visible"
+                      >
+                        <g transform="rotate(-18)">
+                          <m.path
+                            d="M92 0A92 30 0 0 1 -92 0"
+                            fill="none"
+                            stroke="var(--pen)"
+                            strokeWidth={1.7}
+                            strokeLinecap="round"
+                            initial={false}
+                            animate={{
+                              pathLength: showCover ? 1 : 0,
+                              opacity: showCover ? 1 : 0,
+                            }}
+                            transition={{
+                              duration: d(0.55),
                               delay: showCover ? d(2.35) : 0,
                               ease: MOTION_EASE.ink,
                             }}
                           />
                         </g>
-                        <m.g
-                          initial={false}
-                          animate={{
-                            scale: showCover ? 1 : 0,
-                            opacity: showCover ? 1 : 0,
-                          }}
-                          transition={{
-                            duration: d(0.45),
-                            delay: showCover ? d(2.95) : 0,
-                            ease: MOTION_EASE.editorial,
-                          }}
+                        <g
+                          ref={starGroupRef}
+                          transform={`translate(${initialStarPos.x.toFixed(2)} ${initialStarPos.y.toFixed(2)})`}
                         >
-                          <g transform="translate(76 -26)">
-                            <path d={sparkle} fill="var(--pen)" />
-                          </g>
-                        </m.g>
+                          <m.g
+                            initial={false}
+                            animate={{
+                              scale: showCover ? (hoverName ? 1.15 : 1) : 0,
+                              rotate: showCover ? 0 : -180,
+                              opacity: showCover ? 1 : 0,
+                            }}
+                            transition={{
+                              duration: d(0.55),
+                              delay: showCover ? d(2.65) : 0,
+                              ease: MOTION_EASE.editorial,
+                            }}
+                          >
+                            <path
+                              d={hoverName ? heart : sparkle}
+                              fill="var(--pen)"
+                            />
+                          </m.g>
+                        </g>
                       </svg>
                     </span>
                   )}
@@ -307,7 +328,7 @@ export function HomeCover() {
                 />
               </div>
 
-              {/* Beat 3: Subtitle with all disciplines -> Beat 4c: Red pen oval draws around it */}
+              {/* Beat 3: Subtitle with all disciplines -> Beat 4b: Red/Terracotta pen oval draws around it */}
               <m.div
                 initial={false}
                 animate={
@@ -329,7 +350,7 @@ export function HomeCover() {
                     padY={7}
                     hoverOnly
                     active={showCover}
-                    delay={showCover ? d(2.75) : 0}
+                    delay={showCover ? d(2.65) : 0}
                   />
                 </span>
               </m.div>
@@ -351,7 +372,7 @@ export function HomeCover() {
             }
             transition={{
               duration: d(0.55),
-              delay: showCover ? d(3.25) : 0,
+              delay: showCover ? d(3.15) : 0,
               ease: MOTION_EASE.editorial,
             }}
             className="font-marginalia text-2xl tracking-normal text-[var(--pen)] transition-opacity hover:opacity-80"

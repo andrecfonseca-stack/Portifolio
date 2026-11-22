@@ -47,7 +47,7 @@ export default function OpenGraphImage() {
           <div
             style={{
               fontSize: 34,
-              color: "#7d84ef",
+              color: "#A93F21",
               fontFamily: "sans-serif",
               fontWeight: 600,
             }}
@@ -68,7 +68,7 @@ export default function OpenGraphImage() {
           }}
         >
           <span>{profile.location}</span>
-          <span style={{ color: "#7d84ef", fontWeight: 600 }}>
+          <span style={{ color: "#A93F21", fontWeight: 600 }}>
             Ciência · Clínica · Engenharia
           </span>
         </div>

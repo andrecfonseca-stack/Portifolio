@@ -256,13 +256,13 @@ export function ScrollClimber() {
         ? {
             ink: "#ecebe7",
             far: "#9a9a9a",
-            pen: "#7d84ef",
+            pen: "#F08A65",
             ropeCol: "rgba(236, 235, 231, 0.22)",
           }
         : {
             ink: "#242426",
             far: "#737373",
-            pen: "#7d84ef",
+            pen: "#A93F21",
             ropeCol: "rgba(36, 36, 38, 0.20)",
           };
 

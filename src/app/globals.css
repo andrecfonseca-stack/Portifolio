@@ -14,15 +14,15 @@
 
   --ink-paper: #242426;
   --muted-paper: color-mix(in oklab, #242426 60%, #ecebe7);
-  --pen-paper: #7d84ef;
-  --clinical-paper: #7d84ef;
+  --pen-paper: #a93f21;
+  --clinical-paper: #a93f21;
   --rule-paper: color-mix(in oklab, #242426 16%, #ecebe7);
   --control-border-paper: color-mix(in oklab, #242426 32%, #ecebe7);
 
   --ink-night: #ecebe7;
   --muted-night: color-mix(in oklab, #ecebe7 62%, #2b2b2e);
-  --pen-night: #7d84ef;
-  --clinical-night: #7d84ef;
+  --pen-night: #f08a65;
+  --clinical-night: #f08a65;
   --rule-night: color-mix(in oklab, #ecebe7 16%, #2b2b2e);
   --control-border-night: color-mix(in oklab, #ecebe7 32%, #2b2b2e);
 

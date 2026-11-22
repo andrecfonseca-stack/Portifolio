@@ -1,15 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { m, useScroll, useTransform } from "motion/react";
+import { useSafeMotion } from "./use-safe-reduced-motion";
 
 /**
  * Night sheet background that smoothly expands from a rounded editorial card
  * into full bleed as it enters the viewport on scroll.
+ * Hydration-safe: applies scroll-linked clipPath only after client mount.
  */
 export function NightSheetBg({ morph }: { morph: boolean }) {
   const ref = React.useRef<HTMLDivElement | null>(null);
-  const prefersReduced = useReducedMotion();
+  const { mounted, reduced } = useSafeMotion();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -29,7 +31,7 @@ export function NightSheetBg({ morph }: { morph: boolean }) {
       className="pointer-events-none absolute inset-0 z-0"
       style={{
         backgroundColor: "var(--tone-night)",
-        clipPath: morph && !prefersReduced ? clipPath : undefined,
+        clipPath: morph && mounted && !reduced ? clipPath : undefined,
       }}
     />
   );

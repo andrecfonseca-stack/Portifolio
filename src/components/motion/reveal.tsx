@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { animate, m, useInView, useReducedMotion } from "motion/react";
-import { MOTION_DURATION, MOTION_EASE, VIEWPORT_ONCE } from "./tokens";
+import { animate, m, useInView } from "motion/react";
+import { MOTION_DURATION, MOTION_EASE } from "./tokens";
+import { useSafeMotion } from "./use-safe-reduced-motion";
 import { formatPtNumber } from "@/lib/marginalia-paths";
 import { cn } from "@/lib/cn";
 
@@ -10,38 +11,41 @@ export function RevealBlock({
   children,
   className,
   delay = 0,
-  y = 22,
+  y = 18,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
   y?: number;
 }) {
-  const prefersReduced = useReducedMotion();
+  const ref = React.useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(ref, { once: true, amount: "some" });
+  const { mounted, reduced } = useSafeMotion();
 
-  if (prefersReduced) {
-    return <div className={className}>{children}</div>;
-  }
+  const shouldAnimateIn = !mounted || reduced || isInView;
 
   return (
-    <m.div
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={VIEWPORT_ONCE}
-      transition={{
-        duration: MOTION_DURATION.editorial,
-        delay,
-        ease: MOTION_EASE.editorial,
-      }}
-    >
-      {children}
-    </m.div>
+    <div ref={ref} className={className}>
+      <m.div
+        initial={false}
+        animate={
+          shouldAnimateIn ? { opacity: 1, y: 0 } : { opacity: 0, y }
+        }
+        transition={{
+          duration: reduced ? 0 : MOTION_DURATION.editorial,
+          delay: reduced ? 0 : delay,
+          ease: MOTION_EASE.editorial,
+        }}
+      >
+        {children}
+      </m.div>
+    </div>
   );
 }
 
 /**
- * Splits a short display title into masked words/characters that rise cleanly.
+ * Splits a display heading into masked characters driven by an unclipped outer IntersectionObserver.
+ * Guarantees headings always reveal reliably on scroll and stay SSR/hydration-safe.
  */
 export function SplitDisplayText({
   text,
@@ -52,17 +56,16 @@ export function SplitDisplayText({
   className?: string;
   immediate?: boolean;
 }) {
-  const prefersReduced = useReducedMotion();
+  const containerRef = React.useRef<HTMLSpanElement | null>(null);
+  const isInView = useInView(containerRef, { once: true, amount: "some" });
+  const { mounted, reduced } = useSafeMotion();
   const words = text.split(" ");
 
-  if (prefersReduced) {
-    return <span className={className}>{text}</span>;
-  }
-
+  const visible = immediate || reduced || !mounted || isInView;
   let charIndex = 0;
 
   return (
-    <span className={cn("inline", className)} aria-label={text}>
+    <span ref={containerRef} className={cn("inline-block", className)} aria-label={text}>
       {words.map((word, wi) => (
         <React.Fragment key={wi}>
           <span className="inline-block whitespace-nowrap" aria-hidden="true">
@@ -75,13 +78,15 @@ export function SplitDisplayText({
                 >
                   <m.span
                     className="inline-block"
-                    initial={{ y: "110%", rotate: 4 }}
-                    animate={immediate ? { y: "0%", rotate: 0 } : undefined}
-                    whileInView={immediate ? undefined : { y: "0%", rotate: 0 }}
-                    viewport={immediate ? undefined : VIEWPORT_ONCE}
+                    initial={false}
+                    animate={
+                      visible
+                        ? { y: "0%", rotate: 0, opacity: 1 }
+                        : { y: "105%", rotate: 3, opacity: 0.2 }
+                    }
                     transition={{
-                      duration: 0.9,
-                      delay: 0.04 + idx * 0.032,
+                      duration: reduced ? 0 : 0.78,
+                      delay: reduced ? 0 : 0.03 + idx * 0.028,
                       ease: MOTION_EASE.editorial,
                     }}
                   >
@@ -108,25 +113,25 @@ export function AnimatedCounter({
   suffix?: string;
 }) {
   const ref = React.useRef<HTMLSpanElement | null>(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
-  const prefersReduced = useReducedMotion();
+  const inView = useInView(ref, { once: true, amount: "some" });
+  const { reduced } = useSafeMotion();
   const [display, setDisplay] = React.useState(() =>
     formatPtNumber(value, decimals),
   );
 
   React.useEffect(() => {
-    if (!inView || prefersReduced) return;
+    if (!inView || reduced) return;
     const controls = animate(0, value, {
-      duration: 1.35,
+      duration: 0.85,
       ease: MOTION_EASE.editorial,
       onUpdate: (latest) => {
         setDisplay(formatPtNumber(latest, decimals));
       },
     });
     return () => controls.stop();
-  }, [inView, prefersReduced, value, decimals]);
+  }, [inView, reduced, value, decimals]);
 
-  const rendered = prefersReduced ? formatPtNumber(value, decimals) : display;
+  const rendered = reduced ? formatPtNumber(value, decimals) : display;
 
   return (
     <span ref={ref} className="tabular-metrics">

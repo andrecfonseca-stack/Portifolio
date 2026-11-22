@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { m, useReducedMotion } from "motion/react";
+import { m } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { featuredProjects } from "@/content/projects";
 import { profile } from "@/content/profile";
@@ -12,11 +12,12 @@ import { MarkedText, PenMark } from "@/components/motion/pen-mark";
 import { HandWrite } from "@/components/motion/hand-write";
 import { AnimatedCounter, RevealBlock } from "@/components/motion/reveal";
 import { MOTION_DURATION, MOTION_EASE, VIEWPORT_ONCE } from "@/components/motion/tokens";
+import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { arrowPaths } from "@/lib/marginalia-paths";
 import { cn } from "@/lib/cn";
 
 export function HomeProjects() {
-  const prefersReduced = useReducedMotion();
+  const { reduced: prefersReduced } = useSafeMotion();
   const headerArrow = React.useMemo(() => arrowPaths([42, 4], [20, 44], 0.3, 8), []);
   const noteArrow = React.useMemo(() => arrowPaths([10, 40], [46, 8], -0.28, 8), []);
 

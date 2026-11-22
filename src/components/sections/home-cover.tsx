@@ -1,18 +1,19 @@
 "use client";
 
 import * as React from "react";
-import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { m, useScroll, useTransform } from "motion/react";
 import { profile } from "@/content/profile";
 import { Sheet } from "@/components/layout/sheet";
 import { PenMark } from "@/components/motion/pen-mark";
 import { HandWrite } from "@/components/motion/hand-write";
 import { MOTION_EASE } from "@/components/motion/tokens";
+import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { clampNumber, sparklePath } from "@/lib/marginalia-paths";
 
 export function HomeCover() {
   const sectionRef = React.useRef<HTMLDivElement | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-  const prefersReduced = useReducedMotion();
+  const { mounted, reduced: prefersReduced } = useSafeMotion();
 
   const chars = React.useMemo(() => Array.from(profile.coverWord), []);
   const orbitIndex = React.useMemo(() => {
@@ -124,9 +125,9 @@ export function HomeCover() {
         {/* Central monumental cover word + handwritten signature + circled role */}
         <m.div
           style={
-            prefersReduced
-              ? undefined
-              : { scale: heroScale, y: heroY, opacity: heroOpacity }
+            mounted && !prefersReduced
+              ? { scale: heroScale, y: heroY, opacity: heroOpacity }
+              : undefined
           }
           className="relative z-[1] my-auto flex flex-col items-center py-12"
         >

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { m, useReducedMotion } from "motion/react";
+import { m } from "motion/react";
 import type { BookReference } from "@/content/schemas";
 import {
   arrowPaths,
@@ -11,6 +11,7 @@ import {
 } from "@/lib/marginalia-paths";
 import { HandWrite } from "@/components/motion/hand-write";
 import { MOTION_DURATION, MOTION_EASE, VIEWPORT_ONCE } from "@/components/motion/tokens";
+import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 
 export function BookStack({
   books,
@@ -19,7 +20,7 @@ export function BookStack({
   books: BookReference[];
   note: string;
 }) {
-  const prefersReduced = useReducedMotion();
+  const { reduced: prefersReduced } = useSafeMotion();
   const list = books.slice(0, 6);
   const bh = 32;
   const base = list.length * bh + 66;

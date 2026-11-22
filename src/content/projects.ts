@@ -14,7 +14,7 @@ const rawProjects: Project[] = [
     featured: true,
     status: "Piloto clínico",
     summary:
-      "Sistema de apoio à triagem que combina sinais vitais, queixa estruturada e *calibração probabilística transparente*. Em vez de uma caixa-preta, a interface evidencia [os três fatores clínicos que elevaram o risco] e permite auditoria imediata pela equipe.",
+      "Sistema de apoio à triagem que combina sinais vitais, queixa estruturada e *calibração probabilística transparente*. Em vez de uma caixa-preta, a interface evidencia os [três fatores clínicos] que elevaram o risco e permite auditoria imediata pela equipe.",
     challenge:
       "Reduzir atrasos em casos tempo-dependentes sem induzir fadiga de alertas na equipe de enfermagem.",
     marginNote: "validado em 3 turnos reais de pronto-socorro",
@@ -50,7 +50,7 @@ const rawProjects: Project[] = [
     featured: true,
     status: "Pesquisa ativa",
     summary:
-      "Infraestrutura aberta para integrar dados tabulares longitudinais, exames laboratoriais e *relatos clínicos anonimizados* com versionamento estrito. O objetivo foi transformar [scripts isolados de laboratório em experimentos auditáveis] do dado bruto ao manuscrito.",
+      "Infraestrutura aberta para integrar dados tabulares longitudinais, exames laboratoriais e *relatos clínicos anonimizados* com versionamento estrito. O objetivo foi transformar scripts isolados de laboratório em [experimentos auditáveis] do dado bruto ao manuscrito.",
     challenge:
       "Garantir reprodutibilidade integral e proteção de privacidade sem travar a velocidade exploratória dos pesquisadores.",
     marginNote: "100% dos gráficos do artigo gerados direto do pipeline",
@@ -86,7 +86,7 @@ const rawProjects: Project[] = [
     featured: true,
     status: "Em produção",
     summary:
-      "Ambiente web de aprendizagem ativa onde estudantes manipulam parâmetros hemodinâmicos e respiratórios e observam *consequências clínicas em tempo real*. Substituímos slides estáticos por [micro-casos guiados com feedback imediato sobre o raciocínio].",
+      "Ambiente web de aprendizagem ativa onde estudantes manipulam parâmetros hemodinâmicos e respiratórios e observam *consequências clínicas em tempo real*. Substituímos slides estáticos por micro-casos guiados com [feedback imediato] sobre o raciocínio.",
     challenge:
       "Traduzir equações fisiológicas complexas em intuição clínica palpável para alunos do ciclo básico e internato.",
     marginNote: "adotado em 6 turmas de graduação e residência",
@@ -122,7 +122,7 @@ const rawProjects: Project[] = [
     featured: true,
     status: "Aberto",
     summary:
-      "Ferramenta de leitura assistida que organiza diretrizes e ensaios clínicos em *quadros comparativos verificáveis*. Cada afirmação gerada mantém [vínculo direto ao parágrafo original e nível de evidência], combatendo alucinações em consultas rápidas.",
+      "Ferramenta de leitura assistida que organiza diretrizes e ensaios clínicos em *quadros comparativos verificáveis*. Cada afirmação gerada mantém vínculo direto ao parágrafo original e [nível de evidência], combatendo alucinações em consultas rápidas.",
     challenge:
       "Aproveitar modelos de linguagem em literatura biomédica sem abrir mão da verificação linha a linha das fontes.",
     marginNote: "zero resumo sem citação verificável na margem",

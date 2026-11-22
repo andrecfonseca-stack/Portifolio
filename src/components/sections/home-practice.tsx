@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, m, useReducedMotion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { profile } from "@/content/profile";
 import { Sheet } from "@/components/layout/sheet";
 import { EditorialHeading } from "@/components/marginalia/editorial-heading";
@@ -9,11 +9,12 @@ import { BookStack } from "@/components/marginalia/book-stack";
 import { PenMark } from "@/components/motion/pen-mark";
 import { RevealBlock } from "@/components/motion/reveal";
 import { MOTION_EASE } from "@/components/motion/tokens";
+import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { cn } from "@/lib/cn";
 
 export function HomePractice() {
   const [activeIndex, setActiveIndex] = React.useState<number>(-1);
-  const prefersReduced = useReducedMotion();
+  const { reduced: prefersReduced } = useSafeMotion();
 
   const activeTile = activeIndex >= 0 ? profile.pillarTiles[activeIndex] : null;
   const noteText = activeTile

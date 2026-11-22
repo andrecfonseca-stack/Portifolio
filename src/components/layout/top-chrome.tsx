@@ -2,12 +2,13 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { AnimatePresence, m, useReducedMotion, useScroll, useSpring } from "motion/react";
+import { AnimatePresence, m, useScroll, useSpring } from "motion/react";
 import { ArrowUpRight, X } from "lucide-react";
 import { HOME_SECTIONS, SITE_ROUTES } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { PenMark } from "@/components/motion/pen-mark";
 import { MOTION_EASE } from "@/components/motion/tokens";
+import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { cn } from "@/lib/cn";
 
 export function TopChrome() {
@@ -17,7 +18,7 @@ export function TopChrome() {
   const [activeTone, setActiveTone] = React.useState<"paper" | "night">("paper");
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const closeRef = React.useRef<HTMLButtonElement | null>(null);
-  const prefersReduced = useReducedMotion();
+  const { mounted, reduced: prefersReduced } = useSafeMotion();
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -159,7 +160,11 @@ export function TopChrome() {
         <m.div
           aria-hidden="true"
           className="h-[2px] w-full origin-left bg-[var(--pen)]"
-          style={{ scaleX: prefersReduced ? scrollYProgress : scaleX }}
+          style={
+            mounted
+              ? { scaleX: prefersReduced ? scrollYProgress : scaleX }
+              : { transform: "scaleX(0)" }
+          }
         />
       </header>
 

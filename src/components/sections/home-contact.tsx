@@ -175,7 +175,7 @@ export function HomeContact() {
               >
                 {profile.cvNote}
               </HandWrite>
-              <p className="mt-1 max-w-[26ch] text-xs leading-relaxed text-[var(--muted)]">
+              <p className="mt-1 max-w-[28ch] text-xs leading-relaxed text-[var(--fg)]/80">
                 Escaneie ou clique no QR Code para acessar registro científico e publicações.
               </p>
             </div>

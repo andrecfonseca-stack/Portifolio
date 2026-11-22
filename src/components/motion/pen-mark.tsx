@@ -1,14 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { m, useReducedMotion } from "motion/react";
+import { m, useInView } from "motion/react";
 import {
   ovalPath,
   parseMarginaliaMarks,
   sketchBoxPath,
   underlinePath,
 } from "@/lib/marginalia-paths";
-import { MOTION_DURATION, MOTION_EASE, VIEWPORT_ONCE } from "./tokens";
+import { MOTION_DURATION, MOTION_EASE } from "./tokens";
+import { useSafeMotion } from "./use-safe-reduced-motion";
 
 export type PenMarkKind = "oval" | "under" | "box";
 
@@ -25,21 +26,22 @@ type PenMarkProps = {
 
 /**
  * Deterministic hand-drawn SVG pen mark sized to its parent element.
- * Animates via SVG pathLength once on scroll (or on hover/focus when hoverOnly=true).
+ * Observed on the SVG host with amount="some" so marks always draw cleanly into view.
  */
 export function PenMark({
   kind,
   seed = 1,
-  padX = 10,
+  padX = 11,
   padY = 6,
-  delay = 0.12,
+  delay = 0.1,
   strokeWidth = 1.7,
   hoverOnly = false,
   active = false,
 }: PenMarkProps) {
   const ref = React.useRef<SVGSVGElement | null>(null);
   const [box, setBox] = React.useState({ w: 0, h: 0 });
-  const prefersReduced = useReducedMotion();
+  const isInView = useInView(ref, { once: true, amount: "some" });
+  const { reduced } = useSafeMotion();
 
   React.useLayoutEffect(() => {
     const host = ref.current?.parentElement;
@@ -69,6 +71,8 @@ export function PenMark({
   const viewBox =
     kind === "box" ? `${-padX} ${-padY} ${W} ${H}` : `0 0 ${W} ${H}`;
 
+  const drawn = hoverOnly ? active : reduced || isInView;
+
   return (
     <svg
       ref={ref}
@@ -77,49 +81,43 @@ export function PenMark({
       className="pointer-events-none absolute overflow-visible"
       style={{ left: -padX, top: -padY, width: W, height: H }}
     >
-      {d &&
-        (hoverOnly ? (
-          <m.path
-            d={d}
-            fill="none"
-            stroke="var(--pen)"
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            initial={false}
-            animate={{
-              pathLength: active ? 1 : 0,
-              opacity: active ? 1 : 0,
-            }}
-            transition={{
-              duration: prefersReduced ? 0 : 0.42,
-              ease: MOTION_EASE.ink,
-            }}
-          />
-        ) : (
-          <m.path
-            d={d}
-            fill="none"
-            stroke="var(--pen)"
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            initial={prefersReduced ? false : { pathLength: 0, opacity: 0.25 }}
-            whileInView={{ pathLength: 1, opacity: 1 }}
-            viewport={VIEWPORT_ONCE}
-            transition={{
-              duration: prefersReduced ? 0 : MOTION_DURATION.ink,
-              delay: prefersReduced ? 0 : delay,
-              ease: MOTION_EASE.ink,
-            }}
-          />
-        ))}
+      {d && (
+        <m.path
+          d={d}
+          fill="none"
+          stroke="var(--pen)"
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={
+            hoverOnly
+              ? false
+              : reduced
+                ? false
+                : { pathLength: 0, opacity: 0.2 }
+          }
+          animate={{
+            pathLength: drawn ? 1 : 0,
+            opacity: hoverOnly ? (active ? 1 : 0) : drawn ? 1 : 0.2,
+          }}
+          transition={{
+            duration: reduced
+              ? 0
+              : hoverOnly
+                ? 0.42
+                : MOTION_DURATION.ink,
+            delay: reduced || hoverOnly ? 0 : delay,
+            ease: MOTION_EASE.ink,
+          }}
+        />
+      )}
     </svg>
   );
 }
 
 /**
  * Renders prose with inline "*sublinhado*" and "[circulado]" pen annotations.
+ * Circled phrases use whitespace-nowrap-friendly padding so ovals never collide with glyphs.
  */
 export function MarkedText({
   text,
@@ -133,14 +131,21 @@ export function MarkedText({
     <>
       {runs.map((run, idx) =>
         run.mark ? (
-          <span key={idx} className="relative inline-block">
+          <span
+            key={idx}
+            className={
+              run.mark === "oval"
+                ? "relative mx-1 inline-block px-1.5"
+                : "relative inline-block"
+            }
+          >
             <span className="relative z-[1]">{run.text}</span>
             <PenMark
               kind={run.mark}
               seed={seed + idx * 7}
-              padX={run.mark === "oval" ? 8 : 1}
-              padY={run.mark === "oval" ? 3 : 6}
-              delay={0.14 + idx * 0.08}
+              padX={run.mark === "oval" ? 10 : 1}
+              padY={run.mark === "oval" ? 5 : 6}
+              delay={0.12 + idx * 0.08}
             />
           </span>
         ) : (

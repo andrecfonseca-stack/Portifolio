@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { m, useReducedMotion } from "motion/react";
+import { m, useInView } from "motion/react";
 import { headingSwooshPath } from "@/lib/marginalia-paths";
 import { SplitDisplayText } from "@/components/motion/reveal";
-import { MOTION_DURATION, MOTION_EASE, VIEWPORT_ONCE } from "@/components/motion/tokens";
+import { MOTION_DURATION, MOTION_EASE } from "@/components/motion/tokens";
+import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { cn } from "@/lib/cn";
 
 export function EditorialHeading({
@@ -19,10 +20,14 @@ export function EditorialHeading({
   className?: string;
 }) {
   const swoosh = React.useMemo(() => headingSwooshPath(300, seed), [seed]);
-  const prefersReduced = useReducedMotion();
+  const ref = React.useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(ref, { once: true, amount: "some" });
+  const { mounted, reduced } = useSafeMotion();
+
+  const drawn = !mounted || reduced || isInView;
 
   return (
-    <div className="inline-block max-w-full">
+    <div ref={ref} className="inline-block max-w-full">
       <Tag
         className={cn(
           "font-editorial m-0 text-[clamp(2.75rem,6.8vw,6.25rem)] leading-[0.94] text-[var(--fg)]",
@@ -42,12 +47,11 @@ export function EditorialHeading({
           stroke="var(--pen)"
           strokeWidth={2.2}
           strokeLinecap="round"
-          initial={prefersReduced ? false : { pathLength: 0, opacity: 0.3 }}
-          whileInView={{ pathLength: 1, opacity: 1 }}
-          viewport={VIEWPORT_ONCE}
+          initial={false}
+          animate={{ pathLength: drawn ? 1 : 0, opacity: drawn ? 1 : 0.25 }}
           transition={{
-            duration: prefersReduced ? 0 : MOTION_DURATION.ink,
-            delay: prefersReduced ? 0 : 0.16,
+            duration: reduced ? 0 : MOTION_DURATION.ink,
+            delay: reduced ? 0 : 0.14,
             ease: MOTION_EASE.ink,
           }}
         />

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { m, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { m, useMotionValue, useSpring } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { profile } from "@/content/profile";
 import { Sheet } from "@/components/layout/sheet";
@@ -11,6 +11,7 @@ import { MarkedText, PenMark } from "@/components/motion/pen-mark";
 import { HandWrite } from "@/components/motion/hand-write";
 import { RevealBlock } from "@/components/motion/reveal";
 import { MOTION_DURATION, MOTION_EASE, MOTION_SPRING, VIEWPORT_ONCE } from "@/components/motion/tokens";
+import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { arrowPaths, type Point } from "@/lib/marginalia-paths";
 
 const TRAIT_SPOTS: Array<{ at: Point; a: Point; b: Point; bend: number }> = [
@@ -23,7 +24,7 @@ const TRAIT_SPOTS: Array<{ at: Point; a: Point; b: Point; bend: number }> = [
 ];
 
 export function HomeHello() {
-  const prefersReduced = useReducedMotion();
+  const { mounted, reduced: prefersReduced } = useSafeMotion();
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
   const layerX = useSpring(rawX, MOTION_SPRING.tactile);
@@ -70,7 +71,7 @@ export function HomeHello() {
             className="relative mx-auto aspect-[500/520] w-full"
           >
             <m.div
-              style={prefersReduced ? undefined : { x: picX, y: picY }}
+              style={mounted && !prefersReduced ? { x: picX, y: picY } : undefined}
               className="group absolute top-[17%] left-[26%] h-[66%] w-[48%]"
             >
               <div className="relative h-full w-full overflow-hidden rounded-[4px] bg-[var(--rule)]">
@@ -89,7 +90,7 @@ export function HomeHello() {
 
             {/* Desktop & tablet spatial marginalia arrows around portrait */}
             <m.div
-              style={prefersReduced ? undefined : { x: layerX, y: layerY }}
+              style={mounted && !prefersReduced ? { x: layerX, y: layerY } : undefined}
               className="pointer-events-none absolute inset-0 hidden sm:block"
             >
               <svg

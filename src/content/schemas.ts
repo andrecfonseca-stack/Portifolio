@@ -24,6 +24,7 @@ export const PhoneScreenKindSchema = z.enum([
   "feed",
   "detail",
   "stats",
+  "shot",
 ]);
 
 export type PhoneScreenKind = z.infer<typeof PhoneScreenKindSchema>;

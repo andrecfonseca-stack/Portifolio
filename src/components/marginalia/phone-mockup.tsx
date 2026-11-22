@@ -78,6 +78,25 @@ export function PhoneScreen({
   const im = (k: number) => photoUrl(project.images[(shift + k) % n] || "", 520);
   const abs: React.CSSProperties = { position: "absolute" };
 
+  if (kind === "shot") {
+    const shotIdx = shift === 0 && n > 1 ? 1 : shift % n;
+    const shotSrc = photoUrl(project.images[shotIdx] || "", 520);
+    return (
+      <div className="mgn-screen" style={{ background: "#11161b" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className="mgn-scr-img"
+          src={shotSrc}
+          alt={`${project.title} — tela da ferramenta`}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          style={{ objectFit: "fill" }}
+        />
+      </div>
+    );
+  }
+
   if (kind === "cover") {
     const coverImg = photoUrl(project.images[0] || "", 520);
     const titleSize =
@@ -571,7 +590,7 @@ export function PhoneMockup({
     >
       <div className="mgn-phone-body">
         <PhoneScreen kind={kind} project={project} shift={shift} />
-        <span className="mgn-island" />
+        {kind !== "shot" ? <span className="mgn-island" /> : null}
       </div>
     </div>
   );

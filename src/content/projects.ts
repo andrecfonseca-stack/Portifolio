@@ -26,10 +26,10 @@ const rawProjects: Project[] = [
     tone: "night",
     images: [
       "/images/projetos/conecta-saude.jpg",
-      "/images/projetos/conecta-saude.jpg",
-      `${U}1518834107812-67b0b7c58434`,
+      "/images/projetos/conecta-painel.jpg",
+      "/images/projetos/conecta-triagem.jpg",
     ],
-    screens: ["feed", "cover", "detail"],
+    screens: ["shot", "cover", "shot"],
     stats: [],
     methods: [
       "Python",

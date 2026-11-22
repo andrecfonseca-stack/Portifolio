@@ -15,10 +15,10 @@ import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
 import { arrowPaths, type Point } from "@/lib/marginalia-paths";
 
 const TRAIT_SPOTS: Array<{ at: Point; a: Point; b: Point; bend: number }> = [
-  { at: [96, 42], a: [116, 60], b: [148, 96], bend: 0.22 },
+  { at: [92, 40], a: [116, 60], b: [148, 96], bend: 0.22 },
   { at: [406, 40], a: [384, 58], b: [352, 96], bend: -0.22 },
-  { at: [62, 236], a: [86, 252], b: [126, 264], bend: -0.28 },
-  { at: [438, 294], a: [414, 280], b: [374, 270], bend: -0.26 },
+  { at: [56, 236], a: [84, 252], b: [126, 264], bend: -0.28 },
+  { at: [444, 294], a: [414, 280], b: [374, 270], bend: -0.26 },
   { at: [108, 486], a: [128, 466], b: [158, 434], bend: 0.24 },
   { at: [396, 488], a: [374, 468], b: [342, 436], bend: -0.24 },
 ];
@@ -81,7 +81,7 @@ export function HomeHello() {
                   fill
                   sizes="(max-width: 768px) 60vw, 280px"
                   priority
-                  className="object-cover grayscale contrast-[1.04] transition-all duration-700 group-hover:scale-[1.04] group-hover:grayscale-0"
+                  className="object-cover object-[50%_18%] grayscale contrast-[1.04] transition-all duration-700 group-hover:scale-[1.04] group-hover:grayscale-0"
                 />
               </div>
               <PenMark kind="box" seed={21} padX={9} padY={9} delay={0.18} />

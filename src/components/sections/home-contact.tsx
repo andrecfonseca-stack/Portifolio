@@ -64,7 +64,7 @@ export function HomeContact() {
                 alt={profile.portraitAlt}
                 fill
                 sizes="112px"
-                className="object-cover grayscale"
+                className="object-cover object-[50%_18%] grayscale"
               />
             </div>
             <PenMark kind="oval" seed={80} padX={9} padY={9} delay={0.12} />

@@ -191,8 +191,8 @@ export function ScrollClimber() {
       const scale = rect.width >= 96 ? 0.56 : 0.5;
       // Figure sits slightly left of the vertical rope running near the right edge
       const figureX = rect.width - 34;
-      // Head is ~115*scale above figure y; keep head clear of ropeTop and feet at ropeBottom
-      const minY = ropeTop + 74 * scale;
+      // Head is ~115*scale above figure y; keep head cleanly below the top anchor ring
+      const minY = ropeTop + 124 * scale;
       const maxY = ropeBottom;
       const climberY = api.lerp(minY, maxY, state.curProg);
 

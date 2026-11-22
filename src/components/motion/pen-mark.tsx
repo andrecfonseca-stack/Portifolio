@@ -104,9 +104,9 @@ export function PenMark({
             duration: reduced
               ? 0
               : hoverOnly
-                ? 0.42
+                ? 0.55
                 : MOTION_DURATION.ink,
-            delay: reduced || hoverOnly ? 0 : delay,
+            delay: reduced ? 0 : active || !hoverOnly ? delay : 0,
             ease: MOTION_EASE.ink,
           }}
         />

@@ -5,15 +5,43 @@ import { m, useScroll, useTransform } from "motion/react";
 import { profile } from "@/content/profile";
 import { Sheet } from "@/components/layout/sheet";
 import { PenMark } from "@/components/motion/pen-mark";
-import { HandWrite } from "@/components/motion/hand-write";
 import { MOTION_EASE } from "@/components/motion/tokens";
 import { useSafeMotion } from "@/components/motion/use-safe-reduced-motion";
+import { CoverSwitchStage } from "@/components/marginalia/cover-switch-stage";
 import { clampNumber, sparklePath } from "@/lib/marginalia-paths";
 
+/**
+ * Sequential Cover Choreography:
+ *  Beat 0: Stickman walks to the 3D rocker switch and flips it OFF -> ON (~0.88s)
+ *  Beat 1: "Portfólio" rises letter-by-letter (+0.05s)
+ *  Beat 2: "André Cavalcanti" writes in (+0.78s)
+ *  Beat 3: Subtitle pill ("Medicina · IA · Pesquisa · Educação · Tecnologia") appears (+1.38s)
+ *  Beat 4: Red/terracotta pen markings draw in sequentially (curly arrow, orbit+star, oval) (+1.95s..2.75s)
+ *  Beat 5: Red/terracotta downward arrow draws in inviting the visitor to scroll (+3.30s)
+ */
 export function HomeCover() {
   const sectionRef = React.useRef<HTMLDivElement | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const { mounted, reduced: prefersReduced } = useSafeMotion();
+
+  // Starts OFF on client mount so the stickman flips it ON; always visible on SSR/reduced-motion
+  const [switchOn, setSwitchOn] = React.useState(false);
+  const [playKey, setPlayKey] = React.useState(0);
+
+  const showCover = !mounted || prefersReduced || switchOn;
+
+  const handleSwitchToggle = React.useCallback((next: boolean) => {
+    setSwitchOn(next);
+    if (!next) {
+      // Allow the user to manually flip OFF and then click ON (or watch it stay off until flipped back)
+      return;
+    }
+  }, []);
+
+  const handleReplay = () => {
+    setSwitchOn(false);
+    setPlayKey((k) => k + 1);
+  };
 
   const chars = React.useMemo(() => Array.from(profile.coverWord), []);
   const orbitIndex = React.useMemo(() => {
@@ -32,11 +60,11 @@ export function HomeCover() {
   const heroY = useTransform(scrollYProgress, [0, 1], [0, -54]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.2]);
 
-  // Subtle fading ink trail on fine pointers (desktop) — disabled under prefers-reduced-motion
+  // Subtle fading ink trail on fine pointers (desktop) — active once cover is ON
   React.useEffect(() => {
     const canvas = canvasRef.current;
     const host = sectionRef.current;
-    if (!canvas || !host || prefersReduced) return;
+    if (!canvas || !host || prefersReduced || !switchOn) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -98,18 +126,20 @@ export function HomeCover() {
       cancelAnimationFrame(raf);
       ro.disconnect();
     };
-  }, [prefersReduced]);
+  }, [prefersReduced, switchOn]);
+
+  const d = (sec: number) => (prefersReduced || !mounted ? 0 : sec);
 
   return (
     <Sheet
       id="capa"
       label="capa"
       tone="paper"
-      className="flex min-h-[100svh] flex-col justify-between pt-28 pb-10 md:pt-32 md:pb-12"
+      className="flex min-h-[100svh] flex-col justify-between pt-24 pb-10 md:pt-28 md:pb-12"
     >
       <div
         ref={sectionRef}
-        className="relative flex min-h-[calc(100svh-10rem)] flex-col items-center justify-between"
+        className="relative flex min-h-[calc(100svh-8.5rem)] flex-col items-center justify-between"
       >
         <canvas
           ref={canvasRef}
@@ -117,24 +147,38 @@ export function HomeCover() {
           className="pointer-events-none absolute -inset-x-10 -inset-y-16 z-[2] h-[calc(100%+8rem)] w-[calc(100%+5rem)]"
         />
 
-        {/* Top subtle thesis eyebrow */}
-        <p className="relative z-[1] self-start text-xs font-medium tracking-[0.08em] uppercase text-[var(--muted)] sm:self-center">
-          Caderno Editorial · Ciência, Clínica &amp; Sistemas
-        </p>
+        {/* Top opening stage: Stickman + 3D Rocker Switch */}
+        <div className="relative z-[3] flex flex-col items-center">
+          <CoverSwitchStage
+            isOn={mounted ? switchOn : true}
+            onToggle={handleSwitchToggle}
+            playKey={playKey}
+          />
+          {mounted && !prefersReduced && (
+            <button
+              type="button"
+              onClick={handleReplay}
+              className="mt-0.5 text-[11px] font-medium tracking-[0.06em] uppercase text-[var(--muted)] transition-colors hover:text-[var(--pen)]"
+            >
+              {switchOn ? "reassistir abertura" : "ligue o interruptor para acender"}
+            </button>
+          )}
+        </div>
 
-        {/* Central monumental cover word + handwritten signature + circled role */}
+        {/* Central monumental cover word + signature + subtitle + delayed red pen markings */}
         <m.div
           style={
             mounted && !prefersReduced
               ? { scale: heroScale, y: heroY, opacity: heroOpacity }
               : undefined
           }
-          className="relative z-[1] my-auto flex flex-col items-center py-12"
+          className="relative z-[1] my-auto flex flex-col items-center py-8"
         >
           <div className="relative inline-flex flex-col items-center">
-            {/* Handwritten signature with curly arrow pointing to the cover title */}
+            {/* Beat 2: Handwritten Name "André Cavalcanti" + Beat 4a: Red Curly Arrow */}
             <div className="relative z-[2] mb-2 self-end pr-1 sm:absolute sm:-top-12 sm:right-0 sm:mb-0 md:-top-16">
               <div className="relative inline-flex items-center">
+                {/* Beat 4a: Curly red arrow draws ONLY after title, name & subtitle are visible */}
                 <svg
                   viewBox="0 0 150 110"
                   aria-hidden="true"
@@ -147,10 +191,13 @@ export function HomeCover() {
                     strokeWidth={2}
                     strokeLinecap="round"
                     initial={false}
-                    animate={{ pathLength: 1 }}
+                    animate={{
+                      pathLength: showCover ? 1 : 0,
+                      opacity: showCover ? 1 : 0,
+                    }}
                     transition={{
-                      duration: prefersReduced ? 0 : 0.9,
-                      delay: 0.45,
+                      duration: d(0.75),
+                      delay: showCover ? d(1.95) : 0,
                       ease: MOTION_EASE.ink,
                     }}
                   />
@@ -162,38 +209,57 @@ export function HomeCover() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     initial={false}
-                    animate={{ pathLength: 1 }}
+                    animate={{
+                      pathLength: showCover ? 1 : 0,
+                      opacity: showCover ? 1 : 0,
+                    }}
                     transition={{
-                      duration: prefersReduced ? 0 : 0.35,
-                      delay: 1.15,
+                      duration: d(0.32),
+                      delay: showCover ? d(2.55) : 0,
                       ease: MOTION_EASE.ink,
                     }}
                   />
                 </svg>
-                <HandWrite
-                  immediate
-                  delay={0.35}
-                  className="font-marginalia -rotate-[6deg] text-3xl text-[var(--pen)] sm:text-4xl md:text-5xl"
+
+                {/* Beat 2: "André Cavalcanti" writes in right after "Portfólio" */}
+                <m.span
+                  initial={false}
+                  animate={
+                    showCover
+                      ? { clipPath: "inset(-30% -10% -30% -4%)", opacity: 1 }
+                      : { clipPath: "inset(-30% 100% -30% -4%)", opacity: 0 }
+                  }
+                  transition={{
+                    duration: d(0.68),
+                    delay: showCover ? d(0.78) : 0,
+                    ease: MOTION_EASE.ink,
+                  }}
+                  className="font-marginalia inline-block -rotate-[5deg] text-3xl text-[var(--pen)] sm:text-4xl md:text-5xl"
                 >
                   {profile.shortName}
-                </HandWrite>
+                </m.span>
               </div>
             </div>
 
+            {/* Beat 1: Monumental word "Portfólio" rises letter-by-letter */}
             <h1
               aria-label={`${profile.coverWord} — ${profile.name}, ${profile.rolePill}`}
-              className="font-editorial m-0 flex whitespace-nowrap text-[clamp(3.75rem,16vw,13.5rem)] leading-[0.9] text-[var(--fg)] select-none"
+              className="font-editorial m-0 flex whitespace-nowrap text-[clamp(3.6rem,15.5vw,13rem)] leading-[0.9] text-[var(--fg)] select-none"
             >
               {chars.map((char, idx) => (
                 <span key={idx} className="relative inline-block" aria-hidden="true">
                   <span className="inline-block overflow-hidden py-[0.08em] -my-[0.08em] px-[0.015em] -mx-[0.015em]">
                     <m.span
                       className="inline-block"
-                      initial={prefersReduced ? false : { y: "112%", rotate: 6 }}
-                      animate={{ y: "0%", rotate: 0 }}
+                      initial={false}
+                      animate={
+                        showCover
+                          ? { y: "0%", rotate: 0, opacity: 1 }
+                          : { y: "115%", rotate: 5, opacity: 0 }
+                      }
                       transition={{
-                        duration: prefersReduced ? 0 : 0.95,
-                        delay: prefersReduced ? 0 : 0.06 + idx * 0.045,
+                        duration: d(0.72),
+                        delay: showCover ? d(0.06 + idx * 0.05) : 0,
                         ease: MOTION_EASE.editorial,
                       }}
                     >
@@ -201,7 +267,7 @@ export function HomeCover() {
                     </m.span>
                   </span>
 
-                  {/* Editorial pen orbit + four-point sparkle around the last "o" */}
+                  {/* Beat 4b: Red orbital ellipse + 4-point star around the last "o" */}
                   {idx === orbitIndex && (
                     <span
                       aria-hidden="true"
@@ -219,20 +285,26 @@ export function HomeCover() {
                             strokeWidth={1.7}
                             strokeLinecap="round"
                             initial={false}
-                            animate={{ pathLength: 1 }}
+                            animate={{
+                              pathLength: showCover ? 1 : 0,
+                              opacity: showCover ? 1 : 0,
+                            }}
                             transition={{
-                              duration: prefersReduced ? 0 : 1.0,
-                              delay: 0.75,
+                              duration: d(0.85),
+                              delay: showCover ? d(2.35) : 0,
                               ease: MOTION_EASE.ink,
                             }}
                           />
                         </g>
                         <m.g
                           initial={false}
-                          animate={{ scale: 1, opacity: 1 }}
+                          animate={{
+                            scale: showCover ? 1 : 0,
+                            opacity: showCover ? 1 : 0,
+                          }}
                           transition={{
-                            duration: prefersReduced ? 0 : 0.55,
-                            delay: 1.05,
+                            duration: d(0.45),
+                            delay: showCover ? d(2.95) : 0,
                             ease: MOTION_EASE.editorial,
                           }}
                         >
@@ -247,58 +319,92 @@ export function HomeCover() {
               ))}
             </h1>
 
-            {/* Circled interdisciplinary role pill */}
+            {/* Beat 3: Subtitle with all disciplines -> Beat 4c: Red pen oval draws around it */}
             <m.div
-              initial={prefersReduced ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={false}
+              animate={
+                showCover ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }
+              }
               transition={{
-                duration: prefersReduced ? 0 : 0.65,
-                delay: prefersReduced ? 0 : 0.55,
+                duration: d(0.58),
+                delay: showCover ? d(1.38) : 0,
                 ease: MOTION_EASE.editorial,
               }}
-              className="mt-5 self-center sm:mt-4 sm:self-end sm:mr-4"
+              className="mt-5 self-center sm:mt-4 sm:self-end sm:mr-2"
             >
-              <span className="relative inline-block rounded-full border border-[var(--control-border)] px-5 py-2 text-xs font-medium tracking-[0.04em] text-[var(--fg)] sm:text-sm md:text-base">
+              <span className="relative inline-block rounded-full border border-[var(--control-border)] px-5 py-2 text-center text-xs font-medium tracking-[0.03em] text-[var(--fg)] sm:text-sm md:text-base">
                 {profile.rolePill}
-                <PenMark kind="oval" seed={9} padX={11} padY={7} delay={0.85} />
+                <PenMark
+                  kind="oval"
+                  seed={9}
+                  padX={12}
+                  padY={7}
+                  hoverOnly
+                  active={showCover}
+                  delay={showCover ? d(2.75) : 0}
+                />
               </span>
             </m.div>
           </div>
         </m.div>
 
-        {/* Bottom cover metadata bar */}
+        {/* Bottom cover metadata bar + Beat 5: Red downward arrow */}
         <div className="relative z-[1] flex w-full flex-wrap items-end justify-between gap-4 border-t border-[var(--rule)] pt-4 text-xs tracking-[0.06em] text-[var(--muted)]">
           <span>
             {profile.location} — {profile.year}
           </span>
 
-          <a
+          {/* Beat 5: Red downward arrow draws in LAST, inviting the user to scroll */}
+          <m.a
             href="#apresentacao"
+            initial={false}
+            animate={
+              showCover ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }
+            }
+            transition={{
+              duration: d(0.55),
+              delay: showCover ? d(3.3) : 0,
+              ease: MOTION_EASE.editorial,
+            }}
             className="font-marginalia group inline-flex items-center gap-2 text-2xl tracking-normal text-[var(--pen)] transition-opacity hover:opacity-80"
           >
             <span>explorar folhas</span>
             <svg
-              viewBox="0 0 22 36"
+              viewBox="0 0 24 44"
               aria-hidden="true"
-              className="animate-marginalia-bob h-8 w-5 overflow-visible"
+              className="animate-marginalia-bob h-10 w-6 overflow-visible"
             >
-              <path
-                d="M11 2c-4 6 4 10 0 16s4 8 0 14"
+              <m.path
+                d="M12 2c-4 7 4 12 0 19s4 10 0 18"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth={1.7}
+                strokeWidth={2}
                 strokeLinecap="round"
+                initial={false}
+                animate={{ pathLength: showCover ? 1 : 0 }}
+                transition={{
+                  duration: d(0.65),
+                  delay: showCover ? d(3.35) : 0,
+                  ease: MOTION_EASE.ink,
+                }}
               />
-              <path
-                d="M5 27l6 6 6-6"
+              <m.path
+                d="M5 32l7 8 7-8"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth={1.7}
+                strokeWidth={2}
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                initial={false}
+                animate={{ pathLength: showCover ? 1 : 0 }}
+                transition={{
+                  duration: d(0.32),
+                  delay: showCover ? d(3.85) : 0,
+                  ease: MOTION_EASE.ink,
+                }}
               />
             </svg>
-          </a>
+          </m.a>
 
           <span className="hidden sm:inline">{profile.docLabel}</span>
         </div>

@@ -3,14 +3,14 @@ import { siteConfig } from "@/config/site";
 
 const rawProfile: Profile = {
   name: siteConfig.name,
-  shortName: "Rafael Mendes",
-  rolePill: "Medicina · IA · Pesquisa · Educação",
+  shortName: "André Cavalcanti",
+  rolePill: "Medicina · IA · Pesquisa · Educação · Tecnologia",
   coverWord: "Portfólio",
   docLabel: siteConfig.docLabel,
   year: siteConfig.year,
   location: siteConfig.location,
   portraitPath: "/images/retrato-editorial.jpg",
-  portraitAlt: "Retrato editorial de Dr. Rafael Mendes em estúdio com luz natural suave",
+  portraitAlt: "Retrato editorial de André Cavalcanti em estúdio com luz natural suave",
   traits: [
     "clínico",
     "pesquisador",
@@ -115,7 +115,7 @@ const rawProfile: Profile = {
   ],
   closingLetter:
     "Obrigado por ler com atenção até esta folha — em tempos de pressa, leitura cuidadosa já diz muito.\n\nEstou sempre aberto a conversas substanciais sobre pesquisa aplicada em IA clínica, arquitetura de produtos em saúde, docência e colaborações interdisciplinares.\n\nSe houver um problema difícil que mereça rigor científico e desenho cuidadoso, escreva.",
-  signature: "Rafael Mendes",
+  signature: "André Cavalcanti",
 };
 
 export const profile: Profile = ProfileSchema.parse(rawProfile);

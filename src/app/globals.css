@@ -146,3 +146,134 @@ body {
     animation: none;
   }
 }
+
+/*
+ * From Uiverse.io by r7chardgh - https://uiverse.io/r7chardgh/dry-rabbit-69
+ * MIT License, Copyright (c) r7chardgh (Richard Tsang)
+ * Scoped with .uiv-rocker-* classes to avoid collisions.
+ */
+.uiv-rocker-switch {
+  font-size: 16px;
+  position: relative;
+  display: inline-block;
+  width: 5em;
+  height: 2.5em;
+  user-select: none;
+}
+
+.uiv-rocker-switch .uiv-rocker-cb {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.uiv-rocker-switch:has(.uiv-rocker-cb:focus-visible) {
+  outline: 2px dashed var(--pen);
+  outline-offset: 8px;
+  border-radius: 4px;
+}
+
+.uiv-rocker-toggle {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #373737;
+  border-radius: 0.1em;
+  transition: 0.4s;
+  text-transform: uppercase;
+  font-weight: 700;
+  overflow: hidden;
+  box-shadow:
+    -0.3em 0 0 0 #373737,
+    -0.3em 0.3em 0 0 #373737,
+    0.3em 0 0 0 #373737,
+    0.3em 0.3em 0 0 #373737,
+    0 0.3em 0 0 #373737;
+}
+
+.uiv-rocker-toggle > .uiv-rocker-left {
+  position: absolute;
+  display: flex;
+  width: 50%;
+  height: 88%;
+  background-color: #f3f3f3;
+  color: #373737;
+  left: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  transform-origin: right;
+  transform: rotateX(10deg);
+  transform-style: preserve-3d;
+  transition: all 150ms;
+}
+
+.uiv-rocker-left::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgb(206, 206, 206);
+  transform-origin: center left;
+  transform: rotateY(90deg);
+}
+
+.uiv-rocker-left::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgb(112, 112, 112);
+  transform-origin: center bottom;
+  transform: rotateX(90deg);
+}
+
+.uiv-rocker-toggle > .uiv-rocker-right {
+  position: absolute;
+  display: flex;
+  width: 50%;
+  height: 88%;
+  background-color: #f3f3f3;
+  color: rgb(206, 206, 206);
+  right: 1px;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  transform-origin: left;
+  transform: rotateX(10deg) rotateY(-45deg);
+  transform-style: preserve-3d;
+  transition: all 150ms;
+}
+
+.uiv-rocker-right::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgb(206, 206, 206);
+  transform-origin: center right;
+  transform: rotateY(-90deg);
+}
+
+.uiv-rocker-right::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgb(112, 112, 112);
+  transform-origin: center bottom;
+  transform: rotateX(90deg);
+}
+
+.uiv-rocker-switch .uiv-rocker-cb:checked + .uiv-rocker-toggle > .uiv-rocker-left {
+  transform: rotateX(10deg) rotateY(45deg);
+  color: rgb(206, 206, 206);
+}
+
+.uiv-rocker-switch .uiv-rocker-cb:checked + .uiv-rocker-toggle > .uiv-rocker-right {
+  transform: rotateX(10deg) rotateY(0deg);
+  color: #487bdb;
+}

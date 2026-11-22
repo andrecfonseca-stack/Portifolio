@@ -30,7 +30,7 @@ export function EditorialHeading({
     <div ref={ref} className="inline-block max-w-full">
       <Tag
         className={cn(
-          "font-editorial m-0 text-[clamp(2.75rem,6.8vw,6.25rem)] leading-[0.94] text-[var(--fg)]",
+          "font-editorial m-0 text-4xl leading-[0.96] text-[var(--fg)] sm:text-5xl lg:text-[clamp(3.25rem,6.8vw,6.25rem)] lg:leading-[0.94]",
           className,
         )}
       >

@@ -58,8 +58,10 @@ export function BookStack({
 
   return (
     <div
-      className="relative mx-auto w-full max-w-[356px]"
-      onPointerLeave={() => onSelectAxis?.(null)}
+      className="relative mx-auto w-full max-w-[265px] sm:max-w-[320px] lg:max-w-[356px]"
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") onSelectAxis?.(null);
+      }}
     >
       {/* Dynamic header above coffee cup: default note or active book reference + 1-line synthesis */}
       <div
@@ -176,9 +178,9 @@ export function BookStack({
                 tabIndex={0}
                 aria-pressed={isActive}
                 aria-label={`${book.title} (${book.originalRef}) — eixo ${book.axisId}: ${book.synthesis}`}
-                onPointerEnter={() => onSelectAxis?.(book.axisId)}
-                onFocus={() => onSelectAxis?.(book.axisId)}
-                onBlur={() => onSelectAxis?.(null)}
+                onPointerEnter={(e) => {
+                  if (e.pointerType === "mouse") onSelectAxis?.(book.axisId);
+                }}
                 onClick={() =>
                   onSelectAxis?.(
                     activeAxisId === book.axisId ? null : book.axisId,

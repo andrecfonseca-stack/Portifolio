@@ -103,8 +103,8 @@ export function TopChrome() {
             : "bg-[color:rgba(236,235,231,0.86)] text-[var(--ink-paper)] border-b border-[var(--rule-paper)]",
         )}
       >
-        <div className="mx-auto grid max-w-[1440px] grid-cols-[auto_1fr_auto] items-center gap-3 px-5 py-3 text-xs tracking-[0.06em] sm:grid-cols-[1fr_auto_1fr] sm:px-10 lg:px-16">
-          <div className="hidden items-center gap-3 sm:flex">
+        <div className="mx-auto grid max-w-[1440px] grid-cols-[auto_auto_1fr] items-center gap-2 px-3.5 py-2.5 text-[11px] tracking-[0.05em] sm:grid-cols-[1fr_auto_1fr] sm:gap-3 sm:px-10 sm:py-3 sm:text-xs sm:tracking-[0.06em] lg:px-16">
+          <div className="flex items-center gap-1.5 whitespace-nowrap sm:gap-3">
             <span className="tabular-metrics font-medium">{siteConfig.year}</span>
             <span aria-hidden="true" className="opacity-40">
               /
@@ -127,9 +127,10 @@ export function TopChrome() {
             onMouseLeave={() => setHoverTrigger(false)}
             onFocus={() => setHoverTrigger(true)}
             onBlur={() => setHoverTrigger(false)}
-            className="relative justify-self-start px-3 py-1 font-medium tracking-[0.06em] uppercase transition-colors hover:text-[var(--pen)] sm:justify-self-center"
+            className="relative justify-self-center whitespace-nowrap px-2.5 py-1 font-medium tracking-[0.06em] uppercase transition-colors hover:text-[var(--pen)] sm:px-3"
           >
-            <span>{siteConfig.docLabel}</span>
+            <span className="md:hidden">Índice</span>
+            <span className="hidden md:inline">{siteConfig.docLabel}</span>
             <PenMark
               kind="oval"
               seed={4}
@@ -140,15 +141,15 @@ export function TopChrome() {
             />
           </button>
 
-          <div className="flex items-baseline justify-end gap-3">
+          <div className="flex min-w-0 items-baseline justify-end gap-2 sm:gap-3">
             <Link
               href="/"
-              className="hidden font-medium transition-colors hover:text-[var(--pen)] md:inline"
+              className="hidden whitespace-nowrap font-medium transition-colors hover:text-[var(--pen)] md:inline"
             >
               {siteConfig.name}
             </Link>
             <span
-              className="font-marginalia min-w-[5.5ch] text-right text-xl tracking-normal text-[var(--pen)]"
+              className="font-marginalia max-w-[12ch] truncate text-right text-lg tracking-normal whitespace-nowrap text-[var(--pen)] sm:max-w-none sm:min-w-[5.5ch] sm:text-xl"
               aria-live="polite"
             >
               {activeSection}

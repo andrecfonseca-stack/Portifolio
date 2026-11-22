@@ -44,8 +44,10 @@ export function HomePractice() {
 
             {/* Interactive 5-pillar tiles circled by a hand-drawn oval */}
             <div
-              className="relative mt-9 inline-flex max-w-full flex-wrap gap-3 px-4 py-4 sm:gap-4 sm:px-5"
-              onPointerLeave={() => setEixoAtivo(null)}
+              className="relative mt-8 inline-flex max-w-full flex-nowrap items-center gap-2 px-3 py-3 sm:mt-9 sm:gap-4 sm:px-5 sm:py-4"
+              onPointerLeave={(e) => {
+                if (e.pointerType === "mouse") setEixoAtivo(null);
+              }}
             >
               {profile.pillarTiles.map((tile) => {
                 const isSelected = eixoAtivo === tile.id;
@@ -55,15 +57,15 @@ export function HomePractice() {
                     type="button"
                     aria-pressed={isSelected}
                     aria-label={`${tile.name}: ${tile.note}`}
-                    onPointerEnter={() => setEixoAtivo(tile.id)}
-                    onFocus={() => setEixoAtivo(tile.id)}
-                    onBlur={() => setEixoAtivo(null)}
+                    onPointerEnter={(e) => {
+                      if (e.pointerType === "mouse") setEixoAtivo(tile.id);
+                    }}
                     onClick={() =>
                       setEixoAtivo((cur) => (cur === tile.id ? null : tile.id))
                     }
                     style={{ backgroundColor: tile.bg, color: tile.fg }}
                     className={cn(
-                      "relative grid h-14 w-14 place-items-center rounded-[24%] text-lg font-bold tracking-tight shadow-[0_12px_24px_-14px_rgba(0,0,0,0.7)] transition-transform duration-300 sm:h-16 sm:w-16 sm:text-xl",
+                      "relative grid h-11 w-11 shrink-0 place-items-center rounded-[24%] text-base font-bold tracking-tight shadow-[0_12px_24px_-14px_rgba(0,0,0,0.7)] transition-transform duration-300 sm:h-14 sm:w-14 sm:text-lg lg:h-16 lg:w-16 lg:text-xl",
                       !prefersReduced &&
                         "hover:-translate-y-2 hover:-rotate-3 hover:scale-105 focus-visible:-translate-y-2 focus-visible:-rotate-3",
                       isSelected &&

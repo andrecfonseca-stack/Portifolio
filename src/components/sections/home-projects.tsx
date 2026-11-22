@@ -125,8 +125,8 @@ export function HomeProjects() {
           </div>
         </div>
 
-        {/* 5 Phone Mockups Row */}
-        <div className="mt-14 flex flex-wrap items-center justify-center gap-x-5 gap-y-12 sm:gap-x-7 lg:mt-16 lg:flex-nowrap lg:gap-x-8">
+        {/* 5 Phone Mockups Row (Touch Snap Carousel on Mobile, Full Row on Desktop) */}
+        <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pt-2 pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-10 sm:gap-6 sm:px-10 lg:mx-0 lg:mt-16 lg:flex-nowrap lg:items-center lg:justify-center lg:gap-x-8 lg:overflow-visible lg:px-0 lg:pt-0 lg:pb-0">
           {featuredProjects.map((project, i) => (
             <m.div
               key={project.slug}
@@ -138,13 +138,13 @@ export function HomeProjects() {
                 delay: prefersReduced ? 0 : i * 0.08,
                 ease: MOTION_EASE.editorial,
               }}
-              className="relative flex w-[138px] flex-none flex-col items-center sm:w-[158px] md:w-[178px] lg:w-[194px]"
+              className="relative flex w-[220px] shrink-0 snap-center flex-col items-center lg:w-[194px]"
             >
               {/* Handwritten upper label + curved arrow above phone */}
               <span
                 aria-hidden="true"
                 className={cn(
-                  "font-marginalia mb-1.5 hidden flex-col items-center whitespace-nowrap text-xl text-[var(--pen)] sm:flex",
+                  "font-marginalia mb-1.5 flex flex-col items-center whitespace-nowrap text-xl text-[var(--pen)]",
                   i % 2 === 0 ? "-rotate-[4deg]" : "rotate-[4deg]",
                 )}
               >
@@ -215,7 +215,7 @@ export function HomeProjects() {
           >
             <article
               aria-labelledby={`case-title-${project.slug}`}
-              className="mx-auto grid max-w-[1440px] items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-24"
+              className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-24"
             >
               {/* Copy Column */}
               <div className={cn(flip && "lg:order-2")}>
@@ -236,7 +236,7 @@ export function HomeProjects() {
                     text={project.title}
                     seed={40 + i}
                     as="h3"
-                    className="text-[clamp(2.9rem,6.6vw,6.5rem)]"
+                    className="text-4xl sm:text-5xl lg:text-[clamp(2.9rem,6.6vw,6.5rem)]"
                   />
                 </div>
 
@@ -322,7 +322,7 @@ export function HomeProjects() {
 
               {/* 3-Phone Trio Column */}
               <div className={cn("relative", flip && "lg:order-1")}>
-                <div className="mgn-trio">
+                <div className="mgn-trio -mb-16 origin-top scale-75 sm:-mb-8 sm:scale-90 lg:mb-0 lg:scale-100">
                   {trio.map((screenKind, slotIndex) => (
                     <TiltPhone
                       key={slotIndex}
@@ -407,7 +407,7 @@ export function HomeProjects() {
                 ease: MOTION_EASE.editorial,
               }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-[var(--rule-night)] bg-[var(--tone-night)] p-6 text-left text-[var(--ink-night)] shadow-2xl md:p-8"
+              className="relative max-h-[85vh] w-[94vw] max-w-2xl overflow-y-auto rounded-2xl border border-[var(--rule-night)] bg-[var(--tone-night)] p-5 text-left text-[var(--ink-night)] shadow-2xl sm:p-6 md:p-8"
             >
               {/* Modal Header */}
               <div className="flex items-start justify-between gap-4 border-b border-[var(--rule-night)] pb-5">
@@ -431,7 +431,7 @@ export function HomeProjects() {
                   type="button"
                   onClick={() => setSelectedProject(null)}
                   aria-label="Fechar detalhes do projeto"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--rule-night)] bg-[var(--tone-night-elevated)] text-[var(--muted-night)] transition-colors hover:border-[var(--pen-night)] hover:text-[var(--ink-night)]"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--rule-night)] bg-[var(--tone-night-elevated)] text-[var(--muted-night)] transition-colors hover:border-[var(--pen-night)] hover:text-[var(--ink-night)]"
                 >
                   <X className="h-4 w-4" aria-hidden="true" />
                 </button>

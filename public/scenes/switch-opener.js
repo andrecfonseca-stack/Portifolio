@@ -91,9 +91,9 @@
 
     const glowR = 12 + Math.sin(pulseT * 5) * 1.2;
     g.save();
-    g.globalAlpha = 0.34 * clamp(popK, 0, 1);
+    g.globalAlpha = 0.32 * clamp(popK, 0, 1);
     circle(g, 0, -3, glowR);
-    g.fillStyle = '#FCD34D';
+    g.fillStyle = '#F08A65';
     g.fill();
     g.restore();
 
@@ -103,7 +103,7 @@
     g.lineTo(-2.8, 4.2);
     g.quadraticCurveTo(-3.6, 2.2, -4.9, -0.4);
     g.closePath();
-    inkFill(g, '#FEF3C7', 1.5, ink);
+    inkFill(g, '#FDE4D8', 1.5, ink);
 
     g.strokeStyle = pen;
     g.lineWidth = 1.3;

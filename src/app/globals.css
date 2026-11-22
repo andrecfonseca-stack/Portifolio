@@ -275,7 +275,8 @@ body {
 
 .uiv-rocker-switch .uiv-rocker-cb:checked + .uiv-rocker-toggle > .uiv-rocker-right {
   transform: rotateX(10deg) rotateY(0deg);
-  color: #487bdb;
+  color: var(--pen, #A93F21);
+  text-shadow: 0 0 8px rgba(169, 63, 33, 0.35);
 }
 
 /* ---- Original Marginalia Phone Mockups & 3-Phone Trio ---- */

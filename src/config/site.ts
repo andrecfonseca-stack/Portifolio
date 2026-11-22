@@ -7,7 +7,7 @@ export const siteConfig = {
   url: "https://andrecavalcanti.dev",
   locale: "pt_BR",
   year: "2026",
-  location: "Brasil",
+  location: "Recife, Brasil",
   email: "contato@andrecavalcanti.dev",
   docLabel: "Índice Interdisciplinar",
 } as const;

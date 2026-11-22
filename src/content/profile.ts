@@ -20,7 +20,7 @@ const rawProfile: Profile = {
     "sonhador",
   ],
   greeting: "Olá.",
-  bio: "Sou médico, pesquisador e engenheiro de soluções digitais em São Paulo. Atuo na fronteira entre *raciocínio clínico, inteligência artificial* e desenho de sistemas de saúde. Meu trabalho parte de uma convicção simples: tecnologia médica só faz sentido quando [amplia o discernimento humano] — seja à beira do leito, em um protocolo de pesquisa reprodutível ou na formação de novos profissionais.",
+  bio: "Sou cientista de dados, pesquisador em Inteligência Artificial e Saúde, inventor, professor, profissional de Educação Física e estudante de Medicina no Recife. Atuo na interseção entre *ciência de dados, visão computacional e prática clínica*, integrando inovação e saúde. Meu trabalho parte de uma convicção simples: tecnologia médica só faz sentido quando [amplia o discernimento humano], seja no diagnóstico precoce, no desenvolvimento de novas ferramentas ou no ensino e formação de novos profissionais.",
   practiceIntro:
     "Trato medicina, aprendizado de máquina e educação como partes do mesmo sistema. Antes de escrever código ou treinar um modelo, desenho a pergunta clínica, as métricas de segurança e a clareza de leitura para quem decide sob pressão.",
   defaultTileNote: "passe o cursor ou foque um eixo para ver como ele opera na prática",

@@ -187,11 +187,11 @@ const rawProjects: Project[] = [
     accent: "#6d7138",
     tone: "paper",
     images: [
-      `${U}1490481651871-ab68de25d43d`,
-      `${U}1515886657613-9f3515b0c78f`,
-      `${U}1445205170230-053b83016050`,
+      "/images/projetos/heart-seg-3d.jpg",
+      "/images/projetos/heart-seg-conformal.jpg",
+      "/images/projetos/heart-seg-metricas.jpg",
     ],
-    screens: ["cover", "detail", "feed"],
+    screens: ["shot", "shot", "shot"],
     stats: [
       { value: 3, suffix: "D", label: "segmentação volumétrica com MONAI & 3D Slicer" },
       { value: 95, suffix: "%", label: "cobertura estatística alvo via Conformal Prediction" },

@@ -243,7 +243,7 @@ const rawProjects: Project[] = [
     images: [
       "/images/projetos/iatria-oficina.jpg",
       "/images/projetos/iatria-logo.png",
-      "/images/projetos/iatria-fundadores.jpg",
+      "/images/projetos/iatria-fundadores.jpg?v=2",
     ],
     screens: ["feed", "detail", "cover"],
     stats: [],

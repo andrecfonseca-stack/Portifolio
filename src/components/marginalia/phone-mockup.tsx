@@ -79,7 +79,8 @@ export function PhoneScreen({
   const abs: React.CSSProperties = { position: "absolute" };
 
   if (kind === "shot") {
-    const shotIdx = shift === 0 && n > 1 ? 1 : shift % n;
+    const shotIdx =
+      shift === 1 ? 0 : shift === 0 ? Math.min(1, n - 1) : Math.min(2, n - 1);
     const shotSrc = photoUrl(project.images[shotIdx] || "", 520);
     return (
       <div className="mgn-screen" style={{ background: "#11161b" }}>

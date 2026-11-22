@@ -77,11 +77,11 @@ const rawProjects: Project[] = [
     accent: "#3f8f6b",
     tone: "paper",
     images: [
-      `${U}1544367567-0f2fcb009e0b`,
-      `${U}1505576399279-565b52d4ac71`,
-      `${U}1506126613408-eca07ce68773`,
+      "/images/projetos/atlas-iam-mapa.jpg",
+      "/images/projetos/atlas-iam-validacao.jpg",
+      "/images/projetos/atlas-iam-triangulacao.jpg",
     ],
-    screens: ["stats", "cover", "feed"],
+    screens: ["shot", "shot", "shot"],
     stats: [
       { value: 27, label: "capitais brasileiras (2013–2021)" },
       { value: 243, label: "observações capital-ano harmonizadas" },

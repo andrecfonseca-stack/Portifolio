@@ -159,7 +159,7 @@ const rawProfile: Profile = {
   links: [
     {
       label: "GitHub",
-      href: "https://github.com",
+      href: "https://github.com/andrecfonseca-stack",
       description: "Código aberto, pipelines de pesquisa e ferramentas",
     },
     {

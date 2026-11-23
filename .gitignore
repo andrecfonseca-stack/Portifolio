@@ -35,3 +35,4 @@ next-env.d.ts
 
 # self-contained offline build artifact
 /portfolio-offline.html
+debug.log
